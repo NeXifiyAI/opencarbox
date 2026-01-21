@@ -1,0 +1,81 @@
+---
+name: ✨ Feature Request
+description: Ein neues Feature vorschlagen
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke für deinen Feature-Vorschlag! Bitte beschreibe ihn so detailliert wie möglich.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: Welches Problem soll gelöst werden?
+      placeholder: |
+        Beschreibe das Problem, das dieses Feature lösen soll.
+        z.B. "Ich bin frustriert, wenn..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Gewünschte Lösung
+      description: Wie sollte das Feature funktionieren?
+      placeholder: Eine klare Beschreibung der gewünschten Lösung...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativen
+      description: Gibt es alternative Lösungen?
+      placeholder: Beschreibung alternativer Ansätze...
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorität
+      options:
+        - 🔴 Kritisch (Blocker)
+        - 🟠 Hoch (Wichtig für Produktivität)
+        - 🟡 Mittel (Nice-to-have)
+        - 🟢 Niedrig (Zukunft)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Bereich
+      options:
+        - Frontend (UI/UX)
+        - Backend (API/Server)
+        - Database (Datenbank)
+        - Auth (Authentifizierung)
+        - Infrastructure (CI/CD, Hosting)
+        - Documentation
+        - Sonstiges
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Zusätzlicher Kontext
+      description: Screenshots, Mockups, Links, etc.
+      placeholder: Weiterer Kontext hier...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checkliste
+      options:
+        - label: Ich habe die bestehenden Issues durchsucht
+          required: true
+        - label: Ich bin bereit, bei der Umsetzung zu helfen

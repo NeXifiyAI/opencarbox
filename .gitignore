@@ -1,89 +1,91 @@
-# ===========================================
-# OpenCarBox & Carvantooo - Git Ignore
-# ===========================================
+# ============================================================
+# NeXifyAI Starter-Kit: .gitignore
+# ============================================================
 
+# ============================================================
 # Dependencies
+# ============================================================
 node_modules/
-.pnp/
-.pnp.js
+.pnpm-store/
 
-# Build outputs
+# ============================================================
+# Build Outputs
+# ============================================================
 .next/
 out/
 build/
 dist/
 
-# Testing
-coverage/
-.nyc_output/
-
-# Environment files
+# ============================================================
+# Environment Variables
+# ============================================================
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*.sublime-project
-*.sublime-workspace
-
-# OS files
-.DS_Store
-Thumbs.db
+# ============================================================
+# Logs
+# ============================================================
+logs/
 *.log
-
-# Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
 
-# Vercel
-.vercel/
+# ============================================================
+# Testing
+# ============================================================
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+playwright/.cache/
 
+# ============================================================
+# IDE & Editor
+# ============================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ============================================================
+# OS Files
+# ============================================================
+.DS_Store
+Thumbs.db
+
+# ============================================================
 # TypeScript
+# ============================================================
 *.tsbuildinfo
 next-env.d.ts
 
-# Storybook
-storybook-static/
-
-# Playwright
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-
-# Prisma
-prisma/*.db
-prisma/*.db-journal
-
-# Supabase
-supabase/.temp/
-
-# Misc
-*.pem
+# ============================================================
+# Turbopack
+# ============================================================
 .turbo/
 
-# Snyk Security Extension - AI Rules (auto-generated)
-.github/instructions/snyk_rules.instructions.md
+# ============================================================
+# Supabase
+# ============================================================
+supabase/.branches/
+supabase/.temp/
 
-# Local History Extension (VS Code)
+# ============================================================
+# Vercel
+# ============================================================
+.vercel/
+
+# ============================================================
+# Misc
+# ============================================================
+*.pem
+*.p12
+.cache/
+
 .history/
-
-# Cline State Files (local only)
-.cline/resilience-state.json
-.cline/watchdog-state.json
-.cline/watchdog.pid
-.cline/auto-restart-state.json
-.cline/resilience.log
-
-# Duplicate/Backup folders
-OpenCarBox/
-.vercel
-.env*.local

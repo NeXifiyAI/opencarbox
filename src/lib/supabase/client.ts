@@ -1,36 +1,33 @@
+import { createBrowserClient } from '@supabase/ssr'
+import type { Database } from '@/types/database'
+
 /**
- * Supabase Client für Client-Komponenten (Browser)
+ * Supabase Client für Browser/Client-Components
  * 
- * Verwendet den anon key für öffentliche Operationen.
- * RLS (Row Level Security) schützt die Daten.
- * 
- * @example
+ * Verwendung:
  * ```tsx
+ * 'use client'
  * import { supabase } from '@/lib/supabase/client'
  * 
- * const { data, error } = await supabase
- *   .from('products')
- *   .select('*')
+ * const { data } = await supabase.from('products').select()
  * ```
  */
 
-import { createBrowserClient } from '@supabase/ssr'
-import type { Database } from '@/types/supabase'
+let client: ReturnType<typeof createBrowserClient<Database>> | null = null
 
-/**
- * Erstellt einen Supabase-Client für Browser-Umgebungen.
- * Verwendet Singleton-Pattern für Performance.
- */
-function createClient() {
-  return createBrowserClient<Database>(
+export function createClient() {
+  if (client) return client
+  
+  client = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
+  
+  return client
 }
 
-/** Supabase Client Singleton für Client-Komponenten */
+// Singleton-Export für einfache Nutzung
 export const supabase = createClient()
 
-/** Re-export für Kompatibilität */
-export { createClient }
-
+// Re-export für Typen
+export type { Database } from '@/types/database'

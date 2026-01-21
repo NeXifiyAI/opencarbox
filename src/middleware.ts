@@ -1,21 +1,28 @@
+import { updateSession } from '@/lib/supabase/middleware'
+import { type NextRequest } from 'next/server'
+
 /**
- * Next.js Middleware für Supabase Auth
+ * ============================================================
+ * Middleware
+ * ============================================================
  * 
- * Aktualisiert die Auth-Session bei jedem Request.
- * Schützt Admin-Routen vor unautorisiertem Zugriff.
+ * Zentrale Middleware für:
+ * - Session-Management (Supabase Auth)
+ * - Route-Protection (optional)
+ * - Locale-Detection (optional)
+ * 
+ * ============================================================
  */
 
-import { type NextRequest } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
-
 export async function middleware(request: NextRequest) {
+  // Supabase Session refreshen
   return await updateSession(request)
 }
 
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Match alle Requests außer:
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
@@ -24,4 +31,3 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
-

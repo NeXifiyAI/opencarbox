@@ -1,24 +1,25 @@
 /**
- * Supabase Client Exports
+ * Supabase Utility-Barrel
  * 
- * Zentrale Export-Datei für alle Supabase-Clients.
+ * Zentrale Exports für einfache Imports:
  * 
- * @example
  * ```tsx
- * // Client-Komponente
- * import { supabase } from '@/lib/supabase'
+ * // Server Component
+ * import { createClient } from '@/lib/supabase'
  * 
- * // Server-Komponente
- * import { createServerClient } from '@/lib/supabase'
+ * // Client Component
+ * import { supabase } from '@/lib/supabase'
  * ```
  */
 
-// Client-Side (Browser)
-export { supabase, createClient } from './client'
+// Server-Side
+export { createClient, createAdminClient } from './server'
 
-// Server-Side (Server Components, API Routes)
-export { createServerClient, createAdminClient } from './server'
+// Client-Side
+export { supabase, createClient as createBrowserClient } from './client'
 
 // Middleware
-export { updateSession } from './middleware'
+export { updateSession, getUser } from './middleware'
 
+// Typen
+export type { Database } from '@/types/database'

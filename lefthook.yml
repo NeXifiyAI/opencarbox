@@ -1,0 +1,27 @@
+# Lefthook Konfiguration
+# Pre-Commit Hooks für Code-Qualität
+#
+# Installation: pnpm prepare
+# Dokumentation: https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: pnpm eslint --fix {staged_files}
+      stage_fixed: true
+      
+    format:
+      glob: "*.{js,ts,jsx,tsx,json,md,css}"
+      run: pnpm prettier --write {staged_files}
+      stage_fixed: true
+      
+    types:
+      glob: "*.{ts,tsx}"
+      run: pnpm tsc --noEmit
+
+pre-push:
+  commands:
+    quality:
+      run: pnpm quality:check

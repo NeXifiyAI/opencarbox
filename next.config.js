@@ -1,152 +1,96 @@
 /** @type {import('next').NextConfig} */
-
-/**
- * Next.js Konfiguration für OpenCarBox & Carvantooo
- * 
- * @see project_specs.md für Details zur Architektur
- */
 const nextConfig = {
-  /* React Strict Mode für bessere Entwicklung */
-  reactStrictMode: true,
-
-  /* Experimentelle Features */
+  // ============================================================
+  // Experimental Features
+  // ============================================================
   experimental: {
-    /* Optimierte Package Imports */
-    optimizePackageImports: [
-      'lucide-react',
-      '@radix-ui/react-icons',
-      'framer-motion',
-      'date-fns',
-    ],
+    // Optimized Package Imports
+    optimizePackageImports: ['lucide-react'],
   },
 
-  /* Bilder-Konfiguration */
+  // ============================================================
+  // Image Optimization
+  // ============================================================
   images: {
     remotePatterns: [
+      // Supabase Storage
       {
         protocol: 'https',
         hostname: '**.supabase.co',
       },
+      // Lokale Supabase Instanz
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
+        protocol: 'http',
+        hostname: '127.0.0.1',
       },
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-      },
+      // Weitere Domains hier hinzufügen
     ],
-    formats: ['image/avif', 'image/webp'],
   },
 
-  /* Umgebungsvariablen (öffentlich) */
+  // ============================================================
+  // Environment Variables (Public)
+  // ============================================================
   env: {
-    NEXT_PUBLIC_APP_NAME: 'OpenCarBox & Carvantooo',
+    // App URL für absolute Links
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   },
 
-  /* Weiterleitungen */
-  async redirects() {
-    return [
-      /* Beispiel-Weiterleitungen */
-      {
-        source: '/produkte',
-        destination: '/shop/produkte',
-        permanent: true,
-      },
-      {
-        source: '/services',
-        destination: '/werkstatt/services',
-        permanent: true,
-      },
-    ];
-  },
-
-  /* Header für Sicherheit und Performance */
+  // ============================================================
+  // Headers (Security)
+  // ============================================================
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: '/(.*)',
         headers: [
-          /* Sicherheits-Header */
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
+          // Clickjacking Protection
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
+            value: 'DENY',
           },
+          // XSS Protection
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
+          // Referrer Policy
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            value: 'strict-origin-when-cross-origin',
           },
-          /* Permissions Policy */
+          // Permissions Policy
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },
-      /* Cache-Header für statische Assets */
-      {
-        source: '/fonts/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/images/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400, stale-while-revalidate=604800',
-          },
-        ],
-      },
-    ];
+    ]
   },
 
-  /* Webpack-Konfiguration */
-  webpack: (config, { isServer }) => {
-    /* SVG als React-Komponenten */
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
-
-    return config;
+  // ============================================================
+  // Redirects (optional)
+  // ============================================================
+  async redirects() {
+    return [
+      // Beispiel: www zu non-www redirect
+      // {
+      //   source: '/:path*',
+      //   has: [{ type: 'host', value: 'www.example.com' }],
+      //   destination: 'https://example.com/:path*',
+      //   permanent: true,
+      // },
+    ]
   },
 
-  /* TypeScript-Fehler beim Build ignorieren (NICHT für Production empfohlen) */
-  typescript: {
-    // Setze auf true nur für Notfälle - normalerweise false
-    ignoreBuildErrors: false,
+  // ============================================================
+  // Logging
+  // ============================================================
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
   },
+}
 
-  /* ESLint-Fehler beim Build ignorieren (NICHT für Production empfohlen) */
-  eslint: {
-    // Setze auf true nur für Notfälle - normalerweise false
-    ignoreDuringBuilds: false,
-  },
-
-  /* Output-Konfiguration für Vercel */
-  output: 'standalone',
-
-  /* Powered-by Header entfernen */
-  poweredByHeader: false,
-};
-
-module.exports = nextConfig;
-
+module.exports = nextConfig

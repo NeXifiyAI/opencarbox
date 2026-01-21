@@ -1,25 +1,25 @@
-/**
- * Supabase Middleware Client
- *
- * Aktualisiert Auth-Session bei jedem Request.
- * Wird in middleware.ts verwendet.
- */
-
-import type { Database } from '@/types/supabase';
-import { createServerClient } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
-
-/** Cookie-Typ für setAll */
-interface CookieToSet {
-  name: string;
-  value: string;
-  options?: Record<string, unknown>;
-}
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+import type { Database } from '@/types/database'
 
 /**
- * Aktualisiert die Supabase Auth-Session und setzt Cookies.
- * Muss in der Next.js Middleware aufgerufen werden.
+ * Supabase Middleware für Session-Management
+ * 
+ * Funktionen:
+ * - Refreshed Auth-Tokens automatisch
+ * - Setzt Cookies korrekt
+ * - Schützt Routes (optional)
+ * 
+ * Nutzung in middleware.ts:
+ * ```ts
+ * import { updateSession } from '@/lib/supabase/middleware'
+ * 
+ * export async function middleware(request: NextRequest) {
+ *   return await updateSession(request)
+ * }
+ * ```
  */
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -33,12 +33,14 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet: CookieToSet[]) {
-          cookiesToSet.forEach(({ name, value }: CookieToSet) => request.cookies.set(name, value))
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          )
           supabaseResponse = NextResponse.next({
             request,
           })
-          cookiesToSet.forEach(({ name, value, options }: CookieToSet) =>
+          cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           )
         },
@@ -46,17 +48,51 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // WICHTIG: Nicht zwischen createServerClient und supabase.auth.getUser()
-  // anderen Code ausführen. Ein einfacher Fehler kann schwer zu debuggen sein.
-  // User wird für Session-Refresh benötigt, auch wenn nicht direkt verwendet
-  await supabase.auth.getUser()
+  // WICHTIG: Nicht await entfernen!
+  // Dies refreshed den Auth-Token wenn nötig
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  // Optional: Geschützte Routen prüfen
-  // if (!user && request.nextUrl.pathname.startsWith('/admin')) {
-  //   const url = request.nextUrl.clone()
-  //   url.pathname = '/login'
-  //   return NextResponse.redirect(url)
-  // }
+  // Optional: Geschützte Routes
+  // Auskommentieren wenn Auth-Schutz gewünscht
+  /*
+  const protectedRoutes = ['/dashboard', '/account', '/admin']
+  const isProtectedRoute = protectedRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  if (isProtectedRoute && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/auth/login'
+    url.searchParams.set('redirectTo', request.nextUrl.pathname)
+    return NextResponse.redirect(url)
+  }
+  */
 
   return supabaseResponse
+}
+
+/**
+ * Hilfsfunktion: Aktuellen User in Middleware holen
+ */
+export async function getUser(request: NextRequest) {
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll() {},
+      },
+    }
+  )
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  return user
 }

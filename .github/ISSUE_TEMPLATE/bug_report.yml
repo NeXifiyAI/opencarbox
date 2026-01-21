@@ -1,0 +1,87 @@
+---
+name: 🐛 Bug Report
+description: Einen Bug melden
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke für das Melden des Bugs! Bitte fülle das Formular vollständig aus.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung
+      description: Was ist passiert?
+      placeholder: Eine klare Beschreibung des Bugs...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Schritte zur Reproduktion
+      description: Wie kann der Bug reproduziert werden?
+      placeholder: |
+        1. Gehe zu '...'
+        2. Klicke auf '...'
+        3. Scrolle zu '...'
+        4. Fehler erscheint
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Erwartetes Verhalten
+      description: Was hätte passieren sollen?
+      placeholder: Das erwartete Verhalten...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Tatsächliches Verhalten
+      description: Was ist stattdessen passiert?
+      placeholder: Das tatsächliche Verhalten...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Schweregrad
+      options:
+        - 🔴 Kritisch (App unbenutzbar)
+        - 🟠 Hoch (Feature nicht nutzbar)
+        - 🟡 Mittel (Workaround möglich)
+        - 🟢 Niedrig (Kosmetisch)
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser / Umgebung
+      description: Welcher Browser/welches Gerät?
+      placeholder: z.B. Chrome 120 auf macOS 14
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Screenshots
+      description: Relevante Fehlermeldungen oder Screenshots
+      placeholder: Fehlermeldung hier einfügen...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checkliste
+      options:
+        - label: Ich habe die bestehenden Issues durchsucht
+          required: true
+        - label: Ich kann den Bug reproduzieren
+          required: true

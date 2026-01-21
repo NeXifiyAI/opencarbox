@@ -1,111 +1,60 @@
-/**
- * Root Layout - OpenCarBox & Carvantooo
- * 
- * Das Haupt-Layout für die gesamte Anwendung.
- * Definiert globale Fonts, Metadaten und Provider.
- * 
- * @see project_specs.md - Abschnitt 3 (Design-System)
- */
-
-import type { Metadata, Viewport } from 'next';
-import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
-import { Providers } from '@/components/providers';
-import './globals.css';
-
-/* =============================================================================
-   FONT KONFIGURATION
-   ============================================================================= */
+import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
+import { config } from '@/config'
+import { cn } from '@/lib/utils'
+import { Providers } from '@/components/providers'
+import '@/styles/globals.css'
 
 /**
- * Inter - Body Font
- * Optimiert für UI und lange Texte
+ * ============================================================
+ * Root Layout
+ * ============================================================
+ * 
+ * Zentrale Layout-Komponente für die gesamte App.
+ * Konfiguration kommt aus project.config.ts
+ * 
+ * ============================================================
  */
+
+// Google Font laden
 const inter = Inter({
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   display: 'swap',
-  variable: '--font-body',
-});
+  variable: '--font-sans',
+})
 
-/**
- * Plus Jakarta Sans - Display Font
- * Für Headlines und hervorgehobene Texte
- */
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin', 'latin-ext'],
-  display: 'swap',
-  variable: '--font-display',
-});
-
-/**
- * JetBrains Mono - Monospace Font
- * Für Preise, Nummern und Code
- */
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin', 'latin-ext'],
-  display: 'swap',
-  variable: '--font-mono',
-});
-
-/* =============================================================================
-   METADATA
-   ============================================================================= */
-
-/**
- * Globale Metadaten für SEO
- */
+// Metadata aus Config
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
   title: {
-    default: 'OpenCarBox & Carvantooo | Autoteile & KFZ-Service in Wien',
-    template: '%s | OpenCarBox & Carvantooo',
+    default: config.seo.defaultTitle,
+    template: config.seo.titleTemplate,
   },
-  description:
-    'Ihr Partner für Autoteile, KFZ-Werkstatt und Autohandel in Wien. ' +
-    'Premium Autoteile online bei Carvantooo kaufen oder Service bei OpenCarBox buchen. ' +
-    'Weil das Auto zur Familie gehört.',
-  keywords: [
-    'Autoteile',
-    'KFZ-Werkstatt',
-    'Wien',
-    'Autohandel',
-    'Bremsbeläge',
-    'Ölwechsel',
-    'Inspektion',
-    'Carvantooo',
-    'OpenCarBox',
-  ],
-  authors: [{ name: 'OpenCarBox GmbH' }],
-  creator: 'OpenCarBox GmbH',
-  publisher: 'OpenCarBox GmbH',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
+  description: config.seo.defaultDescription,
+  keywords: config.seo.keywords,
+  authors: [{ name: config.app.name }],
+  creator: config.app.name,
+  metadataBase: new URL(config.app.url),
+  
+  // Open Graph
   openGraph: {
     type: 'website',
-    locale: 'de_AT',
-    url: '/',
-    siteName: 'OpenCarBox & Carvantooo',
-    title: 'OpenCarBox & Carvantooo | Autoteile & KFZ-Service',
-    description:
-      'Premium Autoteile online kaufen und professionellen KFZ-Service buchen. ' +
-      'Weil das Auto zur Familie gehört.',
-    images: [
-      {
-        url: '/images/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'OpenCarBox & Carvantooo',
-      },
-    ],
+    locale: config.app.defaultLocale,
+    url: config.app.url,
+    title: config.seo.defaultTitle,
+    description: config.seo.defaultDescription,
+    siteName: config.app.name,
+    images: config.seo.ogImage ? [{ url: config.seo.ogImage }] : [],
   },
+  
+  // Twitter
   twitter: {
     card: 'summary_large_image',
-    title: 'OpenCarBox & Carvantooo',
-    description: 'Premium Autoteile & KFZ-Service in Wien',
-    images: ['/images/og-image.jpg'],
+    title: config.seo.defaultTitle,
+    description: config.seo.defaultDescription,
+    images: config.seo.ogImage ? [config.seo.ogImage] : [],
   },
+  
+  // Robots
   robots: {
     index: true,
     follow: true,
@@ -117,56 +66,60 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  
+  // Icons
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
+  
+  // Manifest
   manifest: '/site.webmanifest',
-};
+}
 
-/**
- * Viewport-Konfiguration
- */
+// Viewport aus Config
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
-    { media: '(prefers-color-scheme: dark)', color: '#0A0A0B' },
+    { media: '(prefers-color-scheme: light)', color: config.theme.colors.primary },
+    { media: '(prefers-color-scheme: dark)', color: config.theme.colors.primary },
   ],
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5,
-};
-
-/* =============================================================================
-   ROOT LAYOUT KOMPONENTE
-   ============================================================================= */
-
-/**
- * Root Layout Props
- */
-interface RootLayoutProps {
-  children: React.ReactNode;
 }
 
-/**
- * Root Layout Komponente
- * 
- * Umschließt die gesamte Anwendung und definiert:
- * - HTML-Struktur mit Sprachattribut
- * - Font-Variablen
- * - Global Provider (Theme, Query, Toast)
- */
+// Props
+interface RootLayoutProps {
+  children: React.ReactNode
+}
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html
-      lang="de"
-      className={`${inter.variable} ${plusJakarta.variable} ${jetbrainsMono.variable}`}
+    <html 
+      lang={config.app.defaultLocale} 
       suppressHydrationWarning
+      className={cn(inter.variable)}
     >
-      <body className="min-h-screen bg-background antialiased">
-        <Providers>{children}</Providers>
+      <head>
+        {/* Preconnect zu externen Services */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Supabase preconnect wenn konfiguriert */}
+        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
+        )}
+      </head>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased',
+          inter.variable
+        )}
+      >
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
-  );
+  )
 }

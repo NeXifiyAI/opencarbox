@@ -1,88 +1,119 @@
-# AI Copilot Instructions - OpenCarBox & Carvantooo
+---
+applyTo: '**'
+---
 
-> Premium Automotive Multisite Platform | Next.js 14 + TypeScript + Supabase
+# NeXifyAI Starter-Kit – AI-Anweisungen
 
-## Architecture Overview
+## Stack
 
-**Three-site platform** sharing one codebase: Carvantooo (Shop, rot `#E53E3E`), OpenCarBox Werkstatt + Autohandel (blau `#3182CE`).
+- **Framework:** Next.js 15+ (App Router)
+- **Datenbank:** Supabase (PostgreSQL + Auth + Storage + Realtime)
+- **Deployment:** Vercel
+- **UI:** Tailwind CSS + shadcn/ui
+- **Sprache:** TypeScript (strict)
 
-```
-Client: React + TanStack Query + Zustand | TypeScript strict
-Server: Next.js App Router (API Routes + Server Actions)
-Backend: Supabase (Auth+DB+Storage+RLS) | Prisma ORM
-External: Stripe, Meilisearch, TecDoc API, Resend
-```
+## Architektur-Prinzip: Konfigurieren statt Coden
 
-**Golden Rule:** External API calls (Stripe, TecDoc) → API routes/Server Actions only. Never from client.
+Die zentrale `project.config.ts` steuert ALLES:
+- Features werden per Flag aktiviert/deaktiviert
+- Datenbank-Schema wird aus Config generiert
+- Theme-Farben kommen aus Config
+- SEO-Defaults kommen aus Config
 
-## Critical Patterns
+**NIEMALS Features hardcoden** – immer Config auslesen!
 
-### Data Fetching (ALWAYS TanStack Query)
+## Dateien-Referenz
+
+Lies diese Dateien für vollständige Regeln:
+
+- `../.github/UNIFIED_RULES.md` – Entwicklungsregeln
+- `../.github/UNIFIED_WORKFLOWS.md` – CI/CD-Workflows
+- `../.github/UNIFIED_SKILLS.md` – Arbeitsweise
+
+## Kritische Regeln
+
+### 1. Supabase Client
+
 ```typescript
-// ✅ Correct - TanStack Query
-const { data, isPending } = useQuery({
-  queryKey: ['products'],
-  queryFn: () => fetch('/api/products').then(r => r.json()),
-})
+// Server Components / Server Actions
+import { createClient } from '@/lib/supabase/server'
+const supabase = await createClient()
 
-// ❌ NEVER useEffect + useState for fetching
+// Client Components
+import { createClient } from '@/lib/supabase/client'
+const supabase = createClient()
 ```
 
-### Row Level Security
-Supabase RLS is enforced at DB level. Every query is auto-scoped to user - trust the DB, not app logic.
+### 2. Multi-Tenant Security (wenn aktiviert)
 
-### Vehicle Compatibility (HSN/TSN)
-Core feature: Products/services linked to vehicles via HSN/TSN codes. See `product_vehicle_compatibility` table.
+```typescript
+// ❌ NIEMALS company_id aus Client
+const { company_id } = request.body
 
-## Project Structure
-
-| Path | Purpose |
-|------|---------|
-| `src/app/` | App Router routes |
-| `src/components/{layout,ui,shared,providers}/` | Component hierarchy |
-| `src/lib/supabase/` | DB clients (client.ts, server.ts, middleware.ts) |
-| `src/stores/` | Zustand stores (cart, ui) |
-| `prisma/schema.prisma` | Database schema - **read first** |
-| `scripts/core/` | Oracle + Memory system |
-
-**Always use `@/` imports:** `import { x } from '@/lib/utils'`
-
-## Essential Commands
-
-```bash
-npm run dev              # Development server
-npm run db:push          # Sync Prisma schema to Supabase
-npm run db:studio        # Prisma GUI
-npm run type-check       # TypeScript validation
-npm run quality-gate     # Full quality check before commit
-npm run oracle:status    # Check Oracle system state
+// ✅ IMMER aus Session ableiten
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('company_id')
+  .eq('id', user.id)
+  .single()
 ```
 
-## Oracle & Memory System
+### 3. Feature-Flags prüfen
 
-This project uses AI-assisted development via `scripts/core/`:
-- **oracle.ts** - Thinking process (consult before major changes)
-- **memory.ts** - Stores patterns in `project_memory` table
-- Run `npm run oracle:before "action" "description"` before changes
+```typescript
+import { isFeatureEnabled } from '@/config'
 
-## Key Rules
+// Vor Feature-Nutzung prüfen
+if (isFeatureEnabled('payments')) {
+  // Payment-Code
+}
+```
 
-1. **Read `project_specs.md`** - The constitution for architecture/branding
-2. **TypeScript strict** - No `any`, no implicit null
-3. **Tailwind only** - No inline styles, use design tokens
-4. **8px grid** - All spacing in 8px increments
-5. **No placeholders** - Complete all features fully
-6. **RLS-aware** - Database security is enforced at query level
-7. **German UI** - Code in English, user-facing text in German
+### 4. Komponenten aus shadcn/ui
 
-## Common Pitfalls
+```typescript
+// ✅ Immer aus components/ui importieren
+import { Button } from '@/components/ui/button'
 
-| Don't | Do Instead |
-|-------|------------|
-| Client-side Stripe/TecDoc calls | API routes + Server Actions |
-| `useEffect` for data fetching | TanStack Query |
-| Relative imports `../../../` | Path aliases `@/` |
-| Hardcoded colors | Tailwind tokens (`bg-red-600`) |
-| Skip type-check | Run `npm run quality-gate` |
+// ❌ Niemals direkt von radix
+import * as Button from '@radix-ui/react-button'
+```
 
-**Architecture docs:** [docs/architecture/system-overview.md](docs/architecture/system-overview.md)
+### 5. Server Actions für Mutationen
+
+```typescript
+// ✅ Server Actions
+'use server'
+export async function createItem(data: FormData) {
+  const supabase = await createClient()
+  // ...
+}
+
+// ❌ Keine API-Routes für CRUD
+// app/api/items/route.ts – vermeiden
+```
+
+## Ordnerstruktur
+
+```
+src/
+├── app/
+│   ├── (auth)/           # Login, Register, Reset
+│   ├── (dashboard)/      # Geschützte Seiten
+│   ├── (public)/         # Öffentliche Seiten
+│   └── api/              # Nur für Webhooks
+├── components/
+│   ├── ui/               # shadcn/ui Basis
+│   └── [feature]/        # Feature-Komponenten
+├── lib/
+│   ├── supabase/         # Supabase Clients
+│   └── utils/            # Hilfsfunktionen
+└── config/               # Config-Loader
+```
+
+## Vor jeder Änderung
+
+1. `project.config.ts` prüfen – ist Feature aktiviert?
+2. Bestehende Patterns in Codebase suchen
+3. UNIFIED_RULES.md Abschnitt lesen
+4. Nach Änderung: `pnpm lint && pnpm type-check`
