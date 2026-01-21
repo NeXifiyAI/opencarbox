@@ -1,0 +1,84 @@
+name: 🤖 AI Task
+description: Lass das AI Team eine Aufgabe automatisch bearbeiten
+title: "[AI] "
+labels: ["ai-task", "auto-merge"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🤖 AI Development Team
+        Beschreibe die Aufgabe so detailliert wie möglich. Das AI Team wird automatisch:
+        1. Den Code analysieren
+        2. Änderungen implementieren
+        3. Einen Pull Request erstellen
+        4. Nach erfolgreichen Tests automatisch mergen
+
+  - type: dropdown
+    id: task-type
+    attributes:
+      label: Task-Typ
+      description: Was soll das AI Team tun?
+      options:
+        - Feature implementieren
+        - Bug fixen
+        - Refactoring
+        - Tests hinzufügen
+        - Dokumentation
+        - Performance-Optimierung
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Aufgabenbeschreibung
+      description: Beschreibe genau, was implementiert werden soll
+      placeholder: |
+        Beispiel:
+        - Erstelle eine neue Komponente für...
+        - Füge Validierung hinzu für...
+        - Optimiere die Performance von...
+    validations:
+      required: true
+
+  - type: textarea
+    id: files
+    attributes:
+      label: Betroffene Dateien (optional)
+      description: Falls bekannt, welche Dateien geändert werden sollen
+      placeholder: |
+        - src/components/...
+        - src/lib/...
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Akzeptanzkriterien
+      description: Wann ist die Aufgabe erfolgreich abgeschlossen?
+      placeholder: |
+        - [ ] Kriterium 1
+        - [ ] Kriterium 2
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorität
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: options
+    attributes:
+      label: Optionen
+      options:
+        - label: Auto-Merge nach erfolgreichen Tests
+          required: false
+        - label: AI Code Review anfordern
+          required: false
