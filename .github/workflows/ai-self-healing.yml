@@ -1,0 +1,47 @@
+name: 🚑 AI Self-Healing
+
+on:
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]
+    types:
+      - completed
+
+jobs:
+  diagnose-and-fix:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'failure'
+    
+    steps:
+      - name: 'Download artifact'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
+            // Logic to find PR number from artifacts or commit SHA would go here
+            // For now, we simply log that we detected a failure and would trigger the AI
+
+      - name: Trigger AI Fix
+        uses: actions/github-script@v7
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        with:
+          script: |
+              console.log("🚨 CI Failed! Initiating Self-Healing Protocol...");
+              
+              // 1. Hole die Logs des fehlgeschlagenen Runs
+              const runId = context.payload.workflow_run.id;
+              console.log(`Analyzing Run ID: ${runId}`);
+              
+              // Hier würde die Logik folgen:
+              // - Logs herunterladen
+              // - Fehlermeldung extrahieren
+              // - PR finden
+              // - Kommentar posten: "@ai-team Build failed. Error: <error>. Please fix."
+              
+              // Hinweis: Da wir im Kontext eines 'workflow_run' sind, ist die Zuordnung zum PR
+              // etwas komplexer. Wir markieren das hier als "To Be Implemented" im nächsten Schritt.
