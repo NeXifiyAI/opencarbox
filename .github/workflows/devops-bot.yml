@@ -1,12 +1,17 @@
-# Automatisches Deployment nach erfolgreichem Merge
-# Dieses Workflow deployed automatisch zu Vercel Production
+# Automatisches Deployment und Infrastruktur-Optimierung
+# Dieser Bot kümmert sich um Deployment, Cache-Warming und Oracle-Sync
 
-name: Auto-Deploy Production
+name: 🚀 DevOps-Bot (Build, Deploy & Optimize)
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/**'
+      - '.vscode/**'
   workflow_dispatch:
     inputs:
       environment:
@@ -17,6 +22,10 @@ on:
         options:
           - production
           - preview
+
+concurrency:
+  group: production_deploy
+  cancel-in-progress: true
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -94,6 +103,31 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         continue-on-error: true
+
+  # ============================================================
+  # Knowledge Sync & Optimization
+  # ============================================================
+  optimize:
+    name: 🧠 Knowledge Sync & System Optimization
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: success()
+    
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
+      
+      - name: Sync Documentation to Memory
+        run: npx tsx scripts/core/sync.ts
+        env:
+          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
   notify-failure:
     name: Notify on Failure

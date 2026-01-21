@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Starter Kit/nexify-starter-kit"
+		}
+	],
+	"settings": {
+		"chat.tools.terminal.autoApprove": {
+			"git pull": true,
+			"Copy-Item": true,
+			"gh": true,
+			"Add-Content": true,
+			"git add": true,
+			"git commit": true,
+			"git push": true,
+			"pnpm": true,
+			"/^node -e \"const fs = require\\('fs'\\); const path = '\\.github/workflows/ci\\.yml'; let content = fs\\.readFileSync\\(path, 'utf8'\\); content = content\\.replace\\(/      - name: Setup pnpm\\\\r\\?\\\\n        uses: pnpm\\\\/action-setup@v4\\\\r\\?\\\\n        with:\\\\r\\?\\\\n          version: \\\\\\$\\\\\\{\\\\\\{ env\\.PNPM_VERSION \\\\\\}\\\\\\}/g, '      - name: Setup pnpm\\\\n        uses: pnpm/action-setup@v4'\\); fs\\.writeFileSync\\(path, content\\);\"$/": {
+				"approve": true,
+				"matchCommandLine": true
+			}
+		}
+	}
+}

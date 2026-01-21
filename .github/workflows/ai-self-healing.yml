@@ -2,7 +2,7 @@ name: 🚑 AI Self-Healing
 
 on:
   workflow_run:
-    workflows: ["CI/CD Pipeline"]
+    workflows: ["🤖 QA-Bot (Quality & Fixes)"]
     types:
       - completed
 
