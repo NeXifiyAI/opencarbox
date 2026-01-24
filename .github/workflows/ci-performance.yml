@@ -177,7 +177,7 @@ jobs:
       - run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Run ${{ matrix.suite }} tests
-        run: pnpm test --run
+        run: pnpm test
         env:
           NODE_ENV: test
 
