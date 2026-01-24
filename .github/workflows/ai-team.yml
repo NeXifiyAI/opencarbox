@@ -24,6 +24,17 @@ on:
           - high
           - critical
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: read
+  checks: read
+
+concurrency:
+  group: ai-team-${{ github.event_name }}-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
 env:
   NODE_VERSION: '20'
   PNPM_VERSION: '9'
@@ -37,6 +48,7 @@ jobs:
   ai-router:
     name: 🧠 AI Task Router
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       action: ${{ steps.analyze.outputs.action }}
       branch: ${{ steps.analyze.outputs.branch }}

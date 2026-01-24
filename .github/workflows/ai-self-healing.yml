@@ -6,9 +6,21 @@ on:
     types:
       - completed
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: read
+  checks: read
+
+concurrency:
+  group: self-healing-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
 jobs:
   diagnose-and-fix:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     if: github.event.workflow_run.conclusion == 'failure'
     
     steps:

@@ -91,6 +91,7 @@ jobs:
   master-control:
     name: 🎯 Master Control Center
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       action: ${{ steps.decide.outputs.action }}
       priority: ${{ steps.decide.outputs.priority }}
