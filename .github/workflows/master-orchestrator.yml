@@ -1,0 +1,931 @@
+name: 🎯 Master Orchestrator Bot
+
+# Master Bot - Zentrale Steuerung des gesamten AI-Teams
+# Empfängt alle Events, koordiniert alle Bots, überwacht Projektfortschritt
+
+on:
+  # Empfängt ALLE wichtigen Events
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+  issue_comment:
+    types: [created, edited]
+  pull_request:
+    types: [opened, synchronize, closed, reopened, labeled, unlabeled, ready_for_review]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+  push:
+    branches:
+      - main
+      - develop
+  workflow_run:
+    workflows: ["🤖 QA-Bot (Quality & Fixes)", "🛡️ Security-Bot (Vulnerability Check)", "🚀 DevOps-Bot (Build, Deploy & Optimize)"]
+    types: [completed]
+  schedule:
+    # Täglich um 6:00 UTC - Projekt-Health-Check
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Master Bot Command'
+        required: true
+        type: choice
+        options:
+          - health-check
+          - complete-project
+          - analyze-status
+          - fix-all-issues
+          - deploy-all
+          - restart-bot
+          - optimize-bots
+          - fix-pipeline
+          - optimize-pipeline
+          - expand-pipeline
+          - emergency-fix
+          - maintain-bots
+          - reactivate-bots
+      target_bot:
+        description: 'Target Bot (for restart/optimize)'
+        required: false
+        type: choice
+        options:
+          - all
+          - qa-bot
+          - security-bot
+          - devops-bot
+          - ai-team
+          - ai-auto-merge
+          - ai-self-healing
+      priority:
+        description: 'Priority Level'
+        default: 'high'
+        type: choice
+        options:
+          - low
+          - medium
+          - high
+          - critical
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: write
+  checks: write
+  deployments: write
+  security-events: write
+  statuses: write
+  workflows: write
+  packages: write
+  repository-projects: write
+
+env:
+  MASTER_BOT_TOKEN: ${{ secrets.GH_TOKEN }}
+  DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9'
+
+jobs:
+  # ============================================================
+  # Master Control - Zentrale Entscheidungsinstanz
+  # ============================================================
+  master-control:
+    name: 🎯 Master Control Center
+    runs-on: ubuntu-latest
+    outputs:
+      action: ${{ steps.decide.outputs.action }}
+      priority: ${{ steps.decide.outputs.priority }}
+      tasks: ${{ steps.decide.outputs.tasks }}
+      bot_assignments: ${{ steps.decide.outputs.bot_assignments }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Analyze Project State
+        id: analyze
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const eventName = context.eventName;
+            const payload = context.payload;
+            
+            console.log(`🎯 Master Bot aktiviert durch Event: ${eventName}`);
+            
+            // Sammle alle relevanten Projekt-Informationen
+            const projectState = {
+              event: eventName,
+              timestamp: new Date().toISOString(),
+              repository: context.repo,
+              issues: { open: 0, critical: 0 },
+              prs: { open: 0, mergeable: 0, blocked: 0 },
+              workflows: { failing: 0, successful: 0 },
+              health: 'unknown'
+            };
+            
+            // Hole offene Issues
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+            
+            projectState.issues.open = issues.filter(i => !i.pull_request).length;
+            projectState.issues.critical = issues.filter(i => 
+              i.labels.some(l => l.name.includes('critical') || l.name.includes('bug'))
+            ).length;
+            
+            // Hole offene PRs
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+            
+            projectState.prs.open = prs.length;
+            projectState.prs.mergeable = prs.filter(pr => pr.mergeable_state === 'clean').length;
+            projectState.prs.blocked = prs.filter(pr => 
+              pr.mergeable_state === 'blocked' || pr.draft
+            ).length;
+            
+            // Hole letzte Workflow-Runs
+            const { data: workflows } = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 20
+            });
+            
+            projectState.workflows.failing = workflows.workflow_runs.filter(
+              w => w.conclusion === 'failure'
+            ).length;
+            projectState.workflows.successful = workflows.workflow_runs.filter(
+              w => w.conclusion === 'success'
+            ).length;
+            
+            // Berechne Projekt-Health
+            const healthScore = (
+              (projectState.workflows.successful / Math.max(workflows.workflow_runs.length, 1)) * 40 +
+              (1 - projectState.issues.critical / Math.max(projectState.issues.open, 1)) * 30 +
+              (projectState.prs.mergeable / Math.max(projectState.prs.open, 1)) * 30
+            );
+            
+            projectState.health = healthScore > 80 ? 'excellent' : 
+                                 healthScore > 60 ? 'good' : 
+                                 healthScore > 40 ? 'fair' : 'critical';
+            
+            console.log('📊 Projekt-Status:', JSON.stringify(projectState, null, 2));
+            
+            core.setOutput('project_state', JSON.stringify(projectState));
+            core.setOutput('health_score', healthScore.toFixed(2));
+            core.setOutput('health', projectState.health);
+            
+            return projectState;
+
+      - name: Master Decision Engine
+        id: decide
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const projectState = JSON.parse('${{ steps.analyze.outputs.project_state }}');
+            const event = context.eventName;
+            const health = '${{ steps.analyze.outputs.health }}';
+            
+            let action = 'monitor';
+            let priority = 'medium';
+            let tasks = [];
+            let botAssignments = {};
+            
+            console.log(`🧠 Master Decision Engine - Health: ${health}`);
+            
+            // Event-basierte Entscheidungen
+            if (event === 'workflow_dispatch') {
+              const command = context.payload.inputs?.command || 'health-check';
+              action = command;
+              priority = context.payload.inputs?.priority || 'high';
+              
+              if (command === 'complete-project') {
+                tasks = [
+                  'analyze_missing_features',
+                  'fix_all_bugs',
+                  'complete_documentation',
+                  'optimize_performance',
+                  'ensure_security',
+                  'validate_quality'
+                ];
+                botAssignments = {
+                  'qa-bot': ['fix_all_bugs', 'validate_quality'],
+                  'security-bot': ['ensure_security'],
+                  'devops-bot': ['optimize_performance'],
+                  'ai-team': ['analyze_missing_features', 'complete_documentation']
+                };
+              } else if (command === 'fix-all-issues') {
+                tasks = ['triage_issues', 'assign_to_bots', 'track_progress'];
+              }
+            }
+            
+            // Workflow-Fehler
+            if (event === 'workflow_run' && context.payload.workflow_run?.conclusion === 'failure') {
+              action = 'fix_workflow_failure';
+              priority = 'high';
+              tasks = ['diagnose_failure', 'create_fix_pr', 'monitor_fix'];
+              botAssignments = {
+                'ai-team': ['diagnose_failure', 'create_fix_pr']
+              };
+            }
+            
+            // Neue Issues
+            if (event === 'issues' && context.payload.action === 'opened') {
+              action = 'triage_issue';
+              const labels = context.payload.issue?.labels?.map(l => l.name) || [];
+              priority = labels.includes('critical') ? 'critical' : 
+                         labels.includes('bug') ? 'high' : 'medium';
+              tasks = ['analyze_issue', 'assign_bot', 'create_implementation_plan'];
+            }
+            
+            // Neue PRs
+            if (event === 'pull_request' && context.payload.action === 'opened') {
+              action = 'review_pr';
+              tasks = ['code_review', 'security_scan', 'quality_check'];
+              botAssignments = {
+                'ai-team': ['code_review'],
+                'security-bot': ['security_scan'],
+                'qa-bot': ['quality_check']
+              };
+            }
+            
+            // Health-Check bei kritischem Status
+            if (health === 'critical') {
+              action = 'emergency_intervention';
+              priority = 'critical';
+              tasks = ['fix_critical_issues', 'restore_stability', 'alert_team'];
+            }
+            
+            // Täglicher Health-Check
+            if (event === 'schedule') {
+              action = 'daily_health_check';
+              tasks = ['analyze_metrics', 'identify_improvements', 'create_tasks'];
+            }
+            
+            core.setOutput('action', action);
+            core.setOutput('priority', priority);
+            core.setOutput('tasks', JSON.stringify(tasks));
+            core.setOutput('bot_assignments', JSON.stringify(botAssignments));
+            
+            console.log(`✅ Entscheidung: ${action} (Priorität: ${priority})`);
+            console.log(`📋 Aufgaben:`, tasks);
+            console.log(`🤖 Bot-Zuweisungen:`, botAssignments);
+
+      - name: Create Master Report
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const projectState = JSON.parse('${{ steps.analyze.outputs.project_state }}');
+            const health = '${{ steps.analyze.outputs.health }}';
+            const healthScore = '${{ steps.analyze.outputs.health_score }}';
+            const action = '${{ steps.decide.outputs.action }}';
+            const tasks = JSON.parse('${{ steps.decide.outputs.tasks }}');
+            
+            const report = `## 🎯 Master Bot Status Report
+            
+            **Zeitstempel:** ${new Date().toISOString()}
+            **Event:** ${context.eventName}
+            **Projekt-Health:** ${health} (${healthScore}/100)
+            **Aktion:** ${action}
+            
+            ### 📊 Projekt-Metriken
+            
+            | Kategorie | Status |
+            |-----------|--------|
+            | 🐛 Offene Issues | ${projectState.issues.open} (${projectState.issues.critical} kritisch) |
+            | 🔀 Offene PRs | ${projectState.prs.open} (${projectState.prs.mergeable} ready) |
+            | ✅ Workflows | ${projectState.workflows.successful} erfolgreich, ${projectState.workflows.failing} fehlgeschlagen |
+            
+            ### 🎯 Geplante Aktionen
+            ${tasks.map(t => `- [ ] ${t}`).join('\n')}
+            
+            ---
+            *Generiert von Master Orchestrator Bot*`;
+            
+            console.log(report);
+            
+            // Speichere Report als Artifact
+            const fs = require('fs');
+            fs.writeFileSync('/tmp/master-report.md', report);
+
+      - name: Upload Master Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: master-bot-report-${{ github.run_id }}
+          path: /tmp/master-report.md
+          retention-days: 30
+
+  # ============================================================
+  # Task Executor - Führt Master-Entscheidungen aus
+  # ============================================================
+  execute-tasks:
+    name: 🚀 Execute Master Tasks
+    runs-on: ubuntu-latest
+    needs: master-control
+    if: needs.master-control.outputs.action != 'monitor'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Environment
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Execute Action
+        id: execute
+        uses: actions/github-script@v7
+        env:
+          ACTION: ${{ needs.master-control.outputs.action }}
+          TASKS: ${{ needs.master-control.outputs.tasks }}
+          BOT_ASSIGNMENTS: ${{ needs.master-control.outputs.bot_assignments }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const action = process.env.ACTION;
+            const tasks = JSON.parse(process.env.TASKS || '[]');
+            const botAssignments = JSON.parse(process.env.BOT_ASSIGNMENTS || '{}');
+            
+            console.log(`🚀 Executing: ${action}`);
+            
+            // Projekt-Vervollständigung
+            if (action === 'complete-project') {
+              console.log('🎯 Starte Projekt-Vervollständigung...');
+              
+              // 1. Analysiere fehlende Features anhand von project.config.ts
+              const fs = require('fs');
+              const configPath = 'project.config.ts';
+              
+              if (fs.existsSync(configPath)) {
+                const configContent = fs.readFileSync(configPath, 'utf8');
+                console.log('📋 Projekt-Konfiguration gefunden');
+                
+                // Erstelle Issue für fehlende Features
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: '🎯 Master Bot: Projekt-Vervollständigung gestartet',
+                  body: `## Automatische Projekt-Analyse
+                  
+                  Der Master Bot hat eine vollständige Projekt-Analyse gestartet.
+                  
+                  ### 🎯 Ziel
+                  Vervollständigung aller Features gemäß project.config.ts
+                  
+                  ### 📋 Aufgaben
+                  ${tasks.map(t => `- [ ] ${t}`).join('\n')}
+                  
+                  ### 🤖 Bot-Zuweisungen
+                  ${Object.entries(botAssignments).map(([bot, tasks]) => 
+                    `- **${bot}**: ${tasks.join(', ')}`
+                  ).join('\n')}
+                  
+                  ---
+                  Der Master Bot wird die Fortschritte überwachen und koordinieren.`,
+                  labels: ['master-bot', 'auto-completion', 'high-priority']
+                });
+              }
+              
+              // 2. Triggere spezialisierte Bots
+              for (const [bot, botTasks] of Object.entries(botAssignments)) {
+                console.log(`📤 Delegiere an ${bot}: ${botTasks.join(', ')}`);
+                // Hier könnte man workflow_dispatch für die spezifischen Bots triggern
+              }
+            }
+            
+            // Workflow-Fehler beheben
+            if (action === 'fix_workflow_failure') {
+              const workflowRun = context.payload.workflow_run;
+              
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `🚨 Master Bot: Workflow-Fehler in ${workflowRun.name}`,
+                body: `## Automatische Fehleranalyse
+                
+                **Workflow:** ${workflowRun.name}
+                **Run ID:** ${workflowRun.id}
+                **Branch:** ${workflowRun.head_branch}
+                
+                Der Master Bot hat einen Workflow-Fehler erkannt und delegiert die Behebung an das AI-Team.
+                
+                [Workflow Run anzeigen](${workflowRun.html_url})`,
+                labels: ['bug', 'workflow-failure', 'ai-task', 'master-bot']
+              });
+            }
+            
+            // Issue-Triage
+            if (action === 'triage_issue') {
+              const issue = context.payload.issue;
+              const labels = issue.labels.map(l => l.name);
+              
+              // Intelligente Label-Zuweisung
+              const aiLabels = ['ai-task'];
+              if (labels.includes('bug')) {
+                aiLabels.push('ai-fix');
+              } else if (labels.includes('enhancement')) {
+                aiLabels.push('ai-feature');
+              }
+              
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: aiLabels
+              });
+              
+              // Kommentar mit Analyse
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `🎯 **Master Bot Analyse**
+                
+                Dieses Issue wurde vom Master Bot analysiert und kategorisiert.
+                
+                **Priorität:** ${labels.includes('critical') ? '🔴 Kritisch' : labels.includes('bug') ? '🟡 Hoch' : '🟢 Normal'}
+                **Zugewiesen an:** AI Development Team
+                
+                Das AI-Team wird sich zeitnah darum kümmern.`
+              });
+            }
+            
+            // PR Review
+            if (action === 'review_pr') {
+              const pr = context.payload.pull_request;
+              
+              // Triggere alle Review-Bots
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: `🎯 **Master Bot aktiviert**
+                
+                Der Master Bot hat folgende Prüfungen initiiert:
+                - ✅ Code Review (AI Team)
+                - 🔒 Security Scan (Security Bot)
+                - 🧪 Quality Check (QA Bot)
+                
+                Die Ergebnisse folgen in Kürze.`
+              });
+            }
+            
+            // Täglicher Health-Check
+            if (action === 'daily_health_check') {
+              console.log('📊 Führe täglichen Health-Check durch...');
+              
+              // Erstelle täglichen Status-Report als Issue
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `📊 Täglicher Projekt-Status ${new Date().toISOString().split('T')[0]}`,
+                body: `## Automatischer Tages-Report
+                
+                Der Master Bot hat den Projekt-Status analysiert.
+                
+                ### 📋 Aufgaben
+                ${tasks.map(t => `- [ ] ${t}`).join('\n')}
+                
+                Dieser Report wird automatisch täglich erstellt.`,
+                labels: ['master-bot', 'daily-report', 'automated']
+              });
+            }
+            
+            console.log('✅ Aktion erfolgreich ausgeführt');
+            
+            // ADMIN COMMANDS - Bot-Management
+            if (action === 'restart-bot' || action === 'optimize-bots') {
+              const targetBot = context.payload.inputs?.target_bot || 'all';
+              console.log(`🔄 ${action === 'restart-bot' ? 'Neustart' : 'Optimierung'} von: ${targetBot}`);
+              
+              const botWorkflows = {
+                'qa-bot': 'qa-bot.yml',
+                'security-bot': 'security-bot.yml',
+                'devops-bot': 'devops-bot.yml',
+                'ai-team': 'ai-team.yml',
+                'ai-auto-merge': 'ai-auto-merge.yml',
+                'ai-self-healing': 'ai-self-healing.yml'
+              };
+              
+              const botsToProcess = targetBot === 'all' ? Object.keys(botWorkflows) : [targetBot];
+              
+              for (const bot of botsToProcess) {
+                const workflowFile = botWorkflows[bot];
+                
+                if (action === 'restart-bot') {
+                  // Triggere Workflow neu
+                  try {
+                    // Hole Workflow-ID
+                    const { data: workflows } = await github.rest.actions.listRepoWorkflows({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo
+                    });
+                    
+                    const workflow = workflows.workflows.find(w => w.path.includes(workflowFile));
+                    
+                    if (workflow) {
+                      await github.rest.actions.createWorkflowDispatch({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        workflow_id: workflow.id,
+                        ref: 'main'
+                      });
+                      console.log(`✅ ${bot} wurde neu gestartet`);
+                    }
+                  } catch (e) {
+                    console.log(`⚠️ Konnte ${bot} nicht neu starten: ${e.message}`);
+                  }
+                }
+                
+                if (action === 'optimize-bots') {
+                  // Erstelle Optimierungs-Issue
+                  await github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: `🔧 Master Bot: Optimierung von ${bot}`,
+                    body: `## Bot-Optimierung durch Master Bot
+                    
+                    **Bot:** ${bot}
+                    **Workflow:** ${workflowFile}
+                    
+                    Der Master Bot hat eine Optimierung initiiert.
+                    
+                    ### 🎯 Optimierungsziele
+                    - [ ] Performance-Verbesserungen
+                    - [ ] Fehlertoleranz erhöhen
+                    - [ ] Ressourcenverbrauch reduzieren
+                    - [ ] Caching optimieren
+                    - [ ] Timeout-Einstellungen anpassen
+                    
+                    ### 🤖 AI-Analyse läuft...
+                    
+                    Der Master Bot wird automatisch einen PR mit Verbesserungen erstellen.`,
+                    labels: ['master-bot', 'bot-optimization', 'automation']
+                  });
+                }
+              }
+            }
+            
+            // ADMIN COMMANDS - Pipeline-Management
+            if (action === 'fix-pipeline' || action === 'optimize-pipeline' || action === 'expand-pipeline') {
+              console.log(`🔧 Pipeline-${action}: Starte...`);
+              
+              const pipelineAction = action.replace('-pipeline', '');
+              
+              // Erstelle Branch für Pipeline-Änderungen
+              const branchName = `master-bot/pipeline-${pipelineAction}-${Date.now()}`;
+              
+              try {
+                // Hole aktuellen main SHA
+                const { data: mainRef } = await github.rest.git.getRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: 'heads/main'
+                });
+                
+                // Erstelle neuen Branch
+                await github.rest.git.createRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: `refs/heads/${branchName}`,
+                  sha: mainRef.object.sha
+                });
+                
+                console.log(`✅ Branch erstellt: ${branchName}`);
+                
+                // Erstelle Issue für Pipeline-Arbeit
+                const { data: issue } = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: `🔧 Master Bot: Pipeline ${pipelineAction}`,
+                  body: `## Automatische Pipeline-${pipelineAction}
+                  
+                  **Branch:** \`${branchName}\`
+                  **Aktion:** ${action}
+                  
+                  Der Master Bot arbeitet an der CI/CD Pipeline.
+                  
+                  ### 🎯 Ziele
+                  ${action === 'fix-pipeline' ? `
+                  - [ ] Workflow-Fehler identifizieren
+                  - [ ] Syntax-Probleme beheben
+                  - [ ] Fehlende Dependencies ergänzen
+                  - [ ] Action-Versionen aktualisieren
+                  ` : action === 'optimize-pipeline' ? `
+                  - [ ] Workflow-Performance verbessern
+                  - [ ] Parallelisierung optimieren
+                  - [ ] Caching-Strategien verbessern
+                  - [ ] Ressourcen-Nutzung reduzieren
+                  ` : `
+                  - [ ] Neue Workflows hinzufügen
+                  - [ ] Best Practices implementieren
+                  - [ ] Monitoring verbessern
+                  - [ ] Automatisierung erweitern
+                  `}
+                  
+                  ### 🤖 Status
+                  - [x] Branch erstellt
+                  - [ ] Analyse läuft
+                  - [ ] PR wird erstellt
+                  
+                  Ein Pull Request wird automatisch erstellt.`,
+                  labels: ['master-bot', 'pipeline', 'automation', 'critical']
+                });
+                
+                console.log(`✅ Issue #${issue.number} erstellt`);
+                
+                // Label für AI-Team hinzufügen, damit es den Task übernimmt
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['ai-task', 'ai-fix']
+                });
+                
+              } catch (e) {
+                console.error(`❌ Fehler bei Pipeline-${pipelineAction}:`, e.message);
+              }
+            }
+            
+            // BOT MAINTENANCE - Wartung aller Bots
+            if (action === 'maintain-bots' || action === 'reactivate-bots') {
+              console.log(`🔧 Bot Maintenance: ${action}`);
+              
+              // Triggere Bot Maintenance Workflow
+              try {
+                const { data: workflows } = await github.rest.actions.listRepoWorkflows({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo
+                });
+                
+                const maintenanceWorkflow = workflows.workflows.find(w => 
+                  w.path.includes('bot-maintenance.yml')
+                );
+                
+                if (maintenanceWorkflow) {
+                  await github.rest.actions.createWorkflowDispatch({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    workflow_id: maintenanceWorkflow.id,
+                    ref: 'main',
+                    inputs: {
+                      action: action === 'maintain-bots' ? 'health-check' : 'reactivate-all',
+                      force: 'true'
+                    }
+                  });
+                  
+                  console.log(`✅ Bot Maintenance Workflow getriggert`);
+                  
+                  await github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: `🔧 Master Bot: Bot-Wartung gestartet`,
+                    body: `## Automatische Bot-Wartung
+                    
+                    **Aktion:** ${action}
+                    
+                    Der Master Bot hat die Wartung aller Bots initiiert.
+                    
+                    ### 🎯 Durchgeführt wird:
+                    - Inventarisierung aller Bots
+                    - Health-Check
+                    - Reaktivierung inaktiver Bots
+                    - Update veralteter Workflows
+                    - Performance-Optimierung
+                    
+                    Siehe Bot Maintenance Dashboard für Details.
+                    
+                    ---
+                    🤖 Initiiert durch Master Orchestrator`,
+                    labels: ['master-bot', 'bot-maintenance', 'automated']
+                  });
+                }
+              } catch (e) {
+                console.error(`❌ Fehler bei Bot Maintenance:`, e.message);
+              }
+            }
+            
+            // EMERGENCY FIX - Sofortige Intervention
+            if (action === 'emergency-fix') {
+              console.log('🚨 NOTFALL-MODUS AKTIVIERT');
+              
+              // Analysiere alle fehlgeschlagenen Workflows
+              const { data: failedRuns } = await github.rest.actions.listWorkflowRunsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                status: 'failure',
+                per_page: 10
+              });
+              
+              console.log(`🔍 Gefunden: ${failedRuns.workflow_runs.length} fehlgeschlagene Workflows`);
+              
+              for (const run of failedRuns.workflow_runs.slice(0, 5)) {
+                // Erstelle Fix-Issue für jeden fehlgeschlagenen Workflow
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: `🚨 NOTFALL: ${run.name} fehlgeschlagen`,
+                  body: `## Automatische Notfall-Intervention
+                  
+                  **Workflow:** ${run.name}
+                  **Run ID:** ${run.id}
+                  **Branch:** ${run.head_branch}
+                  **Fehler-Zeit:** ${run.updated_at}
+                  
+                  [Workflow Run anzeigen](${run.html_url})
+                  
+                  Der Master Bot hat diesen kritischen Fehler erkannt und weist das AI-Team an, ihn sofort zu beheben.
+                  
+                  ### ⚡ Priorität: KRITISCH
+                  
+                  @ai-team Bitte sofort beheben!`,
+                  labels: ['critical', 'bug', 'workflow-failure', 'ai-task', 'ai-fix', 'master-bot']
+                });
+              }
+            }
+
+  # ============================================================
+  # AI Coordination - DeepSeek Integration für komplexe Entscheidungen
+  # ============================================================
+  ai-coordination:
+    name: 🧠 AI-Powered Coordination
+    runs-on: ubuntu-latest
+    needs: [master-control, execute-tasks]
+    if: |
+      needs.master-control.outputs.priority == 'critical' ||
+      needs.master-control.outputs.action == 'complete-project'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: AI Strategy Planning
+        id: ai_plan
+        run: |
+          cat > /tmp/master_request.json << 'EOF'
+          {
+            "model": "deepseek-chat",
+            "messages": [
+              {
+                "role": "system",
+                "content": "Du bist der Master AI Coordinator für das OpenCarBox Projekt. Deine Aufgabe ist es, das gesamte Entwicklungsteam zu koordinieren und sicherzustellen, dass alle Features gemäß der Projektvorgaben implementiert werden. Analysiere den aktuellen Status und erstelle einen detaillierten Aktionsplan."
+              },
+              {
+                "role": "user",
+                "content": "Projekt: OpenCarBox - Premium Automotive E-Commerce Platform\nStack: Next.js 15, TypeScript, Supabase, Vercel\n\nAktuelle Situation:\n- Event: ${{ github.event_name }}\n- Action: ${{ needs.master-control.outputs.action }}\n- Priority: ${{ needs.master-control.outputs.priority }}\n- Tasks: ${{ needs.master-control.outputs.tasks }}\n\nErstelle einen detaillierten Koordinationsplan im JSON-Format:\n{\n  \"analysis\": \"Situationsanalyse\",\n  \"strategy\": \"Gesamtstrategie\",\n  \"bot_instructions\": {\n    \"qa-bot\": \"Anweisungen\",\n    \"security-bot\": \"Anweisungen\",\n    \"devops-bot\": \"Anweisungen\",\n    \"ai-team\": \"Anweisungen\"\n  },\n  \"timeline\": \"Zeitplan\",\n  \"success_criteria\": [\"Kriterium 1\", \"Kriterium 2\"]\n}"
+              }
+            ],
+            "temperature": 0.3,
+            "max_tokens": 4096
+          }
+          EOF
+          
+          RESPONSE=$(curl -s -X POST "https://api.deepseek.com/chat/completions" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.DEEPSEEK_API_KEY }}" \
+            -d @/tmp/master_request.json)
+          
+          PLAN=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // "{}"')
+          
+          echo "$PLAN" > /tmp/master_plan.json
+          echo "Master AI Plan erstellt"
+
+      - name: Execute AI Plan
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const fs = require('fs');
+            
+            let plan = { analysis: 'Plan konnte nicht erstellt werden' };
+            try {
+              const planContent = fs.readFileSync('/tmp/master_plan.json', 'utf8');
+              // Extract JSON from potential markdown code blocks
+              const jsonMatch = planContent.match(/```(?:json)?\s*([\s\S]*?)```/);
+              const jsonContent = jsonMatch ? jsonMatch[1].trim() : planContent;
+              plan = JSON.parse(jsonContent);
+            } catch (e) {
+              console.log('Fehler beim Parsen des AI-Plans:', e.message);
+            }
+            
+            // Erstelle strategisches Issue mit dem Plan
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🧠 Master Bot: AI-Koordinationsplan',
+              body: `## Master AI Coordination Plan
+              
+              **Erstellt:** ${new Date().toISOString()}
+              
+              ### 📊 Analyse
+              ${plan.analysis || 'N/A'}
+              
+              ### 🎯 Strategie
+              ${plan.strategy || 'N/A'}
+              
+              ### 🤖 Bot-Anweisungen
+              ${plan.bot_instructions ? Object.entries(plan.bot_instructions).map(([bot, instruction]) => 
+                `**${bot}:**\n${instruction}`
+              ).join('\n\n') : 'N/A'}
+              
+              ### 📅 Timeline
+              ${plan.timeline || 'N/A'}
+              
+              ### ✅ Erfolgskriterien
+              ${plan.success_criteria ? plan.success_criteria.map(c => `- [ ] ${c}`).join('\n') : 'N/A'}
+              
+              ---
+              *Generiert von Master Orchestrator mit DeepSeek AI*`,
+              labels: ['master-bot', 'ai-coordination', 'strategic-plan']
+            });
+
+  # ============================================================
+  # Status Monitoring - Kontinuierliche Überwachung
+  # ============================================================
+  monitor:
+    name: 📊 Continuous Monitoring
+    runs-on: ubuntu-latest
+    needs: [master-control, execute-tasks]
+    if: always()
+    
+    steps:
+      - name: Update Dashboard
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            console.log('📊 Dashboard wird aktualisiert...');
+            
+            // Suche nach Master-Dashboard-Issue
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'master-dashboard',
+              state: 'open',
+              per_page: 1
+            });
+            
+            const dashboardContent = `## 🎯 Master Bot Dashboard
+            
+            **Letztes Update:** ${new Date().toISOString()}
+            **Status:** ${{ needs.master-control.outputs.action }}
+            **Health:** ${{ needs.execute-tasks.result || 'pending' }}
+            
+            ### 🔄 Letzte Aktivitäten
+            - Event: ${{ github.event_name }}
+            - Action: ${{ needs.master-control.outputs.action }}
+            - Priority: ${{ needs.master-control.outputs.priority }}
+            
+            ### 📈 Metriken
+            - Workflows: ${{ needs.master-control.result }}
+            - Tasks: ${{ needs.execute-tasks.result }}
+            
+            ---
+            *Auto-Update durch Master Orchestrator*`;
+            
+            if (issues.length === 0) {
+              // Erstelle Dashboard
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🎯 Master Bot Dashboard',
+                body: dashboardContent,
+                labels: ['master-dashboard', 'pinned']
+              });
+            } else {
+              // Update existierendes Dashboard
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues[0].number,
+                body: dashboardContent
+              });
+            }

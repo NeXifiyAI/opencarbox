@@ -29,7 +29,8 @@ jobs:
   dependabot-auto-merge:
     name: Auto-Merge Dependabot
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    # Only run on pull_request_target events
+    if: github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]'
 
     steps:
       - name: Dependabot metadata
@@ -57,7 +58,8 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'pull_request_review' &&
-      github.event.review.state == 'approved'
+      github.event.review.state == 'approved' &&
+      github.event.pull_request != null
 
     steps:
       - name: Enable auto-merge
@@ -71,6 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'pull_request_target' &&
+      github.event.pull_request != null &&
       contains(github.event.pull_request.labels.*.name, 'auto-merge')
 
     steps:
