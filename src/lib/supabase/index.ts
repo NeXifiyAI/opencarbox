@@ -1,12 +1,12 @@
 /**
  * Supabase Utility-Barrel
- * 
+ *
  * Zentrale Exports für einfache Imports:
- * 
+ *
  * ```tsx
  * // Server Component
  * import { createClient } from '@/lib/supabase'
- * 
+ *
  * // Client Component
  * import { supabase } from '@/lib/supabase'
  * ```

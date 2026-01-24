@@ -120,17 +120,17 @@ npm run watch:reset         # Watchdog Reset
 
 **9 MCP Server konfiguriert:**
 
-| # | Server | Capabilities |
-|---|--------|--------------|
-| 1 | **Supabase** | DB, Auth, Storage, Edge Functions, Branching |
-| 2 | **GitHub** | Repos, Issues, PRs, Workflows |
-| 3 | **Docker** | Container & Image Management |
-| 4 | **Git** | Version Control Operations |
-| 5 | **PostgreSQL** | Direct SQL Execution |
-| 6 | **Playwright** | Browser Automation, E2E Tests |
-| 7 | **Puppeteer** | Alternative Browser Automation |
-| 8 | **Filesystem** | Enhanced File Operations |
-| 9 | **Brave Search** | Web Research |
+| #   | Server           | Capabilities                                 |
+| --- | ---------------- | -------------------------------------------- |
+| 1   | **Supabase**     | DB, Auth, Storage, Edge Functions, Branching |
+| 2   | **GitHub**       | Repos, Issues, PRs, Workflows                |
+| 3   | **Docker**       | Container & Image Management                 |
+| 4   | **Git**          | Version Control Operations                   |
+| 5   | **PostgreSQL**   | Direct SQL Execution                         |
+| 6   | **Playwright**   | Browser Automation, E2E Tests                |
+| 7   | **Puppeteer**    | Alternative Browser Automation               |
+| 8   | **Filesystem**   | Enhanced File Operations                     |
+| 9   | **Brave Search** | Web Research                                 |
 
 **Environment Variables Integration:**
 
@@ -193,19 +193,19 @@ npm run error:search "error message"
 
 **12 Slash-Commands für Cline:**
 
-| Command | Funktion |
-|---------|----------|
-| `/think` | Oracle Thinking Process |
-| `/recall` | Memory durchsuchen |
-| `/verify` | Workflow Verification |
-| `/learn` | Erkenntnis speichern |
-| `/sync` | Full Synchronisation |
+| Command         | Funktion                 |
+| --------------- | ------------------------ |
+| `/think`        | Oracle Thinking Process  |
+| `/recall`       | Memory durchsuchen       |
+| `/verify`       | Workflow Verification    |
+| `/learn`        | Erkenntnis speichern     |
+| `/sync`         | Full Synchronisation     |
 | `/error-search` | Fehler-Similarity-Search |
-| `/pre-change` | Pre-Change Analysis |
-| `/audit` | Audit Log Entry |
-| `/context` | Critical Files anzeigen |
-| `/quality` | Quality Gate |
-| `/help-nexify` | NeXify Protocol Hilfe |
+| `/pre-change`   | Pre-Change Analysis      |
+| `/audit`        | Audit Log Entry          |
+| `/context`      | Critical Files anzeigen  |
+| `/quality`      | Quality Gate             |
+| `/help-nexify`  | NeXify Protocol Hilfe    |
 
 **Setup:** Import in Cline Settings → Custom Commands
 
@@ -238,20 +238,20 @@ npm run error:search "error message"
 
 #### Neue Dokumente
 
-| Dokument | Zweck | Zeilen |
-|----------|-------|--------|
-| **CLINE_CONFIGURATION.md** | Vollständiges Setup, Status, Workflows, MCP Server | ~450 |
-| **CLINE_QUICK_REFERENCE.md** | Cheat Sheet, häufigste Commands, Checklist | ~250 |
-| **CLINE_PERFECTION_SUMMARY.md** | Implementierungsstatus, Metriken, Checkliste | ~400 |
-| **.cline/README.md** | MCP Settings & Custom Commands Übersicht | ~80 |
-| **.cline/custom_commands.md** | 12 Custom Slash-Commands Definition | ~150 |
+| Dokument                        | Zweck                                              | Zeilen |
+| ------------------------------- | -------------------------------------------------- | ------ |
+| **CLINE_CONFIGURATION.md**      | Vollständiges Setup, Status, Workflows, MCP Server | ~450   |
+| **CLINE_QUICK_REFERENCE.md**    | Cheat Sheet, häufigste Commands, Checklist         | ~250   |
+| **CLINE_PERFECTION_SUMMARY.md** | Implementierungsstatus, Metriken, Checkliste       | ~400   |
+| **.cline/README.md**            | MCP Settings & Custom Commands Übersicht           | ~80    |
+| **.cline/custom_commands.md**   | 12 Custom Slash-Commands Definition                | ~150   |
 
 #### Aktualisierte Dokumente
 
-| Dokument | Änderungen |
-|----------|------------|
+| Dokument         | Änderungen                                                       |
+| ---------------- | ---------------------------------------------------------------- |
 | **.env.example** | `GITHUB_TOKEN`, `BRAVE_API_KEY`, `GITHUB_REPOSITORY` hinzugefügt |
-| **package.json** | 8 neue Scripts, `glob` dependency |
+| **package.json** | 8 neue Scripts, `glob` dependency                                |
 
 **Gesamt:** 5 neue Dokumente, 2 aktualisiert
 
@@ -272,15 +272,15 @@ npm run error:search "error message"
 
 ### Lücken geschlossen
 
-| Lücke (vorher) | Gelöst (nachher) |
-|----------------|------------------|
+| Lücke (vorher)                  | Gelöst (nachher)                                                   |
+| ------------------------------- | ------------------------------------------------------------------ |
 | Oracle nur Basis-Implementation | thinkWithMemory(), retrieveContext(), ingestLearning() vollständig |
-| Sync.ts nur Platzhalter | syncWiki(), syncRulesToDocs(), syncDocsToOracle() implementiert |
-| Keine Workflows | 3 vollständige Workflows (Recursive, Pre-Change, Error Learning) |
-| Keine MCP Server Config | 9 MCP Server konfiguriert in .cline/mcp_settings.json |
-| Keine Custom Commands | 12 Slash-Commands für Cline |
-| Fehlende NPM Scripts | 8 neue Scripts für Oracle/Workflows |
-| Unvollständige .env | GITHUB_TOKEN, BRAVE_API_KEY, GITHUB_REPOSITORY ergänzt |
+| Sync.ts nur Platzhalter         | syncWiki(), syncRulesToDocs(), syncDocsToOracle() implementiert    |
+| Keine Workflows                 | 3 vollständige Workflows (Recursive, Pre-Change, Error Learning)   |
+| Keine MCP Server Config         | 9 MCP Server konfiguriert in .cline/mcp_settings.json              |
+| Keine Custom Commands           | 12 Slash-Commands für Cline                                        |
+| Fehlende NPM Scripts            | 8 neue Scripts für Oracle/Workflows                                |
+| Unvollständige .env             | GITHUB_TOKEN, BRAVE_API_KEY, GITHUB_REPOSITORY ergänzt             |
 
 ---
 

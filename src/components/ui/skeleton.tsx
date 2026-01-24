@@ -1,13 +1,13 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
 /**
  * Props für die Skeleton-Komponente
  */
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Breite (CSS-Wert) */
-  width?: string;
+  width?: string
   /** Höhe (CSS-Wert) */
-  height?: string;
+  height?: string
 }
 
 /**
@@ -26,13 +26,7 @@ interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
  * // Mit expliziten Dimensionen
  * <Skeleton width="100%" height="200px" />
  */
-function Skeleton({
-  className,
-  width,
-  height,
-  style,
-  ...props
-}: SkeletonProps) {
+function Skeleton({ className, width, height, style, ...props }: SkeletonProps) {
   return (
     <div
       className={cn('animate-pulse rounded-md bg-muted', className)}
@@ -43,7 +37,7 @@ function Skeleton({
       }}
       {...props}
     />
-  );
+  )
 }
 
 /**
@@ -63,7 +57,7 @@ function SkeletonText({ lines = 1 }: { lines?: number }) {
         />
       ))}
     </div>
-  );
+  )
 }
 
 /**
@@ -74,9 +68,9 @@ function SkeletonAvatar({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
     sm: 'h-8 w-8',
     md: 'h-10 w-10',
     lg: 'h-12 w-12',
-  };
+  }
 
-  return <Skeleton className={cn('rounded-full', sizeClasses[size])} />;
+  return <Skeleton className={cn('rounded-full', sizeClasses[size])} />
 }
 
 /**
@@ -100,7 +94,7 @@ function SkeletonCard() {
       {/* Button */}
       <Skeleton className="mt-4 h-10 w-full" />
     </div>
-  );
+  )
 }
 
 /**
@@ -125,7 +119,7 @@ function SkeletonProductCard() {
         <Skeleton className="h-10 w-10 rounded-full" />
       </div>
     </div>
-  );
+  )
 }
 
 /**
@@ -135,14 +129,10 @@ function SkeletonTableRow({ columns = 4 }: { columns?: number }) {
   return (
     <div className="flex items-center gap-4 border-b py-4">
       {Array.from({ length: columns }).map((_, i) => (
-        <Skeleton
-          key={i}
-          className="h-4"
-          style={{ width: `${100 / columns}%` }}
-        />
+        <Skeleton key={i} className="h-4" style={{ width: `${100 / columns}%` }} />
       ))}
     </div>
-  );
+  )
 }
 
 export {
@@ -152,5 +142,4 @@ export {
   SkeletonCard,
   SkeletonProductCard,
   SkeletonTableRow,
-};
-
+}

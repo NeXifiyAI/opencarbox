@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../../context/AuthContext';
-import AdminLayout from './AdminLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useAuth } from '../../context/AuthContext'
+import AdminLayout from './AdminLayout'
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
+import { Button } from '../../components/ui/button'
+import { Input } from '../../components/ui/input'
 import {
   Table,
   TableBody,
@@ -12,53 +12,57 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
-import { Badge } from '../../components/ui/badge';
-import { Search, Eye, Mail, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
+} from '../../components/ui/table'
+import { Badge } from '../../components/ui/badge'
+import { Search, Eye, Mail, Phone, ChevronLeft, ChevronRight } from 'lucide-react'
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+const API = `${BACKEND_URL}/api`
 
 const AdminCustomers = () => {
-  const { token } = useAuth();
-  const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const { token } = useAuth()
+  const [customers, setCustomers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
-    fetchCustomers();
-  }, [page, search]);
+    fetchCustomers()
+  }, [page, search])
 
   const fetchCustomers = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const params = new URLSearchParams({ page: page.toString(), limit: '20' });
-      if (search) params.append('search', search);
+      const params = new URLSearchParams({ page: page.toString(), limit: '20' })
+      if (search) params.append('search', search)
 
       const response = await axios.get(`${API}/admin/customers?${params}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setCustomers(response.data.customers || []);
-      setTotalPages(response.data.pages || 1);
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      setCustomers(response.data.customers || [])
+      setTotalPages(response.data.pages || 1)
     } catch (error) {
-      console.error('Kunden laden fehlgeschlagen:', error);
+      console.error('Kunden laden fehlgeschlagen:', error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const toggleStatus = async (customerId, currentStatus) => {
     try {
-      await axios.put(`${API}/admin/customers/${customerId}/status?is_active=${!currentStatus}`, null, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      fetchCustomers();
+      await axios.put(
+        `${API}/admin/customers/${customerId}/status?is_active=${!currentStatus}`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      fetchCustomers()
     } catch (error) {
-      alert('Status-Update fehlgeschlagen');
+      alert('Status-Update fehlgeschlagen')
     }
-  };
+  }
 
   return (
     <AdminLayout>
@@ -71,7 +75,7 @@ const AdminCustomers = () => {
         <Card>
           <CardHeader>
             <div className="relative w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <Input
                 placeholder="Kunde suchen..."
                 value={search}
@@ -94,11 +98,13 @@ const AdminCustomers = () => {
               <TableBody>
                 {loading ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8">Laden...</TableCell>
+                    <TableCell colSpan={5} className="py-8 text-center">
+                      Laden...
+                    </TableCell>
                   </TableRow>
                 ) : customers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                    <TableCell colSpan={5} className="py-8 text-center text-gray-500">
                       Keine Kunden gefunden
                     </TableCell>
                   </TableRow>
@@ -107,12 +113,17 @@ const AdminCustomers = () => {
                     <TableRow key={customer.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-[#4fd1c5]/20 flex items-center justify-center text-[#1e3a5f] font-bold">
-                            {customer.first_name?.[0]}{customer.last_name?.[0]}
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/20 font-bold text-[#1e3a5f]">
+                            {customer.first_name?.[0]}
+                            {customer.last_name?.[0]}
                           </div>
                           <div>
-                            <p className="font-medium">{customer.first_name} {customer.last_name}</p>
-                            <p className="text-xs text-gray-500">ID: {customer.id?.slice(0, 8)}...</p>
+                            <p className="font-medium">
+                              {customer.first_name} {customer.last_name}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              ID: {customer.id?.slice(0, 8)}...
+                            </p>
                           </div>
                         </div>
                       </TableCell>
@@ -158,13 +169,25 @@ const AdminCustomers = () => {
               </TableBody>
             </Table>
 
-            <div className="flex items-center justify-between mt-4">
-              <p className="text-sm text-gray-500">Seite {page} von {totalPages}</p>
+            <div className="mt-4 flex items-center justify-between">
+              <p className="text-sm text-gray-500">
+                Seite {page} von {totalPages}
+              </p>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                >
                   <ChevronLeft className="h-4 w-4" /> Zurück
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                >
                   Weiter <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
@@ -173,7 +196,7 @@ const AdminCustomers = () => {
         </Card>
       </div>
     </AdminLayout>
-  );
-};
+  )
+}
 
-export default AdminCustomers;
+export default AdminCustomers

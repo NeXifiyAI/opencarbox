@@ -1,20 +1,14 @@
 /**
  * Supabase Datenbank-Typen
- * 
+ *
  * Diese Datei enthält die TypeScript-Typen für die Supabase-Datenbank.
  * Wird automatisch generiert mit: npx supabase gen types typescript
- * 
+ *
  * Manuelle Typen für das OpenCarBox/Carvantooo Projekt.
  * Diese werden erweitert, sobald die Datenbank-Tabellen erstellt sind.
  */
 
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 /**
  * Datenbank-Schema für OpenCarBox & Carvantooo
@@ -25,7 +19,7 @@ export interface Database {
       // ========================================
       // BENUTZER & AUTHENTIFIZIERUNG
       // ========================================
-      
+
       /** Benutzerprofile (erweitert auth.users) */
       profiles: {
         Row: {
@@ -63,7 +57,7 @@ export interface Database {
       // ========================================
       // FAHRZEUGE (HSN/TSN)
       // ========================================
-      
+
       /** Fahrzeuge für "Meine Garage" */
       vehicles: {
         Row: {
@@ -116,7 +110,7 @@ export interface Database {
       // ========================================
       // E-COMMERCE (CARVANTOOO SHOP)
       // ========================================
-      
+
       /** Produktkategorien */
       categories: {
         Row: {
@@ -279,7 +273,14 @@ export interface Database {
           id: string
           user_id: string | null
           order_number: string
-          status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+          status:
+            | 'pending'
+            | 'confirmed'
+            | 'processing'
+            | 'shipped'
+            | 'delivered'
+            | 'cancelled'
+            | 'refunded'
           payment_status: 'pending' | 'paid' | 'failed' | 'refunded'
           payment_method: string | null
           stripe_payment_intent_id: string | null
@@ -301,7 +302,14 @@ export interface Database {
           id?: string
           user_id?: string | null
           order_number: string
-          status?: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+          status?:
+            | 'pending'
+            | 'confirmed'
+            | 'processing'
+            | 'shipped'
+            | 'delivered'
+            | 'cancelled'
+            | 'refunded'
           payment_status?: 'pending' | 'paid' | 'failed' | 'refunded'
           payment_method?: string | null
           stripe_payment_intent_id?: string | null
@@ -323,7 +331,14 @@ export interface Database {
           id?: string
           user_id?: string | null
           order_number?: string
-          status?: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+          status?:
+            | 'pending'
+            | 'confirmed'
+            | 'processing'
+            | 'shipped'
+            | 'delivered'
+            | 'cancelled'
+            | 'refunded'
           payment_status?: 'pending' | 'paid' | 'failed' | 'refunded'
           payment_method?: string | null
           stripe_payment_intent_id?: string | null
@@ -675,15 +690,15 @@ export interface Database {
 // ========================================
 
 /** Extrahiert den Row-Type einer Tabelle */
-export type Tables<T extends keyof Database['public']['Tables']> = 
+export type Tables<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Row']
 
 /** Extrahiert den Insert-Type einer Tabelle */
-export type TablesInsert<T extends keyof Database['public']['Tables']> = 
+export type TablesInsert<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Insert']
 
 /** Extrahiert den Update-Type einer Tabelle */
-export type TablesUpdate<T extends keyof Database['public']['Tables']> = 
+export type TablesUpdate<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Update']
 
 // Convenience Exports
@@ -698,4 +713,3 @@ export type Appointment = Tables<'appointments'>
 export type VehicleForSale = Tables<'vehicles_for_sale'>
 export type ChatConversation = Tables<'chat_conversations'>
 export type ChatMessage = Tables<'chat_messages'>
-

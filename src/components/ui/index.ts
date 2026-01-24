@@ -9,11 +9,11 @@
  */
 
 // Atoms
-export { Button, buttonVariants } from './button';
-export { Input, type InputProps } from './input';
-export { Badge, badgeVariants, type BadgeProps } from './badge';
-export { Avatar, AvatarImage, AvatarFallback, SimpleAvatar } from './avatar';
-export { Spinner, PageSpinner, LoadingOverlay } from './spinner';
+export { Button, buttonVariants } from './button'
+export { Input, type InputProps } from './input'
+export { Badge, badgeVariants, type BadgeProps } from './badge'
+export { Avatar, AvatarImage, AvatarFallback, SimpleAvatar } from './avatar'
+export { Spinner, PageSpinner, LoadingOverlay } from './spinner'
 export {
   Skeleton,
   SkeletonText,
@@ -21,7 +21,7 @@ export {
   SkeletonCard,
   SkeletonProductCard,
   SkeletonTableRow,
-} from './skeleton';
+} from './skeleton'
 
 // Layout
 export {
@@ -33,17 +33,7 @@ export {
   CardImage,
   CardTitle,
   cardVariants,
-} from './card';
+} from './card'
 
 // Typography
-export {
-  Heading,
-  Text,
-  Lead,
-  Small,
-  Muted,
-  Code,
-  Blockquote,
-  List,
-  InlineCode,
-} from './typography';
+export { Heading, Text, Lead, Small, Muted, Code, Blockquote, List, InlineCode } from './typography'

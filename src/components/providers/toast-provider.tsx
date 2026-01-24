@@ -1,46 +1,46 @@
 /**
  * Toast Provider - Benachrichtigungen
- * 
+ *
  * Stellt globales Toast-System für Benachrichtigungen bereit.
  * Nutzt Sonner für moderne, accessible Toasts.
- * 
+ *
  * @module components/providers/toast-provider
  */
 
-'use client';
+'use client'
 
-import * as React from 'react';
-import { Toaster } from 'sonner';
-import { useTheme } from 'next-themes';
+import * as React from 'react'
+import { Toaster } from 'sonner'
+import { useTheme } from 'next-themes'
 
 /**
  * Toast Provider Props
  */
 interface ToastProviderProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 /**
  * Toast Provider Komponente
- * 
+ *
  * Rendert Sonner Toaster mit Theme-aware Konfiguration.
- * 
+ *
  * @example
  * ```tsx
  * <ToastProvider>
  *   <App />
  * </ToastProvider>
- * 
+ *
  * // Verwendung in Komponenten:
  * import { toast } from 'sonner';
- * 
+ *
  * toast.success('Artikel zum Warenkorb hinzugefügt');
  * toast.error('Fehler beim Laden');
  * toast.info('Termin gebucht');
  * ```
  */
 export function ToastProvider({ children }: ToastProviderProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <>
@@ -66,6 +66,5 @@ export function ToastProvider({ children }: ToastProviderProps) {
         duration={4000}
       />
     </>
-  );
+  )
 }
-

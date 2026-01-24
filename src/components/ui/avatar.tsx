@@ -1,6 +1,6 @@
-import * as React from 'react';
-import * as AvatarPrimitive from '@radix-ui/react-avatar';
-import { cn } from '@/lib/utils';
+import * as React from 'react'
+import * as AvatarPrimitive from '@radix-ui/react-avatar'
+import { cn } from '@/lib/utils'
 
 /**
  * Avatar-Root-Komponente
@@ -11,14 +11,11 @@ const Avatar = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Root
     ref={ref}
-    className={cn(
-      'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
-      className
-    )}
+    className={cn('relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full', className)}
     {...props}
   />
-));
-Avatar.displayName = AvatarPrimitive.Root.displayName;
+))
+Avatar.displayName = AvatarPrimitive.Root.displayName
 
 /**
  * Avatar-Bild-Komponente
@@ -32,8 +29,8 @@ const AvatarImage = React.forwardRef<
     className={cn('aspect-square h-full w-full', className)}
     {...props}
   />
-));
-AvatarImage.displayName = AvatarPrimitive.Image.displayName;
+))
+AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
 /**
  * Avatar-Fallback-Komponente (wird angezeigt wenn kein Bild)
@@ -50,23 +47,23 @@ const AvatarFallback = React.forwardRef<
     )}
     {...props}
   />
-));
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
+))
+AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
 /**
  * Props für den einfachen Avatar-Wrapper
  */
 interface SimpleAvatarProps {
   /** Bild-URL */
-  src?: string;
+  src?: string
   /** Alt-Text für das Bild */
-  alt?: string;
+  alt?: string
   /** Fallback-Text (z.B. Initialen) */
-  fallback: string;
+  fallback: string
   /** Größe des Avatars */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl'
   /** Zusätzliche CSS-Klassen */
-  className?: string;
+  className?: string
 }
 
 /**
@@ -77,7 +74,7 @@ const sizeClasses = {
   md: 'h-10 w-10 text-sm',
   lg: 'h-12 w-12 text-base',
   xl: 'h-16 w-16 text-lg',
-};
+}
 
 /**
  * Vereinfachter Avatar mit eingebautem Fallback.
@@ -90,20 +87,13 @@ const sizeClasses = {
  *   size="lg"
  * />
  */
-function SimpleAvatar({
-  src,
-  alt,
-  fallback,
-  size = 'md',
-  className,
-}: SimpleAvatarProps) {
+function SimpleAvatar({ src, alt, fallback, size = 'md', className }: SimpleAvatarProps) {
   return (
     <Avatar className={cn(sizeClasses[size], className)}>
       <AvatarImage src={src} alt={alt || fallback} />
       <AvatarFallback>{fallback}</AvatarFallback>
     </Avatar>
-  );
+  )
 }
 
-export { Avatar, AvatarImage, AvatarFallback, SimpleAvatar };
-
+export { Avatar, AvatarImage, AvatarFallback, SimpleAvatar }

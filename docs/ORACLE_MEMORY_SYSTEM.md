@@ -11,17 +11,19 @@ Das NeXify Oracle & Memory System ist ein selbst-lernendes Wissensmanagementsyst
 Der Oracle ist die "Denkkomponente" des Systems, die Google Gemini 2.0 Flash Thinking nutzt.
 
 **Funktionen:**
+
 - `think(prompt, context)` - Analysiert Situationen und gibt Empfehlungen
 - `optimizeContext(newKnowledge)` - Erweitert den Oracle-Kontext
 - `ingestLearning(data)` - Verarbeitet neue Erkenntnisse
 
 **Beispiel:**
+
 ```typescript
 import { Oracle } from '@/scripts/core/oracle'
 
 const guidance = await Oracle.think(
-  "Wie implementiere ich Stripe Webhooks sicher?",
-  "Next.js API Routes + TypeScript strict mode"
+  'Wie implementiere ich Stripe Webhooks sicher?',
+  'Next.js API Routes + TypeScript strict mode'
 )
 // → { analysis: "...", recommendation: "...", confidence: 0.95 }
 ```
@@ -31,15 +33,18 @@ const guidance = await Oracle.think(
 Das Memory-System speichert Wissen persistent in Supabase.
 
 **Tabellen:**
+
 - `project_memory` - Best Practices, Anti-Patterns, Wissen
 - `audit_logs` - Protokoll aller Agent-Aktionen
 
 **Funktionen:**
+
 - `remember(params)` - Speichert neue Erkenntnisse
 - `recall(query, filter)` - Ruft Wissen ab
 - `audit(params)` - Protokolliert Aktionen
 
 **Beispiel:**
+
 ```typescript
 import { Memory } from '@/scripts/core/memory'
 
@@ -49,7 +54,7 @@ await Memory.remember({
   category: 'stripe',
   title: 'Webhook Signature Verification',
   content: 'Always verify webhook signatures using Stripe.webhooks.constructEvent(...)',
-  tags: ['stripe', 'security', 'webhooks']
+  tags: ['stripe', 'security', 'webhooks'],
 })
 
 // Wissen abrufen
@@ -60,7 +65,7 @@ await Memory.audit({
   action: 'implement_stripe_webhook',
   resource: 'src/app/api/webhooks/stripe/route.ts',
   status: 'SUCCESS',
-  durationMs: 1234
+  durationMs: 1234,
 })
 ```
 
@@ -86,8 +91,8 @@ graph LR
 ```typescript
 // 1. THINK
 const guidance = await Oracle.think(
-  "Wie implementiere ich User Authentication?",
-  "Supabase Auth + Next.js Middleware"
+  'Wie implementiere ich User Authentication?',
+  'Supabase Auth + Next.js Middleware'
 )
 
 // 2. RECALL
@@ -105,7 +110,7 @@ await Memory.remember({
   category: 'auth',
   title: 'Supabase Auth Middleware Pattern',
   content: guidance.recommendation,
-  tags: ['supabase', 'auth', 'middleware']
+  tags: ['supabase', 'auth', 'middleware'],
 })
 
 // 5. LEARN (Bei Fehler)
@@ -114,7 +119,7 @@ await Memory.remember({
   category: 'auth',
   title: 'Fehler: Auth ohne Cookie-Handling',
   content: `Problem: ${error.message}\nLösung: ${fix}`,
-  tags: ['supabase', 'auth', 'error']
+  tags: ['supabase', 'auth', 'error'],
 })
 
 // 6. UPDATE
@@ -157,19 +162,19 @@ npm run db:studio
 
 ## Memory Types
 
-| Type | Verwendung | Beispiel |
-|------|-----------|----------|
-| `BEST_PRACTICE` | Bewährte Patterns | "RLS immer aktiviert" |
-| `ANTIPATTERN` | Fehler + Lösungen | "Kein any Type verwenden" |
-| `KNOWLEDGE` | Architektur-Wissen | "Drei Verticals: Shop, Werkstatt, Autohandel" |
-| `TODO` | Offene Aufgaben | "Stripe Webhooks implementieren" |
+| Type            | Verwendung         | Beispiel                                      |
+| --------------- | ------------------ | --------------------------------------------- |
+| `BEST_PRACTICE` | Bewährte Patterns  | "RLS immer aktiviert"                         |
+| `ANTIPATTERN`   | Fehler + Lösungen  | "Kein any Type verwenden"                     |
+| `KNOWLEDGE`     | Architektur-Wissen | "Drei Verticals: Shop, Werkstatt, Autohandel" |
+| `TODO`          | Offene Aufgaben    | "Stripe Webhooks implementieren"              |
 
 ## Audit Status
 
-| Status | Bedeutung |
-|--------|-----------|
-| `SUCCESS` | Erfolgreich ausgeführt |
-| `FAILURE` | Fehler aufgetreten |
+| Status    | Bedeutung                      |
+| --------- | ------------------------------ |
+| `SUCCESS` | Erfolgreich ausgeführt         |
+| `FAILURE` | Fehler aufgetreten             |
 | `WARNING` | Warnung (z.B. deprecated code) |
 
 ## Best Practices
@@ -180,7 +185,7 @@ npm run db:studio
 // IMMER zuerst Oracle fragen
 const guidance = await Oracle.think(
   "What's the best approach for [task]?",
-  "Current architecture: [context]"
+  'Current architecture: [context]'
 )
 ```
 
@@ -193,7 +198,7 @@ await Memory.remember({
   category: 'relevant-category',
   title: 'Descriptive Title',
   content: 'Detailed explanation...',
-  tags: ['tag1', 'tag2']
+  tags: ['tag1', 'tag2'],
 })
 ```
 
@@ -206,7 +211,7 @@ await Memory.remember({
   category: 'error-category',
   title: `Error: ${error.name}`,
   content: `Problem: ${error.message}\n\nLösung: ${solution}`,
-  tags: ['error', 'fixed']
+  tags: ['error', 'fixed'],
 })
 
 // Audit Log
@@ -214,7 +219,7 @@ await Memory.audit({
   action: 'fix_bug',
   resource: 'path/to/file.ts',
   status: 'SUCCESS',
-  details: { error: error.message, solution }
+  details: { error: error.message, solution },
 })
 ```
 
@@ -261,7 +266,7 @@ const all = await Memory.recall('*') // Alle abrufen
 // Oder mit Filter
 const filtered = await Memory.recall('query', {
   type: 'BEST_PRACTICE',
-  category: 'stripe'
+  category: 'stripe',
 })
 ```
 

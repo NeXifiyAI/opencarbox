@@ -11,20 +11,21 @@
 
 ## 📋 Legende
 
-| Status | Bedeutung |
-|--------|-----------|
-| ⬜ OFFEN | Task noch nicht begonnen |
-| 🔄 IN ARBEIT | Task wird aktuell bearbeitet |
-| ✅ ERLEDIGT | Task abgeschlossen |
-| 🔍 REVIEW | Task wartet auf Review |
-| ❌ ABGEBROCHEN | Task nicht mehr relevant |
-| ⏸️ PAUSIERT | Task temporär gestoppt |
+| Status         | Bedeutung                    |
+| -------------- | ---------------------------- |
+| ⬜ OFFEN       | Task noch nicht begonnen     |
+| 🔄 IN ARBEIT   | Task wird aktuell bearbeitet |
+| ✅ ERLEDIGT    | Task abgeschlossen           |
+| 🔍 REVIEW      | Task wartet auf Review       |
+| ❌ ABGEBROCHEN | Task nicht mehr relevant     |
+| ⏸️ PAUSIERT    | Task temporär gestoppt       |
 
 ---
 
 ## 🎯 Phase 1: Fundament (Woche 1)
 
 ### TASK-001: Projekt-Initialisierung
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** Keine
@@ -38,6 +39,7 @@
   - [x] .env.example erstellt
 
 ### TASK-002: AI-Agenten-Konfiguration
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** Keine
@@ -48,6 +50,7 @@
   - [x] Alle Vorgaben dokumentiert
 
 ### TASK-003: Dokumentationsstruktur
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-002
@@ -63,6 +66,7 @@
   - [x] /docs/changelog/CHANGELOG.md
 
 ### TASK-004: Design-System-Tokens
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-001
@@ -76,6 +80,7 @@
   - [x] Breakpoints
 
 ### TASK-005: Datenbank-Schema
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-001
@@ -92,6 +97,7 @@
   - [ ] Seed-Daten (Optional)
 
 ### TASK-006: Scripts erstellen
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** MITTEL
 - **Abhängigkeiten:** TASK-001
@@ -106,6 +112,7 @@
 ## 🎨 Phase 2: UI-Komponenten-Bibliothek (Woche 2)
 
 ### TASK-010: shadcn/ui Setup
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-001, TASK-004
@@ -117,6 +124,7 @@
   - [x] globals.css mit CSS-Variablen
 
 ### TASK-011: Atoms - Basis-Komponenten
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-010
@@ -133,6 +141,7 @@
   - [x] Alle dokumentiert (JSDoc)
 
 ### TASK-012: Molecules - Zusammengesetzte Komponenten
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-011
@@ -148,6 +157,7 @@
   - [x] Rating (mit RatingCompact)
 
 ### TASK-013: Organisms - Komplexe Komponenten
+
 - **Status:** 🔄 IN ARBEIT
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-012
@@ -163,6 +173,7 @@
   - [ ] VehicleFinder (HSN/TSN)
 
 ### TASK-014: Storybook Setup
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** MITTEL
 - **Abhängigkeiten:** TASK-011
@@ -178,6 +189,7 @@
 ## 🏗️ Phase 3: Core-Features (Woche 3-5)
 
 ### TASK-020: Multisite-Routing
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-013
@@ -190,6 +202,7 @@
   - [x] Marken-spezifisches Theming pro Bereich
 
 ### TASK-021: Homepage
+
 - **Status:** ✅ ERLEDIGT
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-020, TASK-013
@@ -204,6 +217,7 @@
   - [x] Animationen
 
 ### TASK-022: Shop - Produktkatalog
+
 - **Status:** 🔄 IN ARBEIT
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-020, TASK-005
@@ -219,6 +233,7 @@
   - [ ] "Häufig zusammen gekauft"
 
 ### TASK-023: Shop - HSN/TSN Fahrzeugsuche
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-022
@@ -232,6 +247,7 @@
   - [ ] API-Integration (TecDoc oder eigene)
 
 ### TASK-024: Shop - Warenkorb
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-022
@@ -246,6 +262,7 @@
   - [ ] Persistenz (localStorage)
 
 ### TASK-025: Shop - Checkout
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-024
@@ -261,6 +278,7 @@
   - [ ] Bestellbestätigung
 
 ### TASK-026: Werkstatt - Service-Übersicht
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-020
@@ -273,6 +291,7 @@
   - [ ] Vorher-Nachher Galerie
 
 ### TASK-027: Werkstatt - Terminbuchung
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-026
@@ -287,6 +306,7 @@
   - [ ] E-Mail-Benachrichtigung
 
 ### TASK-028: Autohandel - Fahrzeugkatalog
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** MITTEL
 - **Abhängigkeiten:** TASK-020
@@ -304,6 +324,7 @@
 ## 🔌 Phase 4: Integrationen (Woche 6-7)
 
 ### TASK-030: Stripe Integration
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-025
@@ -316,6 +337,7 @@
   - [ ] Fehlerbehandlung
 
 ### TASK-031: Meilisearch Integration
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-022
@@ -328,6 +350,7 @@
   - [ ] Instant-Search UI
 
 ### TASK-032: Chatbot Integration
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** MITTEL
 - **Abhängigkeiten:** TASK-013
@@ -340,6 +363,7 @@
   - [ ] Fallback zu Live-Chat
 
 ### TASK-033: WhatsApp Integration
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** MITTEL
 - **Abhängigkeiten:** TASK-025, TASK-027
@@ -352,6 +376,7 @@
   - [ ] Template-Messages
 
 ### TASK-034: E-Mail Integration
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-025, TASK-027
@@ -365,6 +390,7 @@
   - [ ] Newsletter-Anmeldung
 
 ### TASK-035: Preisvergleichsportale
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** MITTEL
 - **Abhängigkeiten:** TASK-022, TASK-030
@@ -381,6 +407,7 @@
 ## 👨‍💼 Phase 5: Admin & Polish (Woche 8-9)
 
 ### TASK-040: Admin-Dashboard
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-022, TASK-027
@@ -395,6 +422,7 @@
   - [ ] Content-Management
 
 ### TASK-041: SEO-Optimierung
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** TASK-022, TASK-026, TASK-028
@@ -408,6 +436,7 @@
   - [ ] Open Graph Tags
 
 ### TASK-042: Performance-Optimierung
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** Alle Core-Tasks
@@ -421,6 +450,7 @@
   - [ ] Caching-Strategien
 
 ### TASK-043: Accessibility-Audit
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** HOCH
 - **Abhängigkeiten:** Alle UI-Tasks
@@ -437,6 +467,7 @@
 ## 🚀 Phase 6: Launch (Woche 10)
 
 ### TASK-050: Testing
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** Alle Tasks
@@ -449,6 +480,7 @@
   - [ ] Mobile Tests
 
 ### TASK-051: Staging-Deployment
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-050
@@ -460,6 +492,7 @@
   - [ ] End-to-End getestet
 
 ### TASK-052: Production-Launch
+
 - **Status:** ⬜ OFFEN
 - **Priorität:** KRITISCH
 - **Abhängigkeiten:** TASK-051
@@ -475,21 +508,22 @@
 
 ## 📊 Status-Übersicht
 
-| Phase | Tasks | Erledigt | In Arbeit | Offen |
-|-------|-------|----------|-----------|-------|
-| Phase 1: Fundament | 6 | 5 | 1 | 0 |
-| Phase 2: UI-Komponenten | 5 | 3 | 1 | 1 |
-| Phase 3: Core-Features | 9 | 2 | 1 | 6 |
-| Phase 4: Integrationen | 6 | 0 | 0 | 6 |
-| Phase 5: Admin & Polish | 4 | 0 | 0 | 4 |
-| Phase 6: Launch | 3 | 0 | 0 | 3 |
-| **GESAMT** | **33** | **8** | **1** | **24** |
+| Phase                   | Tasks  | Erledigt | In Arbeit | Offen  |
+| ----------------------- | ------ | -------- | --------- | ------ |
+| Phase 1: Fundament      | 6      | 5        | 1         | 0      |
+| Phase 2: UI-Komponenten | 5      | 3        | 1         | 1      |
+| Phase 3: Core-Features  | 9      | 2        | 1         | 6      |
+| Phase 4: Integrationen  | 6      | 0        | 0         | 6      |
+| Phase 5: Admin & Polish | 4      | 0        | 0         | 4      |
+| Phase 6: Launch         | 3      | 0        | 0         | 3      |
+| **GESAMT**              | **33** | **8**    | **1**     | **24** |
 
 ---
 
 ## 📝 Notizen
 
 ### Wichtige Entscheidungen
+
 - 2024-12-05: Markenarchitektur finalisiert (Carvantooo = Shop, OpenCarBox = Services)
 - 2024-12-05: Tech-Stack festgelegt (Next.js 14, Supabase, Stripe)
 - 2024-12-05: Design-System definiert (Rot-Blau, Premium-Ästhetik)
@@ -498,11 +532,13 @@
 - 2024-12-30: Oracle Self-Optimization System implementiert
 
 ### Risiken
+
 - TecDoc API Zugang muss beantragt werden
 - Stripe Account benötigt Verifizierung
 - WhatsApp Business API erfordert Meta-Genehmigung
 
 ### Offene Fragen
+
 - [ ] Domain-Strategie: opencarbox.at oder carvantooo.at als Hauptdomain?
 - [ ] Welche TecDoc-Alternative falls Zugang verzögert?
 

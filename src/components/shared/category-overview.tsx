@@ -1,10 +1,10 @@
-'use client';
+'use client'
 
-import { type FC } from 'react';
-import { motion } from 'framer-motion';
-import { ShoppingCart, Wrench, Car, ChevronRight } from 'lucide-react';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { type FC } from 'react'
+import { motion } from 'framer-motion'
+import { ShoppingCart, Wrench, Car, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 const categories = [
   {
@@ -13,7 +13,7 @@ const categories = [
     icon: ShoppingCart,
     href: '/shop',
     color: 'carvantooo',
-    features: ['Über 100.000 Teile', 'Schnelle Lieferung', 'Sichere Bezahlung']
+    features: ['Über 100.000 Teile', 'Schnelle Lieferung', 'Sichere Bezahlung'],
   },
   {
     title: 'OpenCarBox Werkstatt',
@@ -21,7 +21,7 @@ const categories = [
     icon: Wrench,
     href: '/werkstatt',
     color: 'opencarbox',
-    features: ['Online-Terminbuchung', 'Faire Preise', 'Herstellervorgaben']
+    features: ['Online-Terminbuchung', 'Faire Preise', 'Herstellervorgaben'],
   },
   {
     title: 'OpenCarBox Autohandel',
@@ -29,23 +29,23 @@ const categories = [
     icon: Car,
     href: '/fahrzeuge',
     color: 'opencarbox',
-    features: ['Geprüfte Qualität', 'Finanzierung möglich', 'Inzahlungnahme']
-  }
-];
+    features: ['Geprüfte Qualität', 'Finanzierung möglich', 'Inzahlungnahme'],
+  },
+]
 
 /**
  * Bereichsübersicht für die Landing Page
  */
 export const CategoryOverview: FC = () => {
   return (
-    <section className="py-24 bg-slate-50 relative overflow-hidden">
+    <section className="relative overflow-hidden bg-slate-50 py-24">
       <div className="container-content relative z-10">
-        <div className="text-center mb-16">
+        <div className="mb-16 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-display font-bold text-slate-900 mb-4"
+            className="mb-4 font-display text-4xl font-bold text-slate-900 md:text-5xl"
           >
             Alles aus einer Hand
           </motion.h2>
@@ -54,13 +54,13 @@ export const CategoryOverview: FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-slate-600 max-w-2xl mx-auto"
+            className="mx-auto max-w-2xl text-xl text-slate-600"
           >
             Egal ob Teile, Service oder Fahrzeugkauf – wir sind Ihr zuverlässiger Partner.
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid gap-8 md:grid-cols-3">
           {categories.map((cat, idx) => (
             <motion.div
               key={cat.title}
@@ -70,35 +70,39 @@ export const CategoryOverview: FC = () => {
               transition={{ delay: idx * 0.1 }}
               className="group"
             >
-              <div className={cn(
-                "card-premium p-8 h-full flex flex-col border-t-4",
-                cat.color === 'carvantooo' ? "border-t-carvantooo-500" : "border-t-opencarbox-500"
-              )}>
-                <div className={cn(
-                  "w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 duration-300",
-                  cat.color === 'carvantooo' ? "bg-carvantooo-50" : "bg-opencarbox-50"
-                )}>
-                  <cat.icon className={cn(
-                    "w-8 h-8",
-                    cat.color === 'carvantooo' ? "text-carvantooo-500" : "text-opencarbox-500"
-                  )} />
+              <div
+                className={cn(
+                  'card-premium flex h-full flex-col border-t-4 p-8',
+                  cat.color === 'carvantooo' ? 'border-t-carvantooo-500' : 'border-t-opencarbox-500'
+                )}
+              >
+                <div
+                  className={cn(
+                    'mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-110',
+                    cat.color === 'carvantooo' ? 'bg-carvantooo-50' : 'bg-opencarbox-50'
+                  )}
+                >
+                  <cat.icon
+                    className={cn(
+                      'h-8 w-8',
+                      cat.color === 'carvantooo' ? 'text-carvantooo-500' : 'text-opencarbox-500'
+                    )}
+                  />
                 </div>
 
-                <h3 className="text-2xl font-display font-bold text-slate-900 mb-3">
-                  {cat.title}
-                </h3>
+                <h3 className="mb-3 font-display text-2xl font-bold text-slate-900">{cat.title}</h3>
 
-                <p className="text-slate-600 mb-6 flex-grow">
-                  {cat.description}
-                </p>
+                <p className="mb-6 flex-grow text-slate-600">{cat.description}</p>
 
-                <ul className="space-y-3 mb-8">
-                  {cat.features.map(feature => (
+                <ul className="mb-8 space-y-3">
+                  {cat.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2 text-sm text-slate-500">
-                      <div className={cn(
-                        "w-1.5 h-1.5 rounded-full",
-                        cat.color === 'carvantooo' ? "bg-carvantooo-500" : "bg-opencarbox-500"
-                      )} />
+                      <div
+                        className={cn(
+                          'h-1.5 w-1.5 rounded-full',
+                          cat.color === 'carvantooo' ? 'bg-carvantooo-500' : 'bg-opencarbox-500'
+                        )}
+                      />
                       {feature}
                     </li>
                   ))}
@@ -107,12 +111,12 @@ export const CategoryOverview: FC = () => {
                 <Link
                   href={cat.href}
                   className={cn(
-                    "inline-flex items-center gap-2 font-bold transition-all group-hover:gap-3",
-                    cat.color === 'carvantooo' ? "text-carvantooo-600" : "text-opencarbox-600"
+                    'inline-flex items-center gap-2 font-bold transition-all group-hover:gap-3',
+                    cat.color === 'carvantooo' ? 'text-carvantooo-600' : 'text-opencarbox-600'
                   )}
                 >
                   Entdecken
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="h-5 w-5" />
                 </Link>
               </div>
             </motion.div>
@@ -120,5 +124,5 @@ export const CategoryOverview: FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

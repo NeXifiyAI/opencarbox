@@ -3,12 +3,14 @@
 ## ✅ Abgeschlossene Setup-Schritte
 
 ### 1. AI Agent Konfiguration
+
 - ✅ `.cursorrules` bereinigt (Credentials entfernt)
 - ✅ `.clinerules` erstellt mit NeXify Blueprint
 - ✅ `.github/copilot-instructions.md` aktualisiert mit Oracle/Memory-System
 - ✅ `.env.example` mit allen benötigten Variablen
 
 ### 2. Oracle & Memory System
+
 - ✅ `scripts/core/oracle.ts` - Google Gemini Integration
 - ✅ `scripts/core/memory.ts` - Supabase Memory & Audit
 - ✅ `scripts/core/sync.ts` - Wiki-Synchronisation
@@ -18,6 +20,7 @@
 - ✅ Migration SQL: `supabase/migrations/003_nexify_memory.sql`
 
 ### 3. Vercel Deployment
+
 - ✅ `vercel.json` konfiguriert:
   - Region: Frankfurt (fra1)
   - Security Headers
@@ -25,6 +28,7 @@
   - Build Commands
 
 ### 4. Environment Variables
+
 - ✅ `.env` mit Production-Werten
 - ✅ `.env.example` als Template
 - ✅ `.gitignore` schützt Credentials
@@ -32,6 +36,7 @@
 ## 🔧 Nächste Schritte (Manuell erforderlich)
 
 ### Supabase Migration ausführen
+
 ```bash
 # Lokale Migrationen anwenden
 npm run db:push
@@ -41,7 +46,9 @@ supabase db push
 ```
 
 ### Vercel Environment Variables setzen
+
 Im Vercel Dashboard folgende Secrets hinzufügen:
+
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `DATABASE_URL`
@@ -50,6 +57,7 @@ Im Vercel Dashboard folgende Secrets hinzufügen:
 - `RESEND_API_KEY` (wenn vorhanden)
 
 ### Oracle/Memory System testen
+
 ```bash
 # Oracle-Test ausführen
 npx tsx scripts/test-oracle.ts
@@ -62,23 +70,25 @@ npm run db:studio
 
 ## 📋 Verwendete Technologien
 
-| Bereich | Technologie | Status |
-|---------|------------|--------|
-| AI Model | Gemini 2.0 Flash Thinking | ✅ Konfiguriert |
-| Memory DB | Supabase PostgreSQL | ✅ Schema erweitert |
-| Deployment | Vercel (Frankfurt) | ✅ Konfiguriert |
-| ORM | Prisma | ✅ Schema aktualisiert |
-| CI/CD | GitHub Actions | ⚠️ Manuell einrichten |
+| Bereich    | Technologie               | Status                 |
+| ---------- | ------------------------- | ---------------------- |
+| AI Model   | Gemini 2.0 Flash Thinking | ✅ Konfiguriert        |
+| Memory DB  | Supabase PostgreSQL       | ✅ Schema erweitert    |
+| Deployment | Vercel (Frankfurt)        | ✅ Konfiguriert        |
+| ORM        | Prisma                    | ✅ Schema aktualisiert |
+| CI/CD      | GitHub Actions            | ⚠️ Manuell einrichten  |
 
 ## 🔒 Sicherheit
 
 ### Credentials Management
+
 - ✅ Alle Secrets nur in `.env` (lokal)
 - ✅ Vercel Environment Variables (Production)
 - ✅ `.cursorrules` enthält KEINE Credentials mehr
 - ✅ `.gitignore` schützt `.env`
 
 ### RLS Policies
+
 - ✅ Row Level Security für `project_memory`
 - ✅ Row Level Security für `audit_logs`
 - ✅ Service Role hat vollen Zugriff
@@ -86,6 +96,7 @@ npm run db:studio
 ## 🤖 AI Agent Workflow
 
 ### Recursive Intelligence Protocol
+
 1. **Think** → `Oracle.think()` vor Code-Änderungen
 2. **Recall** → `Memory.recall()` für vergangene Lösungen
 3. **Execute** → Implementierung
@@ -94,11 +105,12 @@ npm run db:studio
 6. **Update** → Oracle-Kontext aktualisieren
 
 ### Beispiel-Verwendung
+
 ```typescript
 // Vor einer größeren Änderung
 const guidance = await Oracle.think(
-  "How should I implement Stripe webhooks?",
-  "Current architecture uses Next.js API routes"
+  'How should I implement Stripe webhooks?',
+  'Current architecture uses Next.js API routes'
 )
 
 // Nach erfolgreicher Implementierung
@@ -107,7 +119,7 @@ await Memory.remember({
   category: 'stripe',
   title: 'Webhook Signature Verification',
   content: 'Always verify webhook signatures using...',
-  tags: ['stripe', 'security', 'webhooks']
+  tags: ['stripe', 'security', 'webhooks'],
 })
 
 // Bei Fehler
@@ -116,7 +128,7 @@ await Memory.audit({
   resource: 'src/app/api/webhooks/stripe/route.ts',
   status: 'FAILURE',
   errorMessage: error.message,
-  stackTrace: error.stack
+  stackTrace: error.stack,
 })
 ```
 

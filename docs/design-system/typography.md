@@ -25,25 +25,25 @@
 Die Fonts werden über Next.js Font Optimization geladen:
 
 ```typescript
-import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
   variable: '--font-body',
-});
+})
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
   variable: '--font-display',
-});
+})
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
   variable: '--font-mono',
-});
+})
 ```
 
 ---
@@ -56,34 +56,34 @@ Alle Text-Größen verwenden `clamp()` für fluid Typography:
 
 ```css
 /* Extra Small - Labels, Meta-Informationen */
---text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);    /* 12-14px */
+--text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* 12-14px */
 
 /* Small - Sekundärer Text, Captions */
---text-sm:   clamp(0.875rem, 0.8rem + 0.375vw, 1rem);      /* 14-16px */
+--text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem); /* 14-16px */
 
 /* Base - Body Text */
---text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);        /* 16-18px */
+--text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem); /* 16-18px */
 
 /* Large - Wichtige Texte */
---text-lg:   clamp(1.125rem, 1rem + 0.625vw, 1.25rem);     /* 18-20px */
+--text-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem); /* 18-20px */
 
 /* Extra Large - Subheadings */
---text-xl:   clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);      /* 20-24px */
+--text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem); /* 20-24px */
 
 /* 2XL - Section Headings */
---text-2xl:  clamp(1.5rem, 1.25rem + 1.25vw, 2rem);        /* 24-32px */
+--text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem); /* 24-32px */
 
 /* 3XL - Page Headings */
---text-3xl:  clamp(1.875rem, 1.5rem + 1.875vw, 2.5rem);    /* 30-40px */
+--text-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 2.5rem); /* 30-40px */
 
 /* 4XL - Hero Headings */
---text-4xl:  clamp(2.25rem, 1.75rem + 2.5vw, 3rem);        /* 36-48px */
+--text-4xl: clamp(2.25rem, 1.75rem + 2.5vw, 3rem); /* 36-48px */
 
 /* 5XL - Display Headings */
---text-5xl:  clamp(3rem, 2rem + 5vw, 4.5rem);              /* 48-72px */
+--text-5xl: clamp(3rem, 2rem + 5vw, 4.5rem); /* 48-72px */
 
 /* Hero - Massive Headlines */
---text-hero: clamp(3.5rem, 2.5rem + 5vw, 6rem);            /* 56-96px */
+--text-hero: clamp(3.5rem, 2.5rem + 5vw, 6rem); /* 56-96px */
 ```
 
 ---
@@ -103,6 +103,7 @@ letter-spacing: -0.02em;
 ```
 
 **Tailwind Klasse:**
+
 ```tsx
 <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
 ```
@@ -120,6 +121,7 @@ letter-spacing: -0.02em;
 ```
 
 **Tailwind Klasse:**
+
 ```tsx
 <h2 className="text-3xl md:text-4xl font-display font-semibold tracking-tight">
 ```
@@ -136,6 +138,7 @@ line-height: 1.3;
 ```
 
 **Tailwind Klasse:**
+
 ```tsx
 <h3 className="text-2xl md:text-3xl font-display font-semibold">
 ```
@@ -163,6 +166,7 @@ line-height: 1.6;
 ```
 
 **Tailwind Klasse:**
+
 ```tsx
 <p className="text-base font-body leading-relaxed">
 ```
@@ -185,19 +189,18 @@ line-height: 1.5;
 Preise verwenden **JetBrains Mono** für klare, monospace Lesbarkeit:
 
 ```tsx
-<span className="font-mono text-2xl font-bold text-slate-900">
-  {formatPrice(price)}
-</span>
+<span className="font-mono text-2xl font-bold text-slate-900">{formatPrice(price)}</span>
 ```
 
 **Formatierungsfunktion:**
+
 ```typescript
 export function formatPrice(price: number, currency: string = 'EUR'): string {
   return new Intl.NumberFormat('de-AT', {
     style: 'currency',
     currency,
     minimumFractionDigits: 2,
-  }).format(price);
+  }).format(price)
 }
 ```
 
@@ -238,15 +241,15 @@ export function formatPrice(price: number, currency: string = 'EUR'): string {
 
 ## 🎯 Font Weights
 
-| Gewicht | Wert | Verwendung |
-|---------|------|------------|
-| **Thin** | 100 | Nicht verwendet |
-| **Light** | 300 | Subtile Akzente |
-| **Regular** | 400 | Body Text (Standard) |
-| **Medium** | 500 | Betonungen, Links |
-| **Semibold** | 600 | Headings H2-H4 |
-| **Bold** | 700 | H1, CTAs, wichtige Betonungen |
-| **Extra Bold** | 800 | Display Text |
+| Gewicht        | Wert | Verwendung                    |
+| -------------- | ---- | ----------------------------- |
+| **Thin**       | 100  | Nicht verwendet               |
+| **Light**      | 300  | Subtile Akzente               |
+| **Regular**    | 400  | Body Text (Standard)          |
+| **Medium**     | 500  | Betonungen, Links             |
+| **Semibold**   | 600  | Headings H2-H4                |
+| **Bold**       | 700  | H1, CTAs, wichtige Betonungen |
+| **Extra Bold** | 800  | Display Text                  |
 
 ---
 
@@ -331,4 +334,3 @@ Alle Text-Größen skalieren automatisch basierend auf Viewport-Breite:
 ---
 
 **Letzte Aktualisierung:** 2024-12-05
-

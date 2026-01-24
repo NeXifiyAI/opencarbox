@@ -114,13 +114,13 @@ npm run error:search "error message"
 import { Oracle } from '@/scripts/core/oracle'
 
 // Standard Think
-const r = await Oracle.think("Frage?", "Kontext")
+const r = await Oracle.think('Frage?', 'Kontext')
 
 // Mit Memory (empfohlen!)
-const r = await Oracle.thinkWithMemory("Frage?", "Kontext")
+const r = await Oracle.thinkWithMemory('Frage?', 'Kontext')
 
 // Kontext erweitern
-await Oracle.optimizeContext("New knowledge...")
+await Oracle.optimizeContext('New knowledge...')
 
 // Learning speichern
 await Oracle.ingestLearning({ data })
@@ -139,7 +139,7 @@ await Memory.remember({
   category: 'api',
   title: 'Kurztitel',
   content: 'Detaillierte Beschreibung...',
-  tags: ['tag1', 'tag2']
+  tags: ['tag1', 'tag2'],
 })
 
 // Antipattern speichern
@@ -148,7 +148,7 @@ await Memory.remember({
   category: 'security',
   title: 'Was vermeiden',
   content: 'Warum und wie richtig...',
-  tags: ['avoid', 'security']
+  tags: ['avoid', 'security'],
 })
 
 // Wissen abrufen
@@ -158,7 +158,7 @@ const memories = await Memory.recall('suchbegriff')
 await Memory.audit({
   action: 'create_feature',
   resource: 'file.ts',
-  status: 'SUCCESS'
+  status: 'SUCCESS',
 })
 ```
 

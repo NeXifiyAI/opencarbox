@@ -37,7 +37,7 @@
 
 ---
 
-<!-- 
+<!--
 Danke für deinen Beitrag! 🎉
 
 Review-Prozess:

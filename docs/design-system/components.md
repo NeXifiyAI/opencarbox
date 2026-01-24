@@ -22,13 +22,13 @@ Atoms → Molecules → Organisms → Templates → Pages
 
 Primärer Interaktions-Button mit mehreren Varianten.
 
-| Prop | Typ | Default | Beschreibung |
-|------|-----|---------|--------------|
-| `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link' \| 'carvantooo' \| 'opencarbox'` | `'default'` | Visuelle Variante |
-| `size` | `'default' \| 'sm' \| 'lg' \| 'xl' \| 'icon'` | `'default'` | Größe |
-| `isLoading` | `boolean` | `false` | Ladezustand |
-| `leftIcon` | `ReactNode` | - | Icon links |
-| `rightIcon` | `ReactNode` | - | Icon rechts |
+| Prop        | Typ                                                                                                           | Default     | Beschreibung      |
+| ----------- | ------------------------------------------------------------------------------------------------------------- | ----------- | ----------------- |
+| `variant`   | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link' \| 'carvantooo' \| 'opencarbox'` | `'default'` | Visuelle Variante |
+| `size`      | `'default' \| 'sm' \| 'lg' \| 'xl' \| 'icon'`                                                                 | `'default'` | Größe             |
+| `isLoading` | `boolean`                                                                                                     | `false`     | Ladezustand       |
+| `leftIcon`  | `ReactNode`                                                                                                   | -           | Icon links        |
+| `rightIcon` | `ReactNode`                                                                                                   | -           | Icon rechts       |
 
 ```tsx
 <Button variant="carvantooo" size="lg">
@@ -44,24 +44,24 @@ Primärer Interaktions-Button mit mehreren Varianten.
 
 Texteingabefeld mit Label und Fehlerbehandlung.
 
-| Prop | Typ | Beschreibung |
-|------|-----|--------------|
-| `label` | `string` | Beschriftung |
-| `error` | `string` | Fehlermeldung |
-| `helperText` | `string` | Hilfstext |
+| Prop         | Typ      | Beschreibung  |
+| ------------ | -------- | ------------- |
+| `label`      | `string` | Beschriftung  |
+| `error`      | `string` | Fehlermeldung |
+| `helperText` | `string` | Hilfstext     |
 
 ### Badge
 
 Status- und Kategorie-Anzeige.
 
-| Variant | Verwendung |
-|---------|------------|
-| `default` | Standard |
-| `success` | Erfolg, Verfügbar |
-| `warning` | Warnung, Wenige |
-| `error` | Fehler, Ausverkauft |
-| `carvantooo` | Shop-Kontext |
-| `opencarbox` | Service-Kontext |
+| Variant      | Verwendung          |
+| ------------ | ------------------- |
+| `default`    | Standard            |
+| `success`    | Erfolg, Verfügbar   |
+| `warning`    | Warnung, Wenige     |
+| `error`      | Fehler, Ausverkauft |
+| `carvantooo` | Shop-Kontext        |
+| `opencarbox` | Service-Kontext     |
 
 ### Avatar
 
@@ -84,11 +84,7 @@ Platzhalter während des Ladens.
 Suchfeld mit HSN/TSN-Unterstützung.
 
 ```tsx
-<SearchBar 
-  placeholder="Suche nach Ersatzteilen..."
-  onSearch={handleSearch}
-  showHsnTsn
-/>
+<SearchBar placeholder="Suche nach Ersatzteilen..." onSearch={handleSearch} showHsnTsn />
 ```
 
 ### ProductCard
@@ -96,11 +92,7 @@ Suchfeld mit HSN/TSN-Unterstützung.
 Produktdarstellung im Grid.
 
 ```tsx
-<ProductCard
-  product={product}
-  onAddToCart={handleAdd}
-  showCompatibility
-/>
+<ProductCard product={product} onAddToCart={handleAdd} showCompatibility />
 ```
 
 ### ServiceCard
@@ -116,11 +108,7 @@ Fahrzeug-Darstellung (Autohandel).
 Preisanzeige mit Währung und UVP.
 
 ```tsx
-<PriceDisplay
-  price={49.99}
-  originalPrice={69.99}
-  currency="EUR"
-/>
+<PriceDisplay price={49.99} originalPrice={69.99} currency="EUR" />
 ```
 
 ### FormField
@@ -178,10 +166,7 @@ Termin-Buchungsformular.
 HSN/TSN-Fahrzeugsuche mit Autocomplete.
 
 ```tsx
-<VehicleFinder
-  onVehicleSelect={handleSelect}
-  showSaveToGarage
-/>
+<VehicleFinder onVehicleSelect={handleSelect} showSaveToGarage />
 ```
 
 ---
@@ -209,17 +194,13 @@ HSN/TSN-Fahrzeugsuche mit Autocomplete.
 ```tsx
 <div className="container">
   <Header variant="shop" />
-  
+
   <main className="py-12">
     <VehicleFinder onVehicleSelect={setVehicle} />
-    
-    <ProductGrid
-      products={products}
-      filters={filters}
-      onFilterChange={setFilters}
-    />
+
+    <ProductGrid products={products} filters={filters} onFilterChange={setFilters} />
   </main>
-  
+
   <Footer />
 </div>
 ```
@@ -229,12 +210,12 @@ HSN/TSN-Fahrzeugsuche mit Autocomplete.
 ```tsx
 <div className="container">
   <Header variant="werkstatt" />
-  
+
   <main className="py-12">
     <ServiceList services={services} />
     <BookingWidget serviceId={selectedService} />
   </main>
-  
+
   <Footer />
 </div>
 ```
@@ -253,4 +234,3 @@ Alle Komponenten erfüllen WCAG 2.1 AA:
 ---
 
 **Letzte Aktualisierung:** 2024-12-05
-

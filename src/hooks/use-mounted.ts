@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
 /**
  * Gibt zurück, ob die Komponente gemountet ist.
@@ -17,12 +17,11 @@ import { useState, useEffect } from 'react';
  * return <ClientOnlyComponent />;
  */
 export function useMounted(): boolean {
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
-  return mounted;
+  return mounted
 }
-

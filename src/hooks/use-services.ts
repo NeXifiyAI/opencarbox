@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase/client';
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/lib/supabase/client'
 
 /**
  * Hook zum Laden von Services aus Supabase
@@ -13,12 +13,12 @@ export function useServices() {
         .from('services')
         .select('*')
         .eq('is_active', true)
-        .order('sort_order', { ascending: true });
+        .order('sort_order', { ascending: true })
 
-      if (error) throw error;
-      return data;
+      if (error) throw error
+      return data
     },
-  });
+  })
 }
 
 /**
@@ -30,15 +30,11 @@ export function useServiceBySlug(slug: string) {
   return useQuery({
     queryKey: ['service', slug],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('services')
-        .select('*')
-        .eq('slug', slug)
-        .single();
+      const { data, error } = await supabase.from('services').select('*').eq('slug', slug).single()
 
-      if (error) throw error;
-      return data;
+      if (error) throw error
+      return data
     },
     enabled: !!slug,
-  });
+  })
 }

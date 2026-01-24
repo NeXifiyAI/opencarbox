@@ -4,10 +4,7 @@
     "startedAt": "2025-12-30T13:53:32.420Z",
     "lastActivity": "2025-12-30T14:05:10.368Z",
     "tasksCompleted": 1,
-    "tasksInProgress": [
-      "task_1767102833989_92adfb",
-      "task_1767103361038_su9yo"
-    ],
+    "tasksInProgress": ["task_1767102833989_92adfb", "task_1767103361038_su9yo"],
     "currentContext": ""
   },
   "taskQueue": [

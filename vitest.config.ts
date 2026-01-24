@@ -6,14 +6,14 @@ import path from 'path'
  * ============================================================
  * Vitest Konfiguration
  * ============================================================
- * 
+ *
  * Dokumentation: https://vitest.dev/config/
- * 
+ *
  * Ausführen:
  *   pnpm test           # Alle Tests
  *   pnpm test:ui        # Mit UI
  *   pnpm test:coverage  # Mit Coverage
- * 
+ *
  * ============================================================
  */
 
@@ -22,17 +22,17 @@ export default defineConfig({
   test: {
     // Test Environment
     environment: 'jsdom',
-    
+
     // Globals (describe, it, expect)
     globals: true,
-    
+
     // Setup-Datei
     setupFiles: ['./vitest.setup.ts'],
-    
+
     // Test-Dateien
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
     exclude: ['node_modules', '.next', 'e2e'],
-    
+
     // Coverage
     coverage: {
       provider: 'v8',
@@ -52,7 +52,7 @@ export default defineConfig({
         lines: 60,
       },
     },
-    
+
     // Reporter
     reporters: ['verbose'],
   },

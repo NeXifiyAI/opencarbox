@@ -223,16 +223,16 @@
 
 ## 📊 Statistiken
 
-| Metrik | Wert |
-|--------|------|
-| **Tabellen** | 12 |
-| **Storage Buckets** | 6 |
-| **Migrationen** | 4 |
-| **TypeScript-Dateien** | 8 |
-| **Dokumentations-Seiten** | 7 |
-| **Tasks erledigt** | 3/33 (9%) |
-| **Tasks in Arbeit** | 3/33 (9%) |
-| **Tasks offen** | 27/33 (82%) |
+| Metrik                    | Wert        |
+| ------------------------- | ----------- |
+| **Tabellen**              | 12          |
+| **Storage Buckets**       | 6           |
+| **Migrationen**           | 4           |
+| **TypeScript-Dateien**    | 8           |
+| **Dokumentations-Seiten** | 7           |
+| **Tasks erledigt**        | 3/33 (9%)   |
+| **Tasks in Arbeit**       | 3/33 (9%)   |
+| **Tasks offen**           | 27/33 (82%) |
 
 ---
 

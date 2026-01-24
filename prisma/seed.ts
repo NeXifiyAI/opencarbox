@@ -1,22 +1,22 @@
 /**
  * Prisma Seed Script
  * ==================
- * 
+ *
  * Erstellt Test- und Demo-Daten für Entwicklung.
- * 
+ *
  * Ausführen mit: npx prisma db seed
  */
 
-import { PrismaClient, UserRole, CustomerType, OrderStatus, PaymentStatus } from '@prisma/client';
+import { PrismaClient, UserRole, CustomerType, OrderStatus, PaymentStatus } from '@prisma/client'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  console.log('🌱 Seeding database...')
 
   // 1. Test-Benutzer erstellen
-  console.log('Creating users...');
-  
+  console.log('Creating users...')
+
   const testCustomer = await prisma.user.upsert({
     where: { email: 'kunde@test.de' },
     update: {},
@@ -29,7 +29,7 @@ async function main() {
       newsletter: true,
       language: 'de',
     },
-  });
+  })
 
   const testB2BCustomer = await prisma.user.upsert({
     where: { email: 'firma@test.de' },
@@ -44,7 +44,7 @@ async function main() {
       newsletter: false,
       language: 'de',
     },
-  });
+  })
 
   const admin = await prisma.user.upsert({
     where: { email: 'admin@opencarbox.at' },
@@ -55,12 +55,12 @@ async function main() {
       role: UserRole.ADMIN,
       customerType: CustomerType.B2B,
     },
-  });
+  })
 
-  console.log(`✓ Created ${3} users`);
+  console.log(`✓ Created ${3} users`)
 
   // 2. Kategorien erstellen
-  console.log('Creating categories...');
+  console.log('Creating categories...')
 
   const categoryBremsbelaege = await prisma.category.upsert({
     where: { slug: 'bremsbelaege' },
@@ -72,7 +72,7 @@ async function main() {
       sortOrder: 1,
       isActive: true,
     },
-  });
+  })
 
   const categoryOelfilter = await prisma.category.upsert({
     where: { slug: 'oelfilter' },
@@ -84,7 +84,7 @@ async function main() {
       sortOrder: 2,
       isActive: true,
     },
-  });
+  })
 
   const categoryLuftfilter = await prisma.category.upsert({
     where: { slug: 'luftfilter' },
@@ -96,12 +96,12 @@ async function main() {
       sortOrder: 3,
       isActive: true,
     },
-  });
+  })
 
-  console.log(`✓ Created ${3} categories`);
+  console.log(`✓ Created ${3} categories`)
 
   // 3. Produkte erstellen
-  console.log('Creating products...');
+  console.log('Creating products...')
 
   const product1 = await prisma.product.upsert({
     where: { sku: 'BRK-001' },
@@ -110,7 +110,8 @@ async function main() {
       sku: 'BRK-001',
       name: 'Premium Bremsbeläge Vorne',
       slug: 'premium-bremsbelaege-vorne',
-      description: 'Hochwertige Bremsbeläge für die Vorderachse. Geringe Staubentwicklung, optimale Bremsleistung.',
+      description:
+        'Hochwertige Bremsbeläge für die Vorderachse. Geringe Staubentwicklung, optimale Bremsleistung.',
       price: 89.99,
       comparePrice: 119.99,
       stock: 25,
@@ -120,7 +121,7 @@ async function main() {
       isActive: true,
       isFeatured: true,
     },
-  });
+  })
 
   const product2 = await prisma.product.upsert({
     where: { sku: 'OEL-001' },
@@ -138,7 +139,7 @@ async function main() {
       isActive: true,
       isFeatured: false,
     },
-  });
+  })
 
   const product3 = await prisma.product.upsert({
     where: { sku: 'LFT-001' },
@@ -157,12 +158,12 @@ async function main() {
       isActive: true,
       isFeatured: true,
     },
-  });
+  })
 
-  console.log(`✓ Created ${3} products`);
+  console.log(`✓ Created ${3} products`)
 
   // 4. Fahrzeuge erstellen
-  console.log('Creating vehicles...');
+  console.log('Creating vehicles...')
 
   const vehicle1 = await prisma.vehicle.create({
     data: {
@@ -177,12 +178,12 @@ async function main() {
       nickname: 'Mein Golf',
       mileage: 85000,
     },
-  });
+  })
 
-  console.log(`✓ Created ${1} vehicle`);
+  console.log(`✓ Created ${1} vehicle`)
 
   // 5. Service-Kategorien erstellen
-  console.log('Creating service categories...');
+  console.log('Creating service categories...')
 
   const serviceCategory = await prisma.serviceCategory.upsert({
     where: { slug: 'inspektion' },
@@ -193,10 +194,10 @@ async function main() {
       description: 'Regelmäßige Inspektionen und Wartungsarbeiten',
       sortOrder: 1,
     },
-  });
+  })
 
   // 6. Services erstellen
-  console.log('Creating services...');
+  console.log('Creating services...')
 
   const service1 = await prisma.service.upsert({
     where: { slug: 'service-gross' },
@@ -212,18 +213,18 @@ async function main() {
       durationMinutes: 120,
       isActive: true,
     },
-  });
+  })
 
-  console.log(`✓ Created ${1} service`);
+  console.log(`✓ Created ${1} service`)
 
-  console.log('✅ Seeding completed successfully!');
+  console.log('✅ Seeding completed successfully!')
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error seeding database:', e);
-    process.exit(1);
+    console.error('❌ Error seeding database:', e)
+    process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect();
-  });
+    await prisma.$disconnect()
+  })

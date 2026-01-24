@@ -67,6 +67,7 @@ gh run rerun <run-id> --debug
 ### Build Failing
 
 **Error:** `Module not found`
+
 ```bash
 # Add missing dependency
 pnpm add <package-name>
@@ -80,11 +81,12 @@ git commit -m "fix: add missing dependency"
 ```
 
 **Error:** `Build timeout`
+
 ```yaml
 # Increase timeout in workflow
 jobs:
   build:
-    timeout-minutes: 20  # Increase from 15
+    timeout-minutes: 20 # Increase from 15
 ```
 
 ### Cache Issues
@@ -183,11 +185,13 @@ gh secret set SECRET_NAME
 ### Enable Debug Logging
 
 **Option 1: Re-run with debug**
+
 ```
 Actions tab → Run → Re-run jobs → Enable debug logging
 ```
 
 **Option 2: Add to workflow**
+
 ```yaml
 env:
   ACTIONS_STEP_DEBUG: true
@@ -298,6 +302,7 @@ gh run download <run-id>
 ### Speed Up Builds
 
 1. **Use caching**
+
 ```yaml
 - uses: actions/cache@v4
   with:
@@ -306,6 +311,7 @@ gh run download <run-id>
 ```
 
 2. **Parallel jobs**
+
 ```yaml
 jobs:
   lint:
@@ -315,12 +321,14 @@ jobs:
 ```
 
 3. **Fail fast**
+
 ```yaml
 strategy:
   fail-fast: true
 ```
 
 4. **Cancel in-progress**
+
 ```yaml
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -485,4 +493,4 @@ done
 
 ---
 
-*Need help? Check the [full documentation](.github/workflows/README.md)*
+_Need help? Check the [full documentation](.github/workflows/README.md)_

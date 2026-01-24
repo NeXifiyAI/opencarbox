@@ -95,4 +95,3 @@ und dieses Projekt hält sich an [Semantic Versioning](https://semver.org/lang/d
 ---
 
 **Letzte Aktualisierung:** 2024-12-05
-

@@ -106,18 +106,22 @@ Nach Anwendung der Migrationen sollten folgende Tabellen existieren:
 RLS ist für alle Tabellen aktiviert. Policies:
 
 ### Profiles
+
 - Jeder kann sein eigenes Profil lesen/updaten
 - Nur Service Role kann Profile erstellen/löschen
 
 ### Products
+
 - Öffentlich lesbar
 - Nur Admin kann erstellen/updaten/löschen
 
 ### Orders
+
 - User kann nur eigene Bestellungen sehen
 - Admin kann alle Bestellungen sehen
 
 ### Appointments
+
 - User kann nur eigene Termine sehen
 - Admin kann alle Termine sehen
 
@@ -128,45 +132,35 @@ RLS ist für alle Tabellen aktiviert. Policies:
 ### Browser-Side (Client Components)
 
 ```typescript
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client'
 
-const supabase = createClient();
-const { data, error } = await supabase
-  .from('products')
-  .select('*')
-  .limit(10);
+const supabase = createClient()
+const { data, error } = await supabase.from('products').select('*').limit(10)
 ```
 
 ### Server-Side (Server Components)
 
 ```typescript
-import { createClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 
-const supabase = createClient(cookies());
-const { data, error } = await supabase
-  .from('orders')
-  .select('*')
-  .eq('user_id', userId);
+const supabase = createClient(cookies())
+const { data, error } = await supabase.from('orders').select('*').eq('user_id', userId)
 ```
 
 ### Server Actions
 
 ```typescript
-'use server';
+'use server'
 
-import { createClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 
 export async function createOrder(orderData: OrderInput) {
-  const supabase = createClient(cookies());
-  const { data, error } = await supabase
-    .from('orders')
-    .insert(orderData)
-    .select()
-    .single();
+  const supabase = createClient(cookies())
+  const { data, error } = await supabase.from('orders').insert(orderData).select().single()
 
-  return { data, error };
+  return { data, error }
 }
 ```
 

@@ -9,16 +9,16 @@
  */
 
 // Suche
-export { SearchBar } from './search-bar';
+export { SearchBar } from './search-bar'
 
 // Karten
-export { ProductCard } from './product-card';
-export { ServiceCard } from './service-card';
+export { ProductCard } from './product-card'
+export { ServiceCard } from './service-card'
 
 // Preis & Bewertung
-export { PriceCompact, PriceDisplay } from './price-display';
-export { Rating, RatingCompact } from './rating';
+export { PriceCompact, PriceDisplay } from './price-display'
+export { Rating, RatingCompact } from './rating'
 
 // Landing Page Components
-export { CategoryOverview } from './category-overview';
-export { Hero } from './hero';
+export { CategoryOverview } from './category-overview'
+export { Hero } from './hero'

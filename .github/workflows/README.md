@@ -9,11 +9,13 @@ This document describes the GitHub Actions workflows configured for this reposit
 **Purpose:** Primary continuous integration and deployment pipeline
 
 **Triggers:**
+
 - Push to `main` and `develop` branches
 - Pull requests to `main` and `develop`
 - Manual workflow dispatch
 
 **Jobs:**
+
 1. **Setup** - Installs dependencies with caching
 2. **Lint** - Runs ESLint and format checks
 3. **TypeCheck** - Validates TypeScript types
@@ -25,6 +27,7 @@ This document describes the GitHub Actions workflows configured for this reposit
 9. **Quality Gate** - Final validation that all checks passed
 
 **Best Practices:**
+
 - Uses dependency caching for faster builds
 - Parallel job execution for speed
 - Proper timeout configuration
@@ -35,10 +38,12 @@ This document describes the GitHub Actions workflows configured for this reposit
 **Purpose:** Monitors workflow health and creates alerts
 
 **Triggers:**
+
 - Scheduled: Every 6 hours
 - Manual workflow dispatch
 
 **Features:**
+
 - Analyzes success rates of recent workflow runs
 - Creates GitHub issues for poor health (< 75% success rate)
 - Provides detailed statistics and recommendations
@@ -48,9 +53,11 @@ This document describes the GitHub Actions workflows configured for this reposit
 **Purpose:** Automatically retries workflows that fail due to transient errors
 
 **Triggers:**
+
 - When CI/CD Pipeline completes with failure
 
 **Features:**
+
 - Detects transient failures (timeouts, network issues, rate limits)
 - Automatically retries up to 2 times
 - Creates issue after max retries exceeded
@@ -60,6 +67,7 @@ This document describes the GitHub Actions workflows configured for this reposit
 **Purpose:** High-performance CI pipeline with advanced caching
 
 **Features:**
+
 - Matrix-based parallel execution
 - Shared dependency caching
 - Next.js build cache optimization
@@ -70,10 +78,12 @@ This document describes the GitHub Actions workflows configured for this reposit
 **Purpose:** Automated quality assurance checks
 
 **Triggers:**
+
 - Push to main/develop
 - Pull requests to main
 
 **Features:**
+
 - Code quality checks (lint, types, format)
 - Build validation
 - Unit and E2E tests
@@ -85,6 +95,7 @@ This document describes the GitHub Actions workflows configured for this reposit
 **Purpose:** Security vulnerability scanning
 
 **Features:**
+
 - Dependency audit
 - Security best practices validation
 
@@ -93,10 +104,12 @@ This document describes the GitHub Actions workflows configured for this reposit
 **Purpose:** Automated deployment and infrastructure optimization
 
 **Triggers:**
+
 - Push to main
 - Manual deployment
 
 **Features:**
+
 - Vercel deployment
 - Knowledge sync
 - Failure notifications
@@ -137,6 +150,7 @@ Alerts are created as GitHub issues when health drops below 75%.
 ### Auto-Retry System
 
 Failed workflows are automatically retried if:
+
 - Failure is due to transient error (network, timeout, rate limit)
 - Less than 3 retry attempts have been made
 
@@ -176,7 +190,7 @@ After 3 failed attempts, an issue is created for manual investigation.
 
 1. **View workflow runs:** Go to Actions tab in GitHub
 2. **Check logs:** Click on failed workflow run → failed job → step
-3. **Re-run with debug logging:** 
+3. **Re-run with debug logging:**
    - Go to workflow run
    - Click "Re-run jobs" → "Enable debug logging"
 4. **Manual trigger:** Use "Run workflow" button for testing
@@ -202,6 +216,7 @@ After 3 failed attempts, an issue is created for manual investigation.
 #### Parallel Execution
 
 Jobs that don't depend on each other run in parallel:
+
 - Lint, TypeCheck, Security can run together
 - Tests run parallel to build (where possible)
 
@@ -210,6 +225,7 @@ Jobs that don't depend on each other run in parallel:
 ### Secrets Management
 
 Required secrets:
+
 - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
 - `VERCEL_TOKEN` - Vercel deployment token
@@ -219,6 +235,7 @@ Required secrets:
 ### Permissions
 
 Workflows use minimal required permissions:
+
 ```yaml
 permissions:
   contents: read
@@ -240,17 +257,20 @@ Track these metrics for CI/CD health:
 ## 🔄 Maintenance Schedule
 
 ### Weekly Tasks
+
 - Review workflow health check reports
 - Update dependencies via Dependabot PRs
 - Check for GitHub Actions updates
 
 ### Monthly Tasks
+
 - Review and optimize workflow performance
 - Update documentation
 - Audit secrets and permissions
 - Review disabled workflows for potential re-enabling
 
 ### Quarterly Tasks
+
 - Security audit of all workflows
 - Review and update best practices
 - Major version updates for actions

@@ -195,15 +195,15 @@
 
 ### Rendering-Strategien
 
-| Seitentyp | Strategie | Revalidierung |
-|-----------|-----------|---------------|
-| Homepage | ISR | 60 Sekunden |
-| Produktliste | ISR | 60 Sekunden |
-| Produktdetail | ISR | 30 Sekunden |
-| Warenkorb | CSR | - |
-| Checkout | CSR | - |
-| Admin | CSR | - |
-| Service-Seiten | SSG | Build-Time |
+| Seitentyp      | Strategie | Revalidierung |
+| -------------- | --------- | ------------- |
+| Homepage       | ISR       | 60 Sekunden   |
+| Produktliste   | ISR       | 60 Sekunden   |
+| Produktdetail  | ISR       | 30 Sekunden   |
+| Warenkorb      | CSR       | -             |
+| Checkout       | CSR       | -             |
+| Admin          | CSR       | -             |
+| Service-Seiten | SSG       | Build-Time    |
 
 ### Caching
 
@@ -325,4 +325,3 @@ src/
 ---
 
 **Letzte Aktualisierung:** 2024-12-05
-

@@ -1,7 +1,7 @@
 /**
  * Config Loader
  * =============
- * 
+ *
  * Lädt und validiert die project.config.ts
  */
 
@@ -54,7 +54,7 @@ export function getProjectInfo() {
  */
 export function generateCssVariables(): string {
   const { colors } = getConfig().theme
-  
+
   return `
     :root {
       --color-primary: ${colors.primary};

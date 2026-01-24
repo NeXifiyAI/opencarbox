@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase/client';
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/lib/supabase/client'
 
 /**
  * Hook zum Laden von Produkten aus Supabase
@@ -12,25 +12,27 @@ export function useProducts(categorySlug?: string) {
     queryFn: async () => {
       let query = supabase
         .from('products')
-        .select(`
+        .select(
+          `
           *,
           categories (
             name,
             slug
           )
-        `)
-        .eq('is_active', true);
+        `
+        )
+        .eq('is_active', true)
 
       if (categorySlug) {
-        query = query.eq('categories.slug', categorySlug);
+        query = query.eq('categories.slug', categorySlug)
       }
 
-      const { data, error } = await query.order('created_at', { ascending: false });
+      const { data, error } = await query.order('created_at', { ascending: false })
 
-      if (error) throw error;
-      return data;
+      if (error) throw error
+      return data
     },
-  });
+  })
 }
 
 /**
@@ -44,19 +46,21 @@ export function useProductBySlug(slug: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select(`
+        .select(
+          `
           *,
           categories (
             name,
             slug
           )
-        `)
+        `
+        )
         .eq('slug', slug)
-        .single();
+        .single()
 
-      if (error) throw error;
-      return data;
+      if (error) throw error
+      return data
     },
     enabled: !!slug,
-  });
+  })
 }

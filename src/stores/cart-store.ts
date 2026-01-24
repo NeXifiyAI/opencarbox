@@ -1,24 +1,24 @@
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 /**
  * Warenkorb-Artikel Interface
  */
 interface CartItem {
   /** Produkt-ID */
-  id: string;
+  id: string
   /** Produktname */
-  name: string;
+  name: string
   /** Einzelpreis in Euro */
-  price: number;
+  price: number
   /** Menge */
-  quantity: number;
+  quantity: number
   /** Bild-URL */
-  image?: string;
+  image?: string
   /** Produkt-Slug für Links */
-  slug: string;
+  slug: string
   /** SKU / Artikelnummer */
-  sku?: string;
+  sku?: string
 }
 
 /**
@@ -26,33 +26,33 @@ interface CartItem {
  */
 interface CartState {
   /** Alle Artikel im Warenkorb */
-  items: CartItem[];
+  items: CartItem[]
   /** Ist der Warenkorb offen (Mini-Cart)? */
-  isOpen: boolean;
+  isOpen: boolean
 
   // Actions
   /** Artikel hinzufügen oder Menge erhöhen */
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
+  addItem: (item: Omit<CartItem, 'quantity'>) => void
   /** Artikel entfernen */
-  removeItem: (id: string) => void;
+  removeItem: (id: string) => void
   /** Menge eines Artikels ändern */
-  updateQuantity: (id: string, quantity: number) => void;
+  updateQuantity: (id: string, quantity: number) => void
   /** Warenkorb leeren */
-  clearCart: () => void;
+  clearCart: () => void
   /** Mini-Cart öffnen/schließen */
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: (isOpen: boolean) => void
 
   // Computed Values (als Properties für einfache Verwendung)
   /** Gesamtanzahl der Artikel */
-  itemCount: number;
+  itemCount: number
   /** Gesamtpreis aller Artikel */
-  totalPrice: number;
+  totalPrice: number
 
   // Legacy Getter-Funktionen (für Abwärtskompatibilität)
   /** Gesamtanzahl der Artikel */
-  getTotalItems: () => number;
+  getTotalItems: () => number
   /** Gesamtpreis aller Artikel */
-  getTotalPrice: () => number;
+  getTotalPrice: () => number
 }
 
 /**
@@ -75,15 +75,15 @@ export const useCartStore = create<CartState>()(
 
       // Computed values als getter-Properties
       get itemCount() {
-        return get().items.reduce((total, item) => total + item.quantity, 0);
+        return get().items.reduce((total, item) => total + item.quantity, 0)
       },
       get totalPrice() {
-        return get().items.reduce((total, item) => total + item.price * item.quantity, 0);
+        return get().items.reduce((total, item) => total + item.price * item.quantity, 0)
       },
 
       addItem: (item) => {
         set((state) => {
-          const existingItem = state.items.find((i) => i.id === item.id);
+          const existingItem = state.items.find((i) => i.id === item.id)
 
           if (existingItem) {
             // Menge erhöhen
@@ -91,52 +91,47 @@ export const useCartStore = create<CartState>()(
               items: state.items.map((i) =>
                 i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
               ),
-            };
+            }
           }
 
           // Neuen Artikel hinzufügen
           return {
             items: [...state.items, { ...item, quantity: 1 }],
-          };
-        });
+          }
+        })
       },
 
       removeItem: (id) => {
         set((state) => ({
           items: state.items.filter((item) => item.id !== id),
-        }));
+        }))
       },
 
       updateQuantity: (id, quantity) => {
         if (quantity <= 0) {
-          get().removeItem(id);
-          return;
+          get().removeItem(id)
+          return
         }
 
         set((state) => ({
-          items: state.items.map((item) =>
-            item.id === id ? { ...item, quantity } : item
-          ),
-        }));
+          items: state.items.map((item) => (item.id === id ? { ...item, quantity } : item)),
+        }))
       },
 
       clearCart: () => {
-        set({ items: [] });
+        set({ items: [] })
       },
 
       setIsOpen: (isOpen) => {
-        set({ isOpen });
+        set({ isOpen })
       },
 
       getTotalItems: () => {
-        return get().items.reduce((total, item) => total + item.quantity, 0);
+        return get().items.reduce((total, item) => total + item.quantity, 0)
       },
 
       getTotalPrice: () => {
-        return get().items.reduce(
-          (total, item) => total + item.price * item.quantity,
-          0
-        );
+        return get().items.reduce((total, item) => total + item.price * item.quantity, 0)
       },
     }),
     {
@@ -146,4 +141,4 @@ export const useCartStore = create<CartState>()(
       partialize: (state) => ({ items: state.items }),
     }
   )
-);
+)

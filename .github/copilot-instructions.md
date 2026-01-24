@@ -7,6 +7,7 @@ applyTo: '**'
 ## Architektur-Überblick
 
 **Multi-Site-Plattform** mit zwei Marken auf einer Codebasis:
+
 - **OpenCarBox** (Blau): Werkstatt + Autohandel → `/werkstatt/*`, `/fahrzeuge/*`
 - **Carvantooo** (Rot): Online-Shop → `/shop/*`
 
@@ -24,7 +25,9 @@ Brand wird per Middleware in [src/middleware.ts](../src/middleware.ts) aus dem U
 ```typescript
 import { isFeatureEnabled, getConfig } from '@/config'
 
-if (isFeatureEnabled('payments')) { /* ... */ }
+if (isFeatureEnabled('payments')) {
+  /* ... */
+}
 const colors = getConfig().theme.colors
 ```
 
@@ -42,12 +45,12 @@ const supabase = createClient()
 
 ## Data-Fetching Patterns
 
-| Kontext | Pattern | Beispiel |
-|---------|---------|----------|
-| Server Component | Direct Supabase | `const { data } = await supabase.from('products').select()` |
+| Kontext          | Pattern             | Beispiel                                                                    |
+| ---------------- | ------------------- | --------------------------------------------------------------------------- |
+| Server Component | Direct Supabase     | `const { data } = await supabase.from('products').select()`                 |
 | Client Component | TanStack Query Hook | `useProducts()` → [src/hooks/use-products.ts](../src/hooks/use-products.ts) |
-| Client Mutations | Server Actions | `'use server'` Direktive, NICHT API-Routes |
-| Client State | Zustand Store | `useCartStore()` → [src/stores/cart-store.ts](../src/stores/cart-store.ts) |
+| Client Mutations | Server Actions      | `'use server'` Direktive, NICHT API-Routes                                  |
+| Client State     | Zustand Store       | `useCartStore()` → [src/stores/cart-store.ts](../src/stores/cart-store.ts)  |
 
 ## Ordnerstruktur
 

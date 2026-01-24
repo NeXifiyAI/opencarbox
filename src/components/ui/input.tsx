@@ -1,21 +1,20 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 
 /**
  * Props für die Input-Komponente
  */
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /** Fehler-Nachricht (zeigt roten Border) */
-  error?: string;
+  error?: string
   /** Hilfstext unter dem Input */
-  helperText?: string;
+  helperText?: string
   /** Label über dem Input */
-  label?: string;
+  label?: string
   /** Icon links im Input */
-  leftIcon?: React.ReactNode;
+  leftIcon?: React.ReactNode
   /** Icon rechts im Input */
-  rightIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode
 }
 
 /**
@@ -38,22 +37,11 @@ export interface InputProps
  */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    {
-      className,
-      type,
-      error,
-      helperText,
-      label,
-      leftIcon,
-      rightIcon,
-      disabled,
-      id,
-      ...props
-    },
+    { className, type, error, helperText, label, leftIcon, rightIcon, disabled, id, ...props },
     ref
   ) => {
-    const generatedId = React.useId();
-    const inputId = id || generatedId;
+    const generatedId = React.useId()
+    const inputId = id || generatedId
 
     return (
       <div className="w-full">
@@ -98,9 +86,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               // File Input
               'file:border-0 file:bg-transparent file:text-sm file:font-medium',
               // Error State
-              error
-                ? 'border-destructive focus-visible:ring-destructive'
-                : 'border-input',
+              error ? 'border-destructive focus-visible:ring-destructive' : 'border-input',
               // Icons Padding
               leftIcon && 'pl-10',
               rightIcon && 'pr-10',
@@ -108,9 +94,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             )}
             ref={ref}
             aria-invalid={error ? 'true' : undefined}
-            aria-describedby={
-              error || helperText ? `${inputId}-description` : undefined
-            }
+            aria-describedby={error || helperText ? `${inputId}-description` : undefined}
             {...props}
           />
 
@@ -126,18 +110,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {(error || helperText) && (
           <p
             id={`${inputId}-description`}
-            className={cn(
-              'mt-1.5 text-sm',
-              error ? 'text-destructive' : 'text-muted-foreground'
-            )}
+            className={cn('mt-1.5 text-sm', error ? 'text-destructive' : 'text-muted-foreground')}
           >
             {error || helperText}
           </p>
         )}
       </div>
-    );
+    )
   }
-);
-Input.displayName = 'Input';
+)
+Input.displayName = 'Input'
 
-export { Input };
+export { Input }

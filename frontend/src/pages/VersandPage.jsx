@@ -1,32 +1,34 @@
-import React from 'react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
-import { Link } from 'react-router-dom';
-import { ChevronRight, Truck, Clock, MapPin, Globe } from 'lucide-react';
+import React from 'react'
+import Header from '../components/layout/Header'
+import Footer from '../components/layout/Footer'
+import { Link } from 'react-router-dom'
+import { ChevronRight, Truck, Clock, MapPin, Globe } from 'lucide-react'
 
 const VersandPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <main className="max-w-4xl mx-auto px-4 py-12">
-        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <Link to="/" className="hover:text-[#4fd1c5]">Startseite</Link>
+      <main className="mx-auto max-w-4xl px-4 py-12">
+        <nav className="mb-8 flex items-center gap-2 text-sm text-gray-500">
+          <Link to="/" className="hover:text-[#4fd1c5]">
+            Startseite
+          </Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-[#1e3a5f]">Versand & Lieferung</span>
         </nav>
 
-        <h1 className="text-3xl font-bold text-[#1e3a5f] mb-8">Versand & Lieferung</h1>
+        <h1 className="mb-8 text-3xl font-bold text-[#1e3a5f]">Versand & Lieferung</h1>
 
-        <div className="bg-white rounded-lg shadow-sm p-8 space-y-8">
+        <div className="space-y-8 rounded-lg bg-white p-8 shadow-sm">
           <section>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-[#e6fffa] p-2 rounded-full">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-full bg-[#e6fffa] p-2">
                 <Truck className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-xl font-semibold text-[#1e3a5f]">Versandkosten</h2>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full border-collapse text-left">
                 <thead>
                   <tr className="border-b border-gray-100">
                     <th className="py-3 font-semibold text-gray-700">Land</th>
@@ -56,47 +58,51 @@ const VersandPage = () => {
           </section>
 
           <section>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-[#e6fffa] p-2 rounded-full">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-full bg-[#e6fffa] p-2">
                 <Clock className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-xl font-semibold text-[#1e3a5f]">Lieferzeiten</h2>
             </div>
-            <p className="text-gray-600 mb-4">
-              Wir versenden Ihre Bestellung in der Regel innerhalb von 24 Stunden nach Zahlungseingang.
+            <p className="mb-4 text-gray-600">
+              Wir versenden Ihre Bestellung in der Regel innerhalb von 24 Stunden nach
+              Zahlungseingang.
             </p>
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start gap-2">
-                <span className="font-semibold min-w-[100px]">Österreich:</span>
+                <span className="min-w-[100px] font-semibold">Österreich:</span>
                 <span>1-3 Werktage</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="font-semibold min-w-[100px]">Deutschland:</span>
+                <span className="min-w-[100px] font-semibold">Deutschland:</span>
                 <span>2-4 Werktage</span>
               </li>
             </ul>
           </section>
 
           <section>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-[#e6fffa] p-2 rounded-full">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-full bg-[#e6fffa] p-2">
                 <Globe className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-xl font-semibold text-[#1e3a5f]">Logistikpartner</h2>
             </div>
             <p className="text-gray-600">
-              Unsere Pakete werden sicher und zuverlässig mit unseren Logistikpartnern <strong>DHL</strong> und <strong>Österreichische Post</strong> versendet. 
-              Sie erhalten zu jeder Bestellung eine Sendungsnummer zur Nachverfolgung.
+              Unsere Pakete werden sicher und zuverlässig mit unseren Logistikpartnern{' '}
+              <strong>DHL</strong> und <strong>Österreichische Post</strong> versendet. Sie erhalten
+              zu jeder Bestellung eine Sendungsnummer zur Nachverfolgung.
             </p>
           </section>
 
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 mt-6">
-            <h3 className="font-semibold text-[#1e3a5f] mb-2 flex items-center gap-2">
+          <div className="mt-6 rounded-lg border border-gray-100 bg-gray-50 p-4">
+            <h3 className="mb-2 flex items-center gap-2 font-semibold text-[#1e3a5f]">
               <MapPin className="h-4 w-4" /> Selbstabholung
             </h3>
             <p className="text-sm text-gray-600">
-              Gerne können Sie Ihre Bestellung auch kostenfrei in unserer Filiale in Wien abholen:<br />
-              <strong>Carvantooo Abholshop, Rennweg 76, 1030 Wien</strong><br />
+              Gerne können Sie Ihre Bestellung auch kostenfrei in unserer Filiale in Wien abholen:
+              <br />
+              <strong>Carvantooo Abholshop, Rennweg 76, 1030 Wien</strong>
+              <br />
               Mo-Fr: 08:00 - 18:00 Uhr
             </p>
           </div>
@@ -104,7 +110,7 @@ const VersandPage = () => {
       </main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default VersandPage;
+export default VersandPage

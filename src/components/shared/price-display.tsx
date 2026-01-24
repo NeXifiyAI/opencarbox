@@ -1,29 +1,29 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
+import * as React from 'react'
+import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 
 /**
  * Props für die PriceDisplay-Komponente
  */
 interface PriceDisplayProps {
   /** Aktueller Preis in Euro */
-  price: number;
+  price: number
   /** Ursprünglicher Preis (für Rabatt-Anzeige) */
-  originalPrice?: number;
+  originalPrice?: number
   /** Währung */
-  currency?: 'EUR' | 'CHF';
+  currency?: 'EUR' | 'CHF'
   /** Größe der Preisanzeige */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl'
   /** Layout (horizontal oder vertikal) */
-  layout?: 'horizontal' | 'vertical';
+  layout?: 'horizontal' | 'vertical'
   /** Rabatt-Badge anzeigen */
-  showDiscount?: boolean;
+  showDiscount?: boolean
   /** "Ab"-Präfix anzeigen (für variable Preise) */
-  showFrom?: boolean;
+  showFrom?: boolean
   /** MwSt-Hinweis anzeigen */
-  showVat?: boolean;
+  showVat?: boolean
   /** Zusätzliche CSS-Klassen */
-  className?: string;
+  className?: string
 }
 
 /**
@@ -50,7 +50,7 @@ const sizeClasses = {
     original: 'text-lg',
     discount: 'text-lg',
   },
-};
+}
 
 /**
  * Formatiert einen Preis in Euro oder CHF
@@ -60,15 +60,15 @@ function formatPrice(price: number, currency: 'EUR' | 'CHF'): string {
     style: 'currency',
     currency: currency,
     minimumFractionDigits: 2,
-  }).format(price);
+  }).format(price)
 }
 
 /**
  * Berechnet den Rabatt-Prozentsatz
  */
 function calculateDiscount(original: number, current: number): number {
-  if (original <= 0) return 0;
-  return Math.round(((original - current) / original) * 100);
+  if (original <= 0) return 0
+  return Math.round(((original - current) / original) * 100)
 }
 
 /**
@@ -102,12 +102,10 @@ export function PriceDisplay({
   showVat = false,
   className,
 }: PriceDisplayProps) {
-  const hasDiscount = originalPrice && originalPrice > price;
-  const discountPercent = hasDiscount
-    ? calculateDiscount(originalPrice, price)
-    : 0;
+  const hasDiscount = originalPrice && originalPrice > price
+  const discountPercent = hasDiscount ? calculateDiscount(originalPrice, price) : 0
 
-  const styles = sizeClasses[size];
+  const styles = sizeClasses[size]
 
   return (
     <div
@@ -125,41 +123,25 @@ export function PriceDisplay({
       )}
 
       {/* Preisbereich */}
-      <div className={cn(
-        'flex items-baseline gap-2',
-        layout === 'vertical' && 'flex-row'
-      )}>
+      <div className={cn('flex items-baseline gap-2', layout === 'vertical' && 'flex-row')}>
         {/* "Ab" Präfix */}
-        {showFrom && (
-          <span className="text-muted-foreground text-sm">ab</span>
-        )}
+        {showFrom && <span className="text-sm text-muted-foreground">ab</span>}
 
         {/* Aktueller Preis */}
-        <span className={cn(styles.price, 'text-foreground')}>
-          {formatPrice(price, currency)}
-        </span>
+        <span className={cn(styles.price, 'text-foreground')}>{formatPrice(price, currency)}</span>
 
         {/* Ursprünglicher Preis (durchgestrichen) */}
         {hasDiscount && (
-          <span
-            className={cn(
-              styles.original,
-              'text-muted-foreground line-through'
-            )}
-          >
+          <span className={cn(styles.original, 'text-muted-foreground line-through')}>
             {formatPrice(originalPrice, currency)}
           </span>
         )}
       </div>
 
       {/* MwSt-Hinweis */}
-      {showVat && (
-        <span className="text-xs text-muted-foreground">
-          inkl. MwSt.
-        </span>
-      )}
+      {showVat && <span className="text-xs text-muted-foreground">inkl. MwSt.</span>}
     </div>
-  );
+  )
 }
 
 /**
@@ -170,19 +152,16 @@ export function PriceCompact({
   originalPrice,
   currency = 'EUR',
 }: Pick<PriceDisplayProps, 'price' | 'originalPrice' | 'currency'>) {
-  const hasDiscount = originalPrice && originalPrice > price;
+  const hasDiscount = originalPrice && originalPrice > price
 
   return (
     <div className="flex items-baseline gap-1.5">
-      <span className="font-semibold text-foreground">
-        {formatPrice(price, currency)}
-      </span>
+      <span className="font-semibold text-foreground">{formatPrice(price, currency)}</span>
       {hasDiscount && (
         <span className="text-xs text-muted-foreground line-through">
           {formatPrice(originalPrice, currency)}
         </span>
       )}
     </div>
-  );
+  )
 }
-

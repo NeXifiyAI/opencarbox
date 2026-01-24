@@ -8,7 +8,9 @@
 ## ✅ Was wurde migriert
 
 ### 1. Datenbank-Schema
+
 ✅ **12 Tabellen** erfolgreich vorhanden:
+
 - profiles
 - vehicles
 - categories
@@ -23,7 +25,9 @@
 - chat_messages
 
 ### 2. Storage Buckets
+
 ✅ **6 Buckets** erfolgreich erstellt:
+
 - product-images (5MB, öffentlich)
 - vehicle-images (10MB, öffentlich)
 - category-images (2MB, öffentlich)
@@ -32,7 +36,9 @@
 - chat-attachments (10MB, privat)
 
 ### 3. Konfiguration
+
 ✅ Alle Config-Dateien aktualisiert:
+
 - `.cursorrules` → neues Projekt-Ref
 - `env.example` → neue Credentials
 - TypeScript-Typen generiert
@@ -64,6 +70,7 @@ SUPABASE_ACCESS_TOKEN=sbp_abfe7a627cff1e0f3e8a93545a1ccc2f1f99a5cb
    - Füge alle Supabase-Keys ein (für Production, Preview, Development)
 
 2. **MCP Server in Cursor bestätigen:**
+
    ```json
    {
      "mcpServers": {
@@ -73,6 +80,7 @@ SUPABASE_ACCESS_TOKEN=sbp_abfe7a627cff1e0f3e8a93545a1ccc2f1f99a5cb
      }
    }
    ```
+
    - Cursor neustarten, damit MCP geladen wird
 
 3. **Dashboard:**
@@ -95,14 +103,14 @@ SUPABASE_ACCESS_TOKEN=sbp_abfe7a627cff1e0f3e8a93545a1ccc2f1f99a5cb
 
 ## 📊 Projekt-Status
 
-| Komponente | Status | Details |
-|------------|--------|---------|
-| **Supabase DB** | ✅ READY | 12 Tabellen mit RLS |
-| **Storage** | ✅ READY | 6 Buckets konfiguriert |
-| **TypeScript** | ✅ READY | Typen generiert |
-| **Config** | ✅ READY | Alle Dateien aktualisiert |
-| **Vercel** | ⏳ PENDING | Manuell setzen |
-| **Provider** | ✅ READY | Theme, Query, Toast |
+| Komponente        | Status         | Details                         |
+| ----------------- | -------------- | ------------------------------- |
+| **Supabase DB**   | ✅ READY       | 12 Tabellen mit RLS             |
+| **Storage**       | ✅ READY       | 6 Buckets konfiguriert          |
+| **TypeScript**    | ✅ READY       | Typen generiert                 |
+| **Config**        | ✅ READY       | Alle Dateien aktualisiert       |
+| **Vercel**        | ⏳ PENDING     | Manuell setzen                  |
+| **Provider**      | ✅ READY       | Theme, Query, Toast             |
 | **UI Components** | 🔄 IN PROGRESS | Button erstellt, weitere folgen |
 
 ---
