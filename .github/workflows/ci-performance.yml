@@ -22,7 +22,6 @@ concurrency:
 
 env:
   NODE_VERSION: '20'
-  PNPM_VERSION: '9'
 
 jobs:
   # ============================================================
@@ -41,8 +40,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -84,8 +81,6 @@ jobs:
       - uses: actions/checkout@v4
       
       - uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - uses: actions/setup-node@v4
         with:
@@ -100,7 +95,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
-      - run: pnpm install --frozen-lockfile --offline --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Run ${{ matrix.check }}
         run: |
@@ -123,8 +118,6 @@ jobs:
       - uses: actions/checkout@v4
       
       - uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - uses: actions/setup-node@v4
         with:
@@ -142,7 +135,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
             ${{ runner.os }}-nextjs-
 
-      - run: pnpm install --frozen-lockfile --offline --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Build
         run: pnpm build
@@ -175,15 +168,13 @@ jobs:
       - uses: actions/checkout@v4
       
       - uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile --offline --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Run ${{ matrix.suite }} tests
         run: pnpm test --run
@@ -216,8 +207,6 @@ jobs:
 
       - if: matrix.scan == 'audit'
         uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - if: matrix.scan == 'audit'
         uses: actions/setup-node@v4
@@ -227,7 +216,7 @@ jobs:
 
       - if: matrix.scan == 'audit'
         run: |
-          pnpm install --frozen-lockfile --offline --ignore-scripts
+          pnpm install --frozen-lockfile --ignore-scripts
           pnpm audit --audit-level=high --production || true
 
       - if: matrix.scan == 'codeql'
@@ -263,8 +252,8 @@ jobs:
           echo "Test: ${{ needs.test.result }}"
           echo "Security: ${{ needs.security.result }}"
           
-          if [ "${{ needs.quality-matrix.result }}" != "success" ] || \
-             [ "${{ needs.build.result }}" != "success" ] || \
+          if [ "${{ needs.quality-matrix.result }}" != "success" ] || $
+             [ "${{ needs.build.result }}" != "success" ] || $
              [ "${{ needs.test.result }}" != "success" ]; then
             echo "❌ Quality Gate FAILED"
             exit 1
