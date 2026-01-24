@@ -52,6 +52,11 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         queries: security-extended,security-and-quality
+        # Build-Modus für JavaScript/TypeScript
+        config: |
+          queries:
+            - uses: security-extended
+            - uses: security-and-quality
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3

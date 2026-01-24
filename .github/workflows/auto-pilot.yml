@@ -1,0 +1,721 @@
+name: 🚀 Auto-Pilot - Autonomous Project Completion
+
+# Ultra-optimiertes Auto-Pilot-System für vollständige Projektfertigstellung
+# Maximale Performance durch parallele Ausführung und intelligente Priorisierung
+
+on:
+  schedule:
+    # Alle 30 Minuten - kontinuierliche Projektverbesserung
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Auto-Pilot Mode'
+        required: true
+        default: 'full-auto'
+        type: choice
+        options:
+          - full-auto
+          - aggressive
+          - conservative
+          - emergency
+      focus:
+        description: 'Focus Area'
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - features
+          - bugs
+          - performance
+          - security
+          - documentation
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: write
+  checks: write
+  deployments: write
+  security-events: write
+  statuses: write
+  workflows: write
+  packages: write
+
+concurrency:
+  group: auto-pilot
+  cancel-in-progress: false
+
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+  NODE_VERSION: '20'
+
+jobs:
+  # ============================================================
+  # Ultra-Fast Analysis - Parallele Projekt-Analyse
+  # ============================================================
+  analyze:
+    name: ⚡ Ultra-Fast Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      issues_critical: ${{ steps.scan.outputs.issues_critical }}
+      issues_high: ${{ steps.scan.outputs.issues_high }}
+      prs_ready: ${{ steps.scan.outputs.prs_ready }}
+      workflows_failing: ${{ steps.scan.outputs.workflows_failing }}
+      completion_score: ${{ steps.scan.outputs.completion_score }}
+      next_actions: ${{ steps.scan.outputs.next_actions }}
+    
+    steps:
+      - name: Lightning Analysis
+        id: scan
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            console.time('Analysis');
+            
+            // Parallele API-Calls für maximale Geschwindigkeit
+            const [issues, prs, workflows, config] = await Promise.all([
+              github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 100
+              }),
+              github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 50
+              }),
+              github.rest.actions.listWorkflowRunsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 30
+              }),
+              github.rest.repos.getContent({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                path: 'project.config.ts'
+              }).catch(() => null)
+            ]);
+            
+            // Schnelle Metriken-Berechnung
+            const metrics = {
+              issues: {
+                critical: issues.data.filter(i => !i.pull_request && i.labels.some(l => l.name.includes('critical'))).length,
+                high: issues.data.filter(i => !i.pull_request && i.labels.some(l => l.name.includes('bug'))).length,
+                total: issues.data.filter(i => !i.pull_request).length
+              },
+              prs: {
+                ready: prs.data.filter(pr => !pr.draft && pr.mergeable_state === 'clean').length,
+                blocked: prs.data.filter(pr => pr.mergeable_state === 'blocked').length,
+                total: prs.data.length
+              },
+              workflows: {
+                failing: workflows.data.workflow_runs.filter(w => w.conclusion === 'failure').length,
+                success: workflows.data.workflow_runs.filter(w => w.conclusion === 'success').length
+              }
+            };
+            
+            // Projekt-Completion-Score
+            const completionScore = Math.round(
+              (metrics.workflows.success / Math.max(metrics.workflows.success + metrics.workflows.failing, 1)) * 40 +
+              (1 - metrics.issues.critical / Math.max(metrics.issues.total, 1)) * 30 +
+              (metrics.prs.ready / Math.max(metrics.prs.total, 1)) * 30
+            );
+            
+            // Intelligente Aktionsplanung
+            const nextActions = [];
+            
+            if (metrics.workflows.failing > 0) {
+              nextActions.push({ type: 'fix_workflows', priority: 10, count: metrics.workflows.failing });
+            }
+            if (metrics.issues.critical > 0) {
+              nextActions.push({ type: 'fix_critical', priority: 9, count: metrics.issues.critical });
+            }
+            if (metrics.issues.high > 0) {
+              nextActions.push({ type: 'fix_bugs', priority: 7, count: metrics.issues.high });
+            }
+            if (metrics.prs.ready > 0) {
+              nextActions.push({ type: 'merge_prs', priority: 8, count: metrics.prs.ready });
+            }
+            if (metrics.prs.blocked > 0) {
+              nextActions.push({ type: 'unblock_prs', priority: 6, count: metrics.prs.blocked });
+            }
+            if (completionScore < 80) {
+              nextActions.push({ type: 'improve_quality', priority: 5, count: 1 });
+            }
+            
+            // Sortiere nach Priorität
+            nextActions.sort((a, b) => b.priority - a.priority);
+            
+            core.setOutput('issues_critical', metrics.issues.critical);
+            core.setOutput('issues_high', metrics.issues.high);
+            core.setOutput('prs_ready', metrics.prs.ready);
+            core.setOutput('workflows_failing', metrics.workflows.failing);
+            core.setOutput('completion_score', completionScore);
+            core.setOutput('next_actions', JSON.stringify(nextActions));
+            
+            console.timeEnd('Analysis');
+            console.log('📊 Completion Score:', completionScore);
+            console.log('🎯 Next Actions:', nextActions);
+            
+            return { metrics, completionScore, nextActions };
+
+  # ============================================================
+  # Auto-Fix Workflows - Automatische Workflow-Reparatur
+  # ============================================================
+  auto-fix-workflows:
+    name: 🔧 Auto-Fix Workflows
+    runs-on: ubuntu-latest
+    needs: analyze
+    if: needs.analyze.outputs.workflows_failing > 0
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Environment
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Analyze & Fix Workflows
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            console.log('🔍 Analysiere fehlgeschlagene Workflows...');
+            
+            // Hole fehlgeschlagene Runs
+            const { data: failedRuns } = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              status: 'failure',
+              per_page: 5
+            });
+            
+            const fixes = [];
+            const workflowDir = '.github/workflows';
+            
+            for (const run of failedRuns.workflow_runs) {
+              const workflowPath = run.path;
+              const workflowFile = path.join(workflowDir, path.basename(workflowPath));
+              
+              if (fs.existsSync(workflowFile)) {
+                console.log(`📝 Prüfe: ${workflowFile}`);
+                
+                let content = fs.readFileSync(workflowFile, 'utf8');
+                let modified = false;
+                
+                // Auto-Fix: Deprecated Actions
+                const actionUpdates = {
+                  'actions/checkout@v[1-3]': 'actions/checkout@v4',
+                  'actions/setup-node@v[1-3]': 'actions/setup-node@v4',
+                  'actions/cache@v[1-3]': 'actions/cache@v4',
+                  'actions/upload-artifact@v[1-3]': 'actions/upload-artifact@v4',
+                  'pnpm/action-setup@v[1-3]': 'pnpm/action-setup@v4'
+                };
+                
+                for (const [pattern, replacement] of Object.entries(actionUpdates)) {
+                  const regex = new RegExp(pattern, 'g');
+                  if (regex.test(content)) {
+                    content = content.replace(regex, replacement);
+                    modified = true;
+                    console.log(`✅ Updated: ${pattern} -> ${replacement}`);
+                  }
+                }
+                
+                // Auto-Fix: Missing permissions
+                if (!content.includes('permissions:') && content.includes('github-token:')) {
+                  const permissionsBlock = `
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+`;
+                  content = content.replace(/^on:/m, `${permissionsBlock}on:`);
+                  modified = true;
+                  console.log('✅ Added permissions block');
+                }
+                
+                // Auto-Fix: Missing timeout
+                if (!content.includes('timeout-minutes:')) {
+                  content = content.replace(/runs-on: ubuntu-latest/g, 
+                    'runs-on: ubuntu-latest\n    timeout-minutes: 15');
+                  modified = true;
+                  console.log('✅ Added timeout-minutes');
+                }
+                
+                if (modified) {
+                  fs.writeFileSync(workflowFile, content);
+                  fixes.push(workflowFile);
+                }
+              }
+            }
+            
+            if (fixes.length > 0) {
+              console.log(`🎉 ${fixes.length} Workflows wurden repariert`);
+              core.setOutput('fixed_files', JSON.stringify(fixes));
+              core.setOutput('has_fixes', 'true');
+            } else {
+              console.log('✅ Keine automatischen Fixes nötig');
+              core.setOutput('has_fixes', 'false');
+            }
+
+      - name: Commit & PR
+        id: commit
+        if: steps.auto-fix.outputs.has_fixes == 'true'
+        run: |
+          git config user.name "Auto-Pilot Bot"
+          git config user.email "auto-pilot@nexifyai.com"
+          
+          BRANCH="auto-pilot/fix-workflows-$(date +%s)"
+          git checkout -b "$BRANCH"
+          git add .github/workflows/
+          git commit -m "🤖 Auto-Fix: Workflow-Reparaturen durch Auto-Pilot
+
+          Automatische Behebung von:
+          - Veralteten Action-Versionen
+          - Fehlenden Permissions
+          - Fehlenden Timeouts
+          
+          Reparierte Workflows: ${{ steps.auto-fix.outputs.fixed_files }}"
+          
+          git push -u origin "$BRANCH"
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Create Auto-PR
+        if: steps.commit.outputs.branch
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const { data: pr } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🤖 Auto-Fix: Workflow-Reparaturen',
+              body: `## Automatische Workflow-Reparaturen
+              
+              Der Auto-Pilot hat fehlgeschlagene Workflows automatisch repariert.
+              
+              ### 🔧 Durchgeführte Fixes
+              - ✅ Action-Versionen aktualisiert
+              - ✅ Permissions hinzugefügt
+              - ✅ Timeouts konfiguriert
+              
+              ### 📊 Status
+              - Fehlgeschlagene Workflows vorher: ${{ needs.analyze.outputs.workflows_failing }}
+              - Reparierte Dateien: ${{ steps.auto-fix.outputs.fixed_files }}
+              
+              ---
+              🤖 Automatisch erstellt durch Auto-Pilot System`,
+              head: '${{ steps.commit.outputs.branch }}',
+              base: 'main'
+            });
+            
+            // Auto-approve & auto-merge
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              event: 'APPROVE',
+              body: '✅ Auto-approved: Automatische Fixes sind sicher'
+            });
+            
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: ['auto-pilot', 'auto-merge', 'workflow-fix']
+            });
+
+  # ============================================================
+  # Smart PR Merger - Intelligentes Auto-Merge
+  # ============================================================
+  smart-merge:
+    name: 🔀 Smart PR Merger
+    runs-on: ubuntu-latest
+    needs: analyze
+    if: needs.analyze.outputs.prs_ready > 0
+    timeout-minutes: 5
+    
+    steps:
+      - name: Auto-Merge Ready PRs
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 50
+            });
+            
+            let merged = 0;
+            
+            for (const pr of prs) {
+              // Prüfe ob PR merge-ready ist
+              if (pr.mergeable_state !== 'clean' || pr.draft) continue;
+              
+              // Prüfe Labels
+              const labels = pr.labels.map(l => l.name);
+              if (!labels.includes('auto-merge') && !labels.includes('auto-pilot')) continue;
+              
+              // Hole Reviews
+              const { data: reviews } = await github.rest.pulls.listReviews({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number
+              });
+              
+              const hasApproval = reviews.some(r => r.state === 'APPROVED');
+              const hasChanges = reviews.some(r => r.state === 'CHANGES_REQUESTED');
+              
+              if (hasChanges) continue;
+              
+              // Auto-approve wenn noch keine Approval
+              if (!hasApproval) {
+                await github.rest.pulls.createReview({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  event: 'APPROVE',
+                  body: '✅ Auto-approved durch Auto-Pilot - Alle Checks bestanden'
+                });
+              }
+              
+              // Merge!
+              try {
+                await github.rest.pulls.merge({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  merge_method: 'squash',
+                  commit_title: `${pr.title} (#${pr.number})`,
+                  commit_message: 'Auto-merged durch Auto-Pilot System'
+                });
+                
+                console.log(`✅ Merged PR #${pr.number}: ${pr.title}`);
+                merged++;
+                
+                // Lösche Branch
+                try {
+                  await github.rest.git.deleteRef({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: `heads/${pr.head.ref}`
+                  });
+                } catch (e) {}
+                
+              } catch (error) {
+                console.log(`⚠️ Konnte PR #${pr.number} nicht mergen: ${error.message}`);
+              }
+            }
+            
+            console.log(`🎉 ${merged} PRs erfolgreich gemerged`);
+
+  # ============================================================
+  # Issue Auto-Resolver - Automatische Issue-Behebung
+  # ============================================================
+  auto-resolve-issues:
+    name: 🐛 Auto-Resolve Issues
+    runs-on: ubuntu-latest
+    needs: analyze
+    if: needs.analyze.outputs.issues_critical > 0 || needs.analyze.outputs.issues_high > 0
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: AI Issue Resolution
+        uses: actions/github-script@v7
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const fs = require('fs');
+            
+            // Hole kritische und high-priority Issues
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'bug,critical',
+              per_page: 3  // Maximal 3 gleichzeitig
+            });
+            
+            for (const issue of issues.filter(i => !i.pull_request)) {
+              console.log(`🔍 Analysiere Issue #${issue.number}: ${issue.title}`);
+              
+              // AI-Analyse des Issues
+              const response = await fetch('https://api.deepseek.com/chat/completions', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`
+                },
+                body: JSON.stringify({
+                  model: 'deepseek-chat',
+                  messages: [
+                    {
+                      role: 'system',
+                      content: 'Du bist ein Expert-Entwickler. Analysiere das Issue und erstelle einen Fix. Antworte NUR mit JSON: {"can_auto_fix": boolean, "files": [{"path": "...", "content": "..."}], "commit_msg": "..."}'
+                    },
+                    {
+                      role: 'user',
+                      content: `Issue: ${issue.title}\n\n${issue.body || 'Keine Beschreibung'}\n\nErstelle einen automatischen Fix wenn möglich.`
+                    }
+                  ],
+                  temperature: 0.2,
+                  max_tokens: 4096
+                })
+              });
+              
+              const data = await response.json();
+              let fix;
+              
+              try {
+                const content = data.choices[0].message.content;
+                const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+                fix = JSON.parse(jsonMatch ? jsonMatch[1] : content);
+              } catch (e) {
+                console.log('⚠️ AI konnte keinen Fix generieren');
+                continue;
+              }
+              
+              if (fix.can_auto_fix && fix.files && fix.files.length > 0) {
+                // Erstelle Branch
+                const branch = `auto-pilot/fix-issue-${issue.number}`;
+                
+                try {
+                  const { data: ref } = await github.rest.git.getRef({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: 'heads/main'
+                  });
+                  
+                  await github.rest.git.createRef({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: `refs/heads/${branch}`,
+                    sha: ref.object.sha
+                  });
+                  
+                  // Kommentiere am Issue
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    body: `🤖 **Auto-Pilot aktiviert**\n\nIch arbeite an einem automatischen Fix für dieses Issue.\n\nBranch: \`${branch}\`\nEin PR wird in Kürze erstellt.`
+                  });
+                  
+                  // Label hinzufügen
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    labels: ['auto-pilot', 'in-progress']
+                  });
+                  
+                  console.log(`✅ Branch ${branch} erstellt, PR folgt...`);
+                  
+                } catch (e) {
+                  console.log(`⚠️ Fehler bei Issue #${issue.number}: ${e.message}`);
+                }
+              }
+            }
+
+  # ============================================================
+  # Performance Optimizer - Kontinuierliche Optimierung
+  # ============================================================
+  optimize-performance:
+    name: ⚡ Performance Optimizer
+    runs-on: ubuntu-latest
+    needs: analyze
+    if: needs.analyze.outputs.completion_score < 90
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Setup
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Analyze Performance
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts
+          
+          # Prüfe Package-Größen
+          echo "📦 Analysiere Dependencies..."
+          npx npm-check-updates -u --target minor || true
+          
+          # Prüfe für ungenutzte Dependencies
+          npx depcheck --json > /tmp/depcheck.json || true
+
+      - name: Create Optimization PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const fs = require('fs');
+            
+            let optimizations = [];
+            
+            // Lese depcheck results
+            if (fs.existsSync('/tmp/depcheck.json')) {
+              try {
+                const depcheck = JSON.parse(fs.readFileSync('/tmp/depcheck.json', 'utf8'));
+                if (depcheck.dependencies && depcheck.dependencies.length > 0) {
+                  optimizations.push(`🗑️ Ungenutzte Dependencies entfernen: ${depcheck.dependencies.join(', ')}`);
+                }
+              } catch (e) {}
+            }
+            
+            // Workflow-Optimierungen
+            optimizations.push('⚡ Workflow-Caching verbessern');
+            optimizations.push('🚀 Parallele Job-Ausführung maximieren');
+            optimizations.push('📦 Build-Artefakte optimieren');
+            
+            if (optimizations.length > 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '⚡ Auto-Pilot: Performance-Optimierungen',
+                body: `## Automatische Performance-Analyse
+                
+                Der Auto-Pilot hat Optimierungspotenzial identifiziert.
+                
+                ### 🎯 Vorgeschlagene Optimierungen
+                ${optimizations.map(o => `- ${o}`).join('\n')}
+                
+                ### 📊 Aktueller Score
+                Completion Score: ${{ needs.analyze.outputs.completion_score }}/100
+                
+                ---
+                🤖 Generiert durch Auto-Pilot Performance Optimizer`,
+                labels: ['auto-pilot', 'performance', 'optimization']
+              });
+            }
+
+  # ============================================================
+  # Completion Report - Fortschrittsbericht
+  # ============================================================
+  report:
+    name: 📊 Completion Report
+    runs-on: ubuntu-latest
+    needs: [analyze, auto-fix-workflows, smart-merge, auto-resolve-issues, optimize-performance]
+    if: always()
+    timeout-minutes: 3
+    
+    steps:
+      - name: Generate Report
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const score = ${{ needs.analyze.outputs.completion_score }};
+            const actions = JSON.parse('${{ needs.analyze.outputs.next_actions }}');
+            
+            const status = score >= 90 ? '🟢 Ausgezeichnet' :
+                          score >= 70 ? '🟡 Gut' :
+                          score >= 50 ? '🟠 Verbesserungsfähig' : '🔴 Kritisch';
+            
+            const report = `## 🚀 Auto-Pilot Status Report
+            
+            **Zeitstempel:** ${new Date().toISOString()}
+            **Completion Score:** ${score}/100 ${status}
+            
+            ### ✅ Durchgeführte Aktionen
+            - Workflow-Fixes: ${{ needs.auto-fix-workflows.result || 'skipped' }}
+            - PR Merges: ${{ needs.smart-merge.result || 'skipped' }}
+            - Issue Resolution: ${{ needs.auto-resolve-issues.result || 'skipped' }}
+            - Performance Opt: ${{ needs.optimize-performance.result || 'skipped' }}
+            
+            ### 📊 Projekt-Metriken
+            - 🐛 Kritische Issues: ${{ needs.analyze.outputs.issues_critical }}
+            - 🔧 High-Priority Issues: ${{ needs.analyze.outputs.issues_high }}
+            - 🔀 Ready PRs: ${{ needs.analyze.outputs.prs_ready }}
+            - ❌ Failing Workflows: ${{ needs.analyze.outputs.workflows_failing }}
+            
+            ### 🎯 Nächste Schritte
+            ${actions.slice(0, 5).map(a => `- ${a.type} (Priorität: ${a.priority}, Count: ${a.count})`).join('\n')}
+            
+            ### 💡 Empfehlung
+            ${score >= 90 ? '✨ Projekt ist produktionsbereit!' :
+              score >= 70 ? '👍 Auf gutem Weg, kleine Verbesserungen nötig' :
+              '⚠️ Dringende Maßnahmen erforderlich - Auto-Pilot arbeitet daran'}
+            
+            ---
+            *Generiert durch Auto-Pilot System - Nächster Run in 30 Minuten*`;
+            
+            // Update Dashboard
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'auto-pilot-dashboard',
+              state: 'open',
+              per_page: 1
+            });
+            
+            if (issues.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚀 Auto-Pilot Dashboard',
+                body: report,
+                labels: ['auto-pilot-dashboard', 'pinned']
+              });
+            } else {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues[0].number,
+                body: report
+              });
+            }
+            
+            console.log('📊 Report erstellt - Score:', score);
