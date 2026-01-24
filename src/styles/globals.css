@@ -70,6 +70,32 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  /* Brand-Specific Theme: Carvantooo (Rot) */
+  [data-brand="carvantooo"] {
+    --primary: 0 78% 56%;              /* Carvantooo Red 500 */
+    --primary-foreground: 210 40% 98%;
+    --accent: 0 78% 56%;
+    --accent-foreground: 210 40% 98%;
+  }
+
+  [data-brand="carvantooo"].dark {
+    --primary: 0 78% 56%;
+    --primary-foreground: 0 0% 100%;
+  }
+
+  /* Brand-Specific Theme: OpenCarBox (Blau) */
+  [data-brand="opencarbox"] {
+    --primary: 207 73% 49%;            /* OpenCarBox Blue 500 */
+    --primary-foreground: 210 40% 98%;
+    --accent: 207 73% 49%;
+    --accent-foreground: 210 40% 98%;
+  }
+
+  [data-brand="opencarbox"].dark {
+    --primary: 207 73% 49%;
+    --primary-foreground: 0 0% 100%;
+  }
 }
 
 @layer base {

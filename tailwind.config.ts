@@ -74,6 +74,47 @@ const config: Config = {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+        // Brand-Specific Colors
+        // Carvantooo (Shop) - Rot-Spektrum
+        carvantooo: {
+          50: '#FFF5F5',
+          100: '#FED7D7',
+          200: '#FEB2B2',
+          300: '#FC8181',
+          400: '#F56565',
+          500: '#E53E3E',  // Primary
+          600: '#C53030',
+          700: '#9B2C2C',
+          800: '#822727',
+          900: '#63171B',
+        },
+        // OpenCarBox (Services) - Blau-Spektrum
+        opencarbox: {
+          50: '#EBF8FF',
+          100: '#BEE3F8',
+          200: '#90CDF4',
+          300: '#63B3ED',
+          400: '#4299E1',
+          500: '#3182CE',  // Primary
+          600: '#2B6CB0',
+          700: '#2C5282',
+          800: '#2A4365',
+          900: '#1A365D',
+        },
+        // Neutrale Palette
+        slate: {
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+          950: '#020617',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -82,6 +123,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       keyframes: {
         'accordion-down': {

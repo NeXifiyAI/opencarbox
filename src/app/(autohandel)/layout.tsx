@@ -1,3 +1,5 @@
+'use client'
+
 import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
 import { type FC, type ReactNode } from 'react';
@@ -8,6 +10,7 @@ interface AutohandelLayoutProps {
 
 /**
  * Layout für den OpenCarBox Autohandel-Bereich
+ * Brand: OpenCarBox (Blau)
  */
 const AutohandelLayout: FC<AutohandelLayoutProps> = ({ children }) => {
   return (
