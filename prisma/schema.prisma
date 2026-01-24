@@ -71,6 +71,21 @@ model User {
   image         String?
   role          UserRole  @default(CUSTOMER)
 
+  // Erweiterte Kundendaten
+  companyName   String?   @map("company_name") // Für B2B-Kunden
+  taxId         String?   @map("tax_id") // UID-Nummer (Österreich) / USt-IdNr (Deutschland)
+  customerType  CustomerType @default(B2C) @map("customer_type")
+  
+  // Marketing-Präferenzen
+  newsletter    Boolean   @default(false) // Newsletter-Opt-in
+  language      String    @default("de") // Bevorzugte Sprache
+  
+  // Kundenstatus
+  isActive      Boolean   @default(true) @map("is_active")
+  
+  // Loyalty / Punktesystem (optional für Zukunft)
+  loyaltyPoints Int       @default(0) @map("loyalty_points")
+
   // Relationen
   addresses     Address[]
   vehicles      Vehicle[]
@@ -83,6 +98,8 @@ model User {
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
   @@map("users")
+  @@index([email])
+  @@index([customerType])
 }
 
 /// Benutzerrollen
@@ -90,6 +107,12 @@ enum UserRole {
   CUSTOMER      // Kunde
   EMPLOYEE      // Mitarbeiter
   ADMIN         // Administrator
+}
+
+/// Kundentyp
+enum CustomerType {
+  B2C           // Privatkunde (Carvantooo)
+  B2B           // Geschäftskunde (OpenCarBox Autohandel/Werkstatt)
 }
 
 /// Adressen (Liefer- und Rechnungsadressen)
@@ -164,6 +187,9 @@ model Vehicle {
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
   @@map("vehicles")
+  @@index([userId])
+  @@index([hsn, tsn])
+  @@index([brand, model])
 }
 
 // =============================================================================
@@ -199,6 +225,9 @@ model Category {
   updatedAt     DateTime   @updatedAt @map("updated_at")
 
   @@map("categories")
+  @@index([slug])
+  @@index([parentId])
+  @@index([isActive])
 }
 
 /// Produkte im Shop
@@ -252,6 +281,12 @@ model Product {
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
   @@map("products")
+  @@index([slug])
+  @@index([sku])
+  @@index([categoryId])
+  @@index([isActive])
+  @@index([isFeatured])
+  @@index([brand])
 }
 
 /// Produkt-Varianten (z.B. verschiedene Größen)
@@ -364,6 +399,11 @@ model Order {
   updatedAt         DateTime    @updatedAt @map("updated_at")
 
   @@map("orders")
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([createdAt])
 }
 
 /// Bestellpositionen
