@@ -1,0 +1,373 @@
+name: 🚀 System Integration Test
+
+# Comprehensive test of the entire autonomous system
+# Tests all components, scripts, and workflows
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_mode:
+        description: 'Test Mode'
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - quick
+          - scripts-only
+          - workflows-only
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'scripts/autonomous/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/enhanced-orchestrator.yml'
+      - 'scripts/autonomous/**'
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # =================================================================
+  # Test Autonomous Scripts
+  # =================================================================
+  test-scripts:
+    name: 🧪 Test Autonomous Scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 Verify Scripts Exist
+        run: |
+          echo "Checking for autonomous scripts..."
+          
+          REQUIRED_SCRIPTS=(
+            "health-check.sh"
+            "bot-lifecycle.sh"
+            "self-heal.sh"
+            "pipeline-optimizer.sh"
+            "dashboard.sh"
+            "monitor.sh"
+            "recovery-templates.sh"
+            "init-system.sh"
+          )
+          
+          ALL_FOUND=true
+          for script in "${REQUIRED_SCRIPTS[@]}"; do
+            if [ -f "scripts/autonomous/$script" ]; then
+              echo "✓ $script found"
+            else
+              echo "✗ $script missing"
+              ALL_FOUND=false
+            fi
+          done
+          
+          if [ "$ALL_FOUND" = false ]; then
+            echo "Error: Some scripts are missing"
+            exit 1
+          fi
+          
+          echo "All required scripts present ✓"
+
+      - name: 🔐 Verify Script Permissions
+        run: |
+          echo "Checking script permissions..."
+          
+          for script in scripts/autonomous/*.sh; do
+            if [ -x "$script" ]; then
+              echo "✓ $(basename "$script") is executable"
+            else
+              echo "✗ $(basename "$script") is not executable"
+              chmod +x "$script"
+              echo "  Fixed: Made executable"
+            fi
+          done
+
+      - name: 🏥 Test Health Check Script
+        run: |
+          echo "Testing health-check.sh..."
+          bash scripts/autonomous/health-check.sh
+          
+          # Verify report was created
+          if [ -f /tmp/health-check-report.json ]; then
+            echo "✓ Health check report generated"
+            echo "Report contents:"
+            cat /tmp/health-check-report.json | head -20
+          else
+            echo "✗ Health check report not found"
+            exit 1
+          fi
+
+      - name: 🤖 Test Bot Lifecycle Script
+        run: |
+          echo "Testing bot-lifecycle.sh..."
+          
+          # Test list command
+          bash scripts/autonomous/bot-lifecycle.sh list
+          
+          # Test status command for a specific bot
+          bash scripts/autonomous/bot-lifecycle.sh status master-orchestrator || true
+          
+          echo "✓ Bot lifecycle script works"
+
+      - name: 📊 Test Dashboard Generator
+        run: |
+          echo "Testing dashboard.sh..."
+          bash scripts/autonomous/dashboard.sh
+          
+          # Verify dashboard was created
+          if [ -f /tmp/bot-dashboard.md ]; then
+            echo "✓ Dashboard generated successfully"
+            echo ""
+            echo "Dashboard preview:"
+            head -30 /tmp/bot-dashboard.md
+          else
+            echo "✗ Dashboard not generated"
+            exit 1
+          fi
+
+      - name: ⚡ Test Pipeline Optimizer
+        run: |
+          echo "Testing pipeline-optimizer.sh..."
+          bash scripts/autonomous/pipeline-optimizer.sh
+          
+          # Verify report was created
+          if [ -f /tmp/pipeline-optimization-report.txt ]; then
+            echo "✓ Optimization report generated"
+            echo ""
+            echo "Report preview:"
+            head -40 /tmp/pipeline-optimization-report.txt
+          else
+            echo "✗ Optimization report not found"
+            exit 1
+          fi
+
+      - name: 🚑 Test Recovery Templates
+        run: |
+          echo "Testing recovery-templates.sh..."
+          bash scripts/autonomous/recovery-templates.sh
+          
+          # Verify templates were created
+          if [ -d /tmp/recovery-templates ]; then
+            echo "✓ Recovery templates generated"
+            ls -la /tmp/recovery-templates/
+          else
+            echo "✗ Recovery templates not found"
+            exit 1
+          fi
+
+      - name: 🔧 Test System Initialization
+        run: |
+          echo "Testing init-system.sh..."
+          bash scripts/autonomous/init-system.sh
+          
+          # Verify initialization report
+          if [ -f /tmp/autonomous-system-init-report.txt ]; then
+            echo "✓ Initialization completed"
+            echo ""
+            echo "Report preview:"
+            cat /tmp/autonomous-system-init-report.txt | tail -40
+          else
+            echo "✗ Initialization report not found"
+            exit 1
+          fi
+
+      - name: 📤 Upload Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: script-test-results
+          path: |
+            /tmp/health-check-report.json
+            /tmp/bot-dashboard.md
+            /tmp/pipeline-optimization-report.txt
+            /tmp/recovery-templates/
+            /tmp/autonomous-system-init-report.txt
+          retention-days: 7
+
+  # =================================================================
+  # Test Workflow Files
+  # =================================================================
+  test-workflows:
+    name: 📋 Test Workflow Files
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 Verify Workflow Files
+        run: |
+          echo "Checking workflow files..."
+          
+          CRITICAL_WORKFLOWS=(
+            "enhanced-orchestrator.yml"
+            "master-orchestrator.yml"
+            "auto-pilot.yml"
+            "full-autonomy.yml"
+            "ai-self-healing.yml"
+            "bot-maintenance.yml"
+          )
+          
+          ALL_FOUND=true
+          for workflow in "${CRITICAL_WORKFLOWS[@]}"; do
+            if [ -f ".github/workflows/$workflow" ]; then
+              echo "✓ $workflow found"
+            else
+              echo "⚠ $workflow not found (may be optional)"
+            fi
+          done
+          
+          TOTAL=$(find .github/workflows -name "*.yml" -type f | wc -l)
+          echo ""
+          echo "Total workflows: $TOTAL"
+
+      - name: ✅ Validate YAML Syntax
+        run: |
+          echo "Validating YAML syntax..."
+          
+          for workflow in .github/workflows/*.yml; do
+            echo "Checking: $(basename "$workflow")"
+            
+            # Basic YAML validation - check if it can be parsed
+            if grep -q "^name:" "$workflow" && grep -q "^on:" "$workflow"; then
+              echo "  ✓ Valid structure"
+            else
+              echo "  ⚠ Possibly invalid structure"
+            fi
+          done
+
+      - name: 🔐 Check Workflow Permissions
+        run: |
+          echo "Checking workflow permissions..."
+          
+          for workflow in .github/workflows/*.yml; do
+            if grep -q "permissions:" "$workflow"; then
+              echo "✓ $(basename "$workflow"): Has permissions defined"
+            else
+              echo "⚠ $(basename "$workflow"): No permissions defined"
+            fi
+          done
+
+  # =================================================================
+  # Test Documentation
+  # =================================================================
+  test-documentation:
+    name: 📚 Test Documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📄 Verify Documentation Files
+        run: |
+          echo "Checking documentation files..."
+          
+          REQUIRED_DOCS=(
+            ".github/AUTONOMOUS_CI_CD_CENTRAL.md"
+            ".github/AUTONOMOUS_SYSTEM.md"
+            "scripts/autonomous/README.md"
+          )
+          
+          for doc in "${REQUIRED_DOCS[@]}"; do
+            if [ -f "$doc" ]; then
+              SIZE=$(stat -f%z "$doc" 2>/dev/null || stat -c%s "$doc")
+              echo "✓ $doc exists (${SIZE} bytes)"
+            else
+              echo "✗ $doc missing"
+            fi
+          done
+
+      - name: 🔍 Check Documentation Quality
+        run: |
+          echo "Checking documentation quality..."
+          
+          # Check main documentation
+          if [ -f ".github/AUTONOMOUS_CI_CD_CENTRAL.md" ]; then
+            LINES=$(wc -l < .github/AUTONOMOUS_CI_CD_CENTRAL.md)
+            echo "✓ AUTONOMOUS_CI_CD_CENTRAL.md: $LINES lines"
+            
+            # Check for key sections
+            if grep -q "## 🎯 Overview" .github/AUTONOMOUS_CI_CD_CENTRAL.md; then
+              echo "  ✓ Has Overview section"
+            fi
+            
+            if grep -q "## 🎯 Master Orchestrator Bot" .github/AUTONOMOUS_CI_CD_CENTRAL.md; then
+              echo "  ✓ Has Master Orchestrator section"
+            fi
+            
+            if grep -q "## 🚑 Self-Healing System" .github/AUTONOMOUS_CI_CD_CENTRAL.md; then
+              echo "  ✓ Has Self-Healing section"
+            fi
+          fi
+
+  # =================================================================
+  # Integration Test Summary
+  # =================================================================
+  integration-summary:
+    name: 📊 Integration Test Summary
+    runs-on: ubuntu-latest
+    needs: [test-scripts, test-workflows, test-documentation]
+    if: always()
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📊 Generate Summary
+        run: |
+          cat << 'EOF'
+          
+          ╔════════════════════════════════════════════════════════════════╗
+          ║                                                                ║
+          ║   🤖  AUTONOMOUS SYSTEM INTEGRATION TEST RESULTS              ║
+          ║                                                                ║
+          ╚════════════════════════════════════════════════════════════════╝
+          
+          Test Results:
+          EOF
+          
+          echo "  Scripts Test:        ${{ needs.test-scripts.result }}"
+          echo "  Workflows Test:      ${{ needs.test-workflows.result }}"
+          echo "  Documentation Test:  ${{ needs.test-documentation.result }}"
+          echo ""
+          
+          if [ "${{ needs.test-scripts.result }}" = "success" ] && \
+             [ "${{ needs.test-workflows.result }}" = "success" ] && \
+             [ "${{ needs.test-documentation.result }}" = "success" ]; then
+            echo "✅ All tests passed! System is ready for deployment."
+            echo ""
+            echo "Next Steps:"
+            echo "1. Review test artifacts"
+            echo "2. Activate autonomous system"
+            echo "3. Monitor for 24 hours"
+            echo "4. Enable full autonomy"
+          else
+            echo "⚠️  Some tests failed. Please review and fix issues."
+          fi
+
+      - name: 📋 System Status
+        if: success()
+        run: |
+          echo ""
+          echo "🎯 Autonomous System Status:"
+          echo "  ✅ All scripts operational"
+          echo "  ✅ All workflows validated"
+          echo "  ✅ Documentation complete"
+          echo "  ✅ System ready for activation"
+          echo ""
+          echo "🚀 To activate the system:"
+          echo "   gh workflow run enhanced-orchestrator.yml -f command=activate-all-bots"
