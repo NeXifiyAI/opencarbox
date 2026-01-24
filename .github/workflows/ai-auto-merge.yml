@@ -9,6 +9,16 @@ on:
     workflows: ["🤖 AI Development Team", "CI/CD Pipeline"]
     types: [completed]
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: read
+
+concurrency:
+  group: auto-merge-${{ github.event_name }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: false
+
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
@@ -16,6 +26,7 @@ jobs:
   auto-merge:
     name: 🚀 Auto-Merge
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: |
       (github.event_name == 'pull_request_review' && github.event.review.state == 'approved') ||
       (github.event_name == 'check_suite' && github.event.check_suite.conclusion == 'success') ||
@@ -129,6 +140,7 @@ jobs:
   cleanup:
     name: 🧹 Cleanup Stale Branches
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'workflow_run'
     
     steps:
