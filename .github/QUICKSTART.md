@@ -12,6 +12,7 @@ bash scripts/autonomous/init-system.sh
 ```
 
 This will:
+
 - ✅ Verify all components
 - ✅ Check scripts and workflows
 - ✅ Run initial health check
@@ -263,11 +264,13 @@ cat /tmp/bot-monitor.log
 ### Common Issues
 
 1. **Scripts not executable**
+
    ```bash
    chmod +x scripts/autonomous/*.sh
    ```
 
 2. **Workflows not triggering**
+
    ```bash
    gh workflow list
    gh workflow enable <workflow-name>
@@ -313,21 +316,24 @@ The system is considered operational when:
 ✅ No errors in logs  
 ✅ Workflows trigger correctly  
 ✅ Self-healing works on test issue  
-✅ Monitoring runs continuously  
+✅ Monitoring runs continuously
 
 ## 🚀 Next Steps
 
 1. **Test the System**
+
    ```bash
    gh workflow run system-integration-test.yml
    ```
 
 2. **Monitor for 24h**
+
    ```bash
    ./scripts/autonomous/monitor.sh continuous
    ```
 
 3. **Enable Full Autonomy**
+
    ```bash
    gh workflow run enhanced-orchestrator.yml -f command=activate-all-bots
    ```

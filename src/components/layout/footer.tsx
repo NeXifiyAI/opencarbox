@@ -2,16 +2,16 @@
 
 import { companyConfig } from '@/config/company'
 import {
-    Clock,
-    CreditCard,
-    Facebook,
-    Instagram,
-    Mail,
-    MapPin,
-    Phone,
-    Shield,
-    Truck,
-    Twitter
+  Clock,
+  CreditCard,
+  Facebook,
+  Instagram,
+  Mail,
+  MapPin,
+  Phone,
+  Shield,
+  Truck,
+  Twitter,
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -27,41 +27,41 @@ export function Footer() {
     <footer className="bg-[#1e3a5f] text-white">
       {/* Trust-Badges Sektion */}
       <div className="border-b border-[#4fd1c5]/20">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <Truck className="w-5 h-5 text-[#4fd1c5]" />
+        <div className="mx-auto max-w-7xl px-4 py-6">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="flex items-center justify-center gap-3 md:justify-start">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <Truck className="h-5 w-5 text-[#4fd1c5]" />
               </div>
               <div>
-                <p className="font-semibold text-sm">Schneller Versand</p>
+                <p className="text-sm font-semibold">Schneller Versand</p>
                 <p className="text-xs text-gray-400">1-3 Werktage</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <Shield className="w-5 h-5 text-[#4fd1c5]" />
+            <div className="flex items-center justify-center gap-3 md:justify-start">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <Shield className="h-5 w-5 text-[#4fd1c5]" />
               </div>
               <div>
-                <p className="font-semibold text-sm">30 Tage Rückgabe</p>
+                <p className="text-sm font-semibold">30 Tage Rückgabe</p>
                 <p className="text-xs text-gray-400">Kostenlos</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <CreditCard className="w-5 h-5 text-[#4fd1c5]" />
+            <div className="flex items-center justify-center gap-3 md:justify-start">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <CreditCard className="h-5 w-5 text-[#4fd1c5]" />
               </div>
               <div>
-                <p className="font-semibold text-sm">Sichere Zahlung</p>
+                <p className="text-sm font-semibold">Sichere Zahlung</p>
                 <p className="text-xs text-gray-400">SSL-verschlüsselt</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-[#4fd1c5]" />
+            <div className="flex items-center justify-center gap-3 md:justify-start">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <Clock className="h-5 w-5 text-[#4fd1c5]" />
               </div>
               <div>
-                <p className="font-semibold text-sm">Kundenservice</p>
+                <p className="text-sm font-semibold">Kundenservice</p>
                 <p className="text-xs text-gray-400">Mo-Fr 8-18 Uhr</p>
               </div>
             </div>
@@ -70,48 +70,59 @@ export function Footer() {
       </div>
 
       {/* Haupt-Footer */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="mx-auto max-w-7xl px-4 py-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Spalte 1: Unternehmen */}
           <div>
-            <h3 className="text-[#4fd1c5] font-bold text-lg mb-4">
-              {companyConfig.name}
-            </h3>
-            <p className="text-gray-300 text-sm mb-4">
-              {companyConfig.claim}
-            </p>
-            <p className="text-gray-400 text-sm">
-              Ihr Premium-Partner für Autoteile, Werkstattservice und Gebrauchtwagen.
-              Qualität und Vertrauen seit der Gründung.
+            <h3 className="mb-4 text-lg font-bold text-[#4fd1c5]">{companyConfig.name}</h3>
+            <p className="mb-4 text-sm text-gray-300">{companyConfig.claim}</p>
+            <p className="text-sm text-gray-400">
+              Ihr Premium-Partner für Autoteile, Werkstattservice und Gebrauchtwagen. Qualität und
+              Vertrauen seit der Gründung.
             </p>
           </div>
 
           {/* Spalte 2: Kategorien */}
           <div>
-            <h3 className="text-[#4fd1c5] font-bold text-lg mb-4">Shop</h3>
+            <h3 className="mb-4 text-lg font-bold text-[#4fd1c5]">Shop</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/kategorien" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/kategorien"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Alle Kategorien
                 </Link>
               </li>
               <li>
-                <Link href="/marken" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/marken"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Marken
                 </Link>
               </li>
               <li>
-                <Link href="/werkstatt" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/werkstatt"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Werkstatt
                 </Link>
               </li>
               <li>
-                <Link href="/fahrzeuge" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/fahrzeuge"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Fahrzeughandel
                 </Link>
               </li>
               <li>
-                <Link href="/angebote" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/angebote"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Angebote
                 </Link>
               </li>
@@ -120,45 +131,69 @@ export function Footer() {
 
           {/* Spalte 3: Service & Rechtliches */}
           <div>
-            <h3 className="text-[#4fd1c5] font-bold text-lg mb-4">Service & Rechtliches</h3>
+            <h3 className="mb-4 text-lg font-bold text-[#4fd1c5]">Service & Rechtliches</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/hilfe" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/hilfe"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Hilfe & FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/kontakt" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/kontakt"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Kontakt
                 </Link>
               </li>
               <li>
-                <Link href="/versand" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/versand"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Versand & Lieferung
                 </Link>
               </li>
               <li>
-                <Link href="/zahlung" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/zahlung"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Zahlungsarten
                 </Link>
               </li>
               <li>
-                <Link href="/rueckgabe" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/rueckgabe"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Rückgabe & Widerruf
                 </Link>
               </li>
               <li>
-                <Link href="/impressum" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/impressum"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Impressum
                 </Link>
               </li>
               <li>
-                <Link href="/datenschutz" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/datenschutz"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   Datenschutz
                 </Link>
               </li>
               <li>
-                <Link href="/agb" className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm">
+                <Link
+                  href="/agb"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
+                >
                   AGB
                 </Link>
               </li>
@@ -167,29 +202,30 @@ export function Footer() {
 
           {/* Spalte 4: Kontakt */}
           <div>
-            <h3 className="text-[#4fd1c5] font-bold text-lg mb-4">Kontakt</h3>
+            <h3 className="mb-4 text-lg font-bold text-[#4fd1c5]">Kontakt</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#4fd1c5] flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300 text-sm">
-                  {companyConfig.address.street}<br />
+                <MapPin className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#4fd1c5]" />
+                <span className="text-sm text-gray-300">
+                  {companyConfig.address.street}
+                  <br />
                   {companyConfig.address.zip} {companyConfig.address.city}
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-[#4fd1c5] flex-shrink-0" />
+                <Phone className="h-5 w-5 flex-shrink-0 text-[#4fd1c5]" />
                 <a
                   href={`tel:${companyConfig.contact.phone}`}
-                  className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
                 >
                   {companyConfig.contact.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#4fd1c5] flex-shrink-0" />
+                <Mail className="h-5 w-5 flex-shrink-0 text-[#4fd1c5]" />
                 <a
                   href={`mailto:${companyConfig.contact.email}`}
-                  className="text-gray-300 hover:text-[#4fd1c5] transition-colors text-sm"
+                  className="text-sm text-gray-300 transition-colors hover:text-[#4fd1c5]"
                 >
                   {companyConfig.contact.email}
                 </a>
@@ -198,34 +234,34 @@ export function Footer() {
 
             {/* Social Media */}
             <div className="mt-6">
-              <p className="text-[#4fd1c5] font-semibold text-sm mb-3">Folgen Sie uns</p>
+              <p className="mb-3 text-sm font-semibold text-[#4fd1c5]">Folgen Sie uns</p>
               <div className="flex gap-3">
                 <a
                   href={companyConfig.social?.facebook || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center hover:bg-[#4fd1c5]/20 transition-colors"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/10 transition-colors hover:bg-[#4fd1c5]/20"
                   aria-label="Facebook"
                 >
-                  <Facebook className="w-5 h-5 text-[#4fd1c5]" />
+                  <Facebook className="h-5 w-5 text-[#4fd1c5]" />
                 </a>
                 <a
                   href={companyConfig.social?.instagram || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center hover:bg-[#4fd1c5]/20 transition-colors"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/10 transition-colors hover:bg-[#4fd1c5]/20"
                   aria-label="Instagram"
                 >
-                  <Instagram className="w-5 h-5 text-[#4fd1c5]" />
+                  <Instagram className="h-5 w-5 text-[#4fd1c5]" />
                 </a>
                 <a
                   href={companyConfig.social?.twitter || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center hover:bg-[#4fd1c5]/20 transition-colors"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#4fd1c5]/10 transition-colors hover:bg-[#4fd1c5]/20"
                   aria-label="Twitter"
                 >
-                  <Twitter className="w-5 h-5 text-[#4fd1c5]" />
+                  <Twitter className="h-5 w-5 text-[#4fd1c5]" />
                 </a>
               </div>
             </div>
@@ -235,12 +271,12 @@ export function Footer() {
 
       {/* Copyright Bar */}
       <div className="border-t border-[#4fd1c5]/20">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-2">
-            <p className="text-gray-400 text-sm text-center md:text-left">
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
+            <p className="text-center text-sm text-gray-400 md:text-left">
               © {currentYear} {companyConfig.legalName}. Alle Rechte vorbehalten.
             </p>
-            <p className="text-gray-500 text-xs">
+            <p className="text-xs text-gray-500">
               {companyConfig.legal.uid} | {companyConfig.legal.registerNumber}
             </p>
           </div>

@@ -7,14 +7,17 @@
  * @module components/providers/theme-provider
  */
 
-'use client';
+'use client'
 
-import { ThemeProvider as NextThemesProvider, type ThemeProviderProps as NextThemeProviderProps } from 'next-themes';
-import * as React from 'react';
+import {
+  ThemeProvider as NextThemesProvider,
+  type ThemeProviderProps as NextThemeProviderProps,
+} from 'next-themes'
+import * as React from 'react'
 
 /** Theme Provider Props Interface */
 type ThemeProviderProps = NextThemeProviderProps & {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 /**
@@ -40,5 +43,5 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
     >
       {children}
     </NextThemesProvider>
-  );
+  )
 }

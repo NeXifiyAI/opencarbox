@@ -4,15 +4,15 @@ import type { Config } from 'tailwindcss'
  * ============================================================
  * Tailwind CSS Konfiguration
  * ============================================================
- * 
+ *
  * Basiert auf shadcn/ui Theming-System.
- * 
+ *
  * Farben werden über CSS Variables gesteuert.
  * Siehe: src/styles/globals.css
- * 
+ *
  * Für projekt-spezifische Anpassungen:
  * → project.config.ts → theme.colors
- * 
+ *
  * ============================================================
  */
 
@@ -82,7 +82,7 @@ const config: Config = {
           200: '#FEB2B2',
           300: '#FC8181',
           400: '#F56565',
-          500: '#E53E3E',  // Primary
+          500: '#E53E3E', // Primary
           600: '#C53030',
           700: '#9B2C2C',
           800: '#822727',
@@ -95,7 +95,7 @@ const config: Config = {
           200: '#90CDF4',
           300: '#63B3ED',
           400: '#4299E1',
-          500: '#3182CE',  // Primary
+          500: '#3182CE', // Primary
           600: '#2B6CB0',
           700: '#2C5282',
           800: '#2A4365',

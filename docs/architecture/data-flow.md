@@ -14,19 +14,19 @@ graph TB
         B --> C[Zustand Store]
         C --> D[API Client]
     end
-    
+
     subgraph "Next.js Edge/Server"
         D --> E[API Routes / Server Actions]
         E --> F[Supabase Client]
         F --> G[RLS Policies]
     end
-    
+
     subgraph "Supabase"
         G --> H[(PostgreSQL)]
         F --> I[Storage Buckets]
         F --> J[Auth Service]
     end
-    
+
     subgraph "External Services"
         E --> K[Stripe API]
         E --> L[TecDoc API]
@@ -49,7 +49,7 @@ sequenceDiagram
     participant A as API Route
     participant S as Supabase
     participant M as Meilisearch
-    
+
     U->>C: Seite laden
     C->>Q: useQuery('products')
     Q->>A: GET /api/products
@@ -72,21 +72,21 @@ sequenceDiagram
     participant ST as Stripe
     participant S as Supabase
     participant E as Email Service
-    
+
     U->>C: Bestellung aufgeben
     C->>A: POST /api/orders
     A->>S: Bestellung erstellen (status: pending)
     S-->>A: Order ID
-    
+
     A->>ST: Stripe Payment Intent
     ST-->>A: Payment Intent ID
-    
+
     A->>S: Order updaten (payment_intent_id)
     A-->>C: Redirect zu Stripe
-    
+
     U->>ST: Zahlung abschließen
     ST->>A: Webhook (payment.succeeded)
-    
+
     A->>S: Order Status → 'confirmed'
     A->>E: E-Mail senden (Bestellbestätigung)
     E-->>U: E-Mail erhalten
@@ -106,18 +106,18 @@ sequenceDiagram
     participant S as Supabase
     participant E as Email Service
     participant W as WhatsApp
-    
+
     U->>B: Termin auswählen
     B->>A: POST /api/appointments
     A->>S: Prüfe Verfügbarkeit
     S-->>A: Verfügbar
-    
+
     A->>S: Appointment erstellen (status: pending)
     S-->>A: Appointment ID
-    
+
     A->>E: E-Mail senden (Bestätigung)
     A->>W: WhatsApp Nachricht (optional)
-    
+
     A-->>B: Erfolg
     B-->>U: Bestätigung anzeigen
 ```
@@ -135,15 +135,15 @@ sequenceDiagram
     participant A as API Route
     participant T as TecDoc API
     participant S as Supabase
-    
+
     U->>F: HSN/TSN eingeben
     F->>A: GET /api/vehicles/hsn-tsn?hsn=XXX&tsn=YYY
     A->>T: Fahrzeugdaten abfragen
     T-->>A: Fahrzeug-Info (Marke, Modell, Jahr)
-    
+
     A->>S: Prüfe Kompatibilität (product_vehicle_compatibility)
     S-->>A: Passende Produkte
-    
+
     A-->>F: Fahrzeugdaten + Produkte
     F-->>U: Ergebnisse anzeigen
 ```
@@ -211,15 +211,15 @@ sequenceDiagram
     participant M as Middleware
     participant A as Supabase Auth
     participant S as Supabase DB
-    
+
     U->>C: Login
     C->>A: signInWithPassword()
     A-->>C: Session Token
-    
+
     C->>M: Request mit Cookie
     M->>A: verifySession()
     A-->>M: User valid
-    
+
     M->>S: RLS Check (profiles)
     S-->>M: Zugriff gewährt
     M-->>C: Response
@@ -238,12 +238,12 @@ sequenceDiagram
     participant A as API Route
     participant S as Supabase Storage
     participant DB as Database
-    
+
     U->>C: Bild hochladen
     C->>A: POST /api/upload
     A->>S: Upload zu Bucket
     S-->>A: Public URL
-    
+
     A->>DB: URL speichern (products/images)
     DB-->>A: Bestätigung
     A-->>C: URL zurückgeben
@@ -260,16 +260,20 @@ sequenceDiagram
 // Bestellstatus-Updates
 supabase
   .channel('orders')
-  .on('postgres_changes', {
-    event: 'UPDATE',
-    schema: 'public',
-    table: 'orders',
-    filter: `id=eq.${orderId}`
-  }, (payload) => {
-    // Status-Update empfangen
-    updateOrderStatus(payload.new);
-  })
-  .subscribe();
+  .on(
+    'postgres_changes',
+    {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'orders',
+      filter: `id=eq.${orderId}`,
+    },
+    (payload) => {
+      // Status-Update empfangen
+      updateOrderStatus(payload.new)
+    }
+  )
+  .subscribe()
 ```
 
 ---
@@ -278,21 +282,21 @@ supabase
 
 ### TanStack Query Caching
 
-| Endpoint | Cache Time | Stale Time |
-|----------|------------|------------|
-| `/api/products` | 5 min | 2 min |
-| `/api/categories` | 30 min | 10 min |
-| `/api/orders` | 0 (immer fresh) | - |
-| `/api/services` | 10 min | 5 min |
+| Endpoint          | Cache Time      | Stale Time |
+| ----------------- | --------------- | ---------- |
+| `/api/products`   | 5 min           | 2 min      |
+| `/api/categories` | 30 min          | 10 min     |
+| `/api/orders`     | 0 (immer fresh) | -          |
+| `/api/services`   | 10 min          | 5 min      |
 
 ### Cache-Invalidation
 
 ```typescript
 // Nach Produkt-Update
-queryClient.invalidateQueries(['products']);
+queryClient.invalidateQueries(['products'])
 
 // Nach Bestellung
-queryClient.invalidateQueries(['orders']);
+queryClient.invalidateQueries(['orders'])
 ```
 
 ---
@@ -306,15 +310,15 @@ graph TB
     A[API Call] --> B{Erfolg?}
     B -->|Ja| C[Data Processing]
     B -->|Nein| D{Fehler-Typ}
-    
+
     D -->|Network| E[Retry Logic]
     D -->|4xx| F[User Error Message]
     D -->|5xx| G[Server Error Log]
-    
+
     E --> H[Max Retries?]
     H -->|Nein| A
     H -->|Ja| F
-    
+
     G --> I[Sentry Logging]
     F --> J[UI Error Display]
 ```
@@ -344,4 +348,3 @@ graph TB
 ---
 
 **Letzte Aktualisierung:** 2024-12-05
-

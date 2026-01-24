@@ -1,29 +1,29 @@
-import { create } from 'zustand';
+import { create } from 'zustand'
 
 /**
  * UI-State Interface
  */
 interface UIState {
   /** Ist die mobile Navigation offen? */
-  isMobileNavOpen: boolean;
+  isMobileNavOpen: boolean
   /** Ist die Suche offen/fokussiert? */
-  isSearchOpen: boolean;
+  isSearchOpen: boolean
   /** Aktueller aktiver Bereich (für Theming) */
-  activeSection: 'shop' | 'werkstatt' | 'autohandel' | 'marketing';
+  activeSection: 'shop' | 'werkstatt' | 'autohandel' | 'marketing'
   /** Ist gerade eine globale Aktion am Laden? */
-  isGlobalLoading: boolean;
+  isGlobalLoading: boolean
 
   // Actions
   /** Mobile Navigation öffnen/schließen */
-  setMobileNavOpen: (isOpen: boolean) => void;
+  setMobileNavOpen: (isOpen: boolean) => void
   /** Toggle Mobile Navigation */
-  toggleMobileNav: () => void;
+  toggleMobileNav: () => void
   /** Suche öffnen/schließen */
-  setSearchOpen: (isOpen: boolean) => void;
+  setSearchOpen: (isOpen: boolean) => void
   /** Aktiven Bereich setzen (ändert Theming) */
-  setActiveSection: (section: UIState['activeSection']) => void;
+  setActiveSection: (section: UIState['activeSection']) => void
   /** Globalen Ladezustand setzen */
-  setGlobalLoading: (isLoading: boolean) => void;
+  setGlobalLoading: (isLoading: boolean) => void
 }
 
 /**
@@ -46,32 +46,32 @@ export const useUIStore = create<UIState>((set) => ({
   isGlobalLoading: false,
 
   setMobileNavOpen: (isOpen) => {
-    set({ isMobileNavOpen: isOpen });
+    set({ isMobileNavOpen: isOpen })
     // Body-Scroll sperren wenn Nav offen
     if (typeof document !== 'undefined') {
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+      document.body.style.overflow = isOpen ? 'hidden' : ''
     }
   },
 
   toggleMobileNav: () => {
     set((state) => {
-      const newState = !state.isMobileNavOpen;
+      const newState = !state.isMobileNavOpen
       if (typeof document !== 'undefined') {
-        document.body.style.overflow = newState ? 'hidden' : '';
+        document.body.style.overflow = newState ? 'hidden' : ''
       }
-      return { isMobileNavOpen: newState };
-    });
+      return { isMobileNavOpen: newState }
+    })
   },
 
   setSearchOpen: (isOpen) => {
-    set({ isSearchOpen: isOpen });
+    set({ isSearchOpen: isOpen })
   },
 
   setActiveSection: (section) => {
-    set({ activeSection: section });
+    set({ activeSection: section })
   },
 
   setGlobalLoading: (isLoading) => {
-    set({ isGlobalLoading: isLoading });
+    set({ isGlobalLoading: isLoading })
   },
-}));
+}))

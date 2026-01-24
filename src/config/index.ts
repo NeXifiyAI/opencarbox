@@ -1,11 +1,11 @@
 /**
  * Config Loader
  * =============
- * 
+ *
  * Lädt und validiert die project.config.ts
  */
 
-import config from '../../../project.config'
+import config from '../../project.config'
 import type { ProjectConfig } from './types'
 
 // Singleton für gecachte Config
@@ -54,7 +54,7 @@ export function getProjectInfo() {
  */
 export function generateCssVariables(): string {
   const { colors } = getConfig().theme
-  
+
   return `
     :root {
       --color-primary: ${colors.primary};

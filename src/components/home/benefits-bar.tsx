@@ -1,44 +1,44 @@
-'use client';
+'use client'
 
-import { Package, RotateCcw, Shield, Truck, Users } from 'lucide-react';
+import { Package, RotateCcw, Shield, Truck, Users } from 'lucide-react'
 
 const benefits = [
   {
     icon: Users,
     title: 'Über 3 Millionen',
-    subtitle: 'zufriedene Kunden'
+    subtitle: 'zufriedene Kunden',
   },
   {
     icon: Package,
     title: 'Riesenauswahl: Über',
-    subtitle: '3 Millionen Teile'
+    subtitle: '3 Millionen Teile',
   },
   {
     icon: Truck,
     title: 'Versand heute bei',
-    subtitle: 'Bestellungen bis 15 Uhr'
+    subtitle: 'Bestellungen bis 15 Uhr',
   },
   {
     icon: RotateCcw,
     title: '30 Tage kostenlose',
-    subtitle: 'Rücksendungen'
+    subtitle: 'Rücksendungen',
   },
   {
     icon: Shield,
     title: 'Herstellergarantie',
-    subtitle: 'auf alle Produkte'
+    subtitle: 'auf alle Produkte',
   },
-];
+]
 
 export function BenefitsBar() {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mt-6">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    <div className="mt-6 rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
         {benefits.map((benefit, index) => {
-          const Icon = benefit.icon;
+          const Icon = benefit.icon
           return (
-            <div key={index} className="flex items-center gap-3 group cursor-default">
-              <div className="bg-[#4fd1c5]/10 rounded-full p-2 group-hover:bg-[#4fd1c5]/20 transition-colors">
+            <div key={index} className="group flex cursor-default items-center gap-3">
+              <div className="rounded-full bg-[#4fd1c5]/10 p-2 transition-colors group-hover:bg-[#4fd1c5]/20">
                 <Icon className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <div>
@@ -46,11 +46,11 @@ export function BenefitsBar() {
                 <p className="text-xs text-gray-500">{benefit.subtitle}</p>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
 
-export default BenefitsBar;
+export default BenefitsBar

@@ -4,25 +4,27 @@ This directory contains all scripts for the autonomous CI/CD orchestration syste
 
 ## 📁 Contents
 
-| Script | Purpose | Output |
-|--------|---------|--------|
-| `health-check.sh` | System health monitoring | `/tmp/health-check-report.json` |
-| `bot-lifecycle.sh` | Bot lifecycle management | Console output |
-| `self-heal.sh` | Automatic issue repair | `/tmp/self-heal.log` |
-| `pipeline-optimizer.sh` | Performance optimization | `/tmp/pipeline-optimization-report.txt` |
-| `dashboard.sh` | Dashboard generation | `/tmp/bot-dashboard.md` |
-| `monitor.sh` | Continuous monitoring | `/tmp/bot-monitor.log` |
-| `recovery-templates.sh` | Recovery procedure templates | `/tmp/recovery-templates/` |
+| Script                  | Purpose                      | Output                                  |
+| ----------------------- | ---------------------------- | --------------------------------------- |
+| `health-check.sh`       | System health monitoring     | `/tmp/health-check-report.json`         |
+| `bot-lifecycle.sh`      | Bot lifecycle management     | Console output                          |
+| `self-heal.sh`          | Automatic issue repair       | `/tmp/self-heal.log`                    |
+| `pipeline-optimizer.sh` | Performance optimization     | `/tmp/pipeline-optimization-report.txt` |
+| `dashboard.sh`          | Dashboard generation         | `/tmp/bot-dashboard.md`                 |
+| `monitor.sh`            | Continuous monitoring        | `/tmp/bot-monitor.log`                  |
+| `recovery-templates.sh` | Recovery procedure templates | `/tmp/recovery-templates/`              |
 
 ## 🚀 Quick Start
 
 ### Health Check
+
 ```bash
 ./health-check.sh
 cat /tmp/health-check-report.json
 ```
 
 ### Bot Management
+
 ```bash
 # List all bots
 ./bot-lifecycle.sh list
@@ -38,6 +40,7 @@ cat /tmp/health-check-report.json
 ```
 
 ### Self-Healing
+
 ```bash
 # Run self-healing
 ./self-heal.sh
@@ -47,18 +50,21 @@ tail -f /tmp/self-heal.log
 ```
 
 ### Performance Optimization
+
 ```bash
 ./pipeline-optimizer.sh
 cat /tmp/pipeline-optimization-report.txt
 ```
 
 ### Dashboard
+
 ```bash
 ./dashboard.sh
 cat /tmp/bot-dashboard.md
 ```
 
 ### Monitoring
+
 ```bash
 # Continuous monitoring (Ctrl+C to stop)
 ./monitor.sh continuous
@@ -68,6 +74,7 @@ cat /tmp/bot-dashboard.md
 ```
 
 ### Recovery Templates
+
 ```bash
 ./recovery-templates.sh
 ls /tmp/recovery-templates/
@@ -83,6 +90,7 @@ ls /tmp/recovery-templates/
 ## 📝 Usage Patterns
 
 ### Daily Operations
+
 ```bash
 # Morning check
 ./health-check.sh && ./dashboard.sh
@@ -95,6 +103,7 @@ ls /tmp/recovery-templates/
 ```
 
 ### Performance Tuning
+
 ```bash
 # Analyze
 ./pipeline-optimizer.sh
@@ -107,6 +116,7 @@ cat /tmp/pipeline-optimization-report.txt
 ```
 
 ### Emergency Recovery
+
 ```bash
 # Quick diagnosis
 ./health-check.sh
@@ -132,6 +142,7 @@ These scripts are called from GitHub Actions workflows:
 ## 📊 Output Formats
 
 ### JSON (health-check.sh)
+
 ```json
 {
   "timestamp": "2024-01-24T08:00:00Z",
@@ -145,19 +156,24 @@ These scripts are called from GitHub Actions workflows:
 ```
 
 ### Markdown (dashboard.sh)
+
 Comprehensive dashboard with:
+
 - Bot inventory table
 - Health summary
 - Performance metrics
 - Quick commands
 
 ### Plain Text (pipeline-optimizer.sh)
+
 Detailed analysis with:
+
 - Workflow-by-workflow breakdown
 - Recommendations
 - Time savings estimates
 
 ### Log Format (self-heal.sh, monitor.sh)
+
 ```
 [TIMESTAMP] [LEVEL] Message
 ```
@@ -172,6 +188,7 @@ Detailed analysis with:
 ## 🤝 Contributing
 
 When adding new scripts:
+
 1. Follow the existing structure
 2. Add comprehensive comments
 3. Include usage examples
@@ -186,6 +203,7 @@ See `.github/AUTONOMOUS_CI_CD_CENTRAL.md` for complete system documentation.
 ## 🐛 Troubleshooting
 
 ### Script not found
+
 ```bash
 # Check if in correct directory
 pwd
@@ -196,11 +214,13 @@ chmod +x *.sh
 ```
 
 ### Permission denied
+
 ```bash
 chmod +x scripts/autonomous/*.sh
 ```
 
 ### Command not found
+
 ```bash
 # Install GitHub CLI
 # See: https://cli.github.com/

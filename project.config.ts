@@ -1,27 +1,26 @@
 /**
  * NeXifyAI Project Configuration
  * ================================
- * 
+ *
  * Diese Datei ist die EINZIGE Stelle, die du anpassen musst.
  * Alle Module lesen diese Config und konfigurieren sich selbst.
- * 
+ *
  * Nach Änderungen: `pnpm generate` ausführen
  */
 
 import type { ProjectConfig } from './src/config/types'
 
 const config: ProjectConfig = {
-  
   // ============================================================
   // PROJEKT-INFORMATIONEN
   // ============================================================
-  
+
   project: {
     name: 'Mein Projekt',
     slug: 'mein-projekt',
     description: 'Projektbeschreibung',
     version: '1.0.0',
-    
+
     contact: {
       company: 'Firmenname',
       email: 'kontakt@example.com',
@@ -32,7 +31,7 @@ const config: ProjectConfig = {
   // ============================================================
   // FEATURES (An/Aus)
   // ============================================================
-  
+
   features: {
     auth: {
       enabled: true,
@@ -40,40 +39,40 @@ const config: ProjectConfig = {
       mfa: false,
       passwordless: false,
     },
-    
+
     multiTenant: {
       enabled: false,
       isolation: 'row',
     },
-    
+
     i18n: {
       enabled: false,
       defaultLocale: 'de',
       locales: ['de', 'en'],
     },
-    
+
     analytics: {
       enabled: false,
       provider: 'plausible',
     },
-    
+
     email: {
       enabled: true,
       provider: 'resend',
     },
-    
+
     payments: {
       enabled: false,
       provider: 'stripe',
       mode: 'subscription',
     },
-    
+
     storage: {
       enabled: false,
       provider: 'supabase',
       maxFileSize: 10,
     },
-    
+
     realtime: {
       enabled: false,
       channels: [],
@@ -83,7 +82,7 @@ const config: ProjectConfig = {
   // ============================================================
   // DESIGN SYSTEM
   // ============================================================
-  
+
   theme: {
     colors: {
       primary: '#343f60',
@@ -93,14 +92,14 @@ const config: ProjectConfig = {
       success: '#22c55e',
       warning: '#f59e0b',
     },
-    
+
     fonts: {
       sans: 'Inter, system-ui, sans-serif',
       mono: 'JetBrains Mono, monospace',
     },
-    
+
     borderRadius: 'md',
-    
+
     darkMode: {
       enabled: true,
       default: 'system',
@@ -110,7 +109,7 @@ const config: ProjectConfig = {
   // ============================================================
   // DATENBANK-SCHEMA (Supabase)
   // ============================================================
-  
+
   database: {
     schemas: {
       users: true,
@@ -119,25 +118,25 @@ const config: ProjectConfig = {
       cms: false,
       crm: false,
     },
-    
+
     customTables: [],
   },
 
   // ============================================================
   // API-KONFIGURATION
   // ============================================================
-  
+
   api: {
     rateLimit: {
       enabled: true,
       requests: 100,
       window: 60,
     },
-    
+
     cors: {
       origins: ['*'],
     },
-    
+
     routes: {
       health: true,
       webhook: false,
@@ -147,10 +146,10 @@ const config: ProjectConfig = {
   // ============================================================
   // DEPLOYMENT (Vercel)
   // ============================================================
-  
+
   deployment: {
     platform: 'vercel',
-    
+
     environments: {
       preview: {
         supabaseUrl: 'NEXT_PUBLIC_SUPABASE_URL',
@@ -161,25 +160,25 @@ const config: ProjectConfig = {
         supabaseAnonKey: 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
       },
     },
-    
+
     cron: [],
   },
 
   // ============================================================
   // SEO & META
   // ============================================================
-  
+
   seo: {
     titleTemplate: '%s | Mein Projekt',
     defaultTitle: 'Mein Projekt',
     defaultDescription: 'Projektbeschreibung für SEO',
-    
+
     openGraph: {
       type: 'website',
       siteName: 'Mein Projekt',
       images: ['/og-image.png'],
     },
-    
+
     twitter: {
       card: 'summary_large_image',
     },
@@ -188,7 +187,7 @@ const config: ProjectConfig = {
   // ============================================================
   // LEGAL & COMPLIANCE
   // ============================================================
-  
+
   legal: {
     gdpr: {
       enabled: true,
@@ -196,7 +195,7 @@ const config: ProjectConfig = {
       privacyPolicy: '/datenschutz',
       imprint: '/impressum',
     },
-    
+
     termsOfService: '/agb',
   },
 }

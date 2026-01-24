@@ -9,18 +9,19 @@ import '@/styles/globals.css'
  * ============================================================
  * Root Layout
  * ============================================================
- * 
+ *
  * Zentrale Layout-Komponente für die gesamte App.
  * Konfiguration kommt aus project.config.ts
- * 
+ *
  * ============================================================
  */
 
-// Google Font laden
+// Google Font laden (with fallback for CI/build environments)
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
+  fallback: ['system-ui', 'arial'],
 })
 
 // Metadata aus Config
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   authors: [{ name: config.app.name }],
   creator: config.app.name,
   metadataBase: new URL(config.app.url),
-  
+
   // Open Graph
   openGraph: {
     type: 'website',
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     siteName: config.app.name,
     images: config.seo.ogImage ? [{ url: config.seo.ogImage }] : [],
   },
-  
+
   // Twitter
   twitter: {
     card: 'summary_large_image',
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     description: config.seo.defaultDescription,
     images: config.seo.ogImage ? [config.seo.ogImage] : [],
   },
-  
+
   // Robots
   robots: {
     index: true,
@@ -66,14 +67,14 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  
+
   // Icons
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
-  
+
   // Manifest
   manifest: '/site.webmanifest',
 }
@@ -95,30 +96,19 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html 
-      lang={config.app.defaultLocale} 
-      suppressHydrationWarning
-      className={cn(inter.variable)}
-    >
+    <html lang={config.app.defaultLocale} suppressHydrationWarning className={cn(inter.variable)}>
       <head>
         {/* Preconnect zu externen Services */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+
         {/* Supabase preconnect wenn konfiguriert */}
         {process.env.NEXT_PUBLIC_SUPABASE_URL && (
           <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
         )}
       </head>
-      <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          inter.variable
-        )}
-      >
-        <Providers>
-          {children}
-        </Providers>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

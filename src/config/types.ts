@@ -1,7 +1,7 @@
 /**
  * NeXifyAI Project Configuration Types
  * =====================================
- * 
+ *
  * TypeScript-Definitionen für project.config.ts
  * Bietet vollständiges Autocomplete und Validierung.
  */

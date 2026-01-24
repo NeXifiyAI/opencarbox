@@ -7,14 +7,14 @@
 
 ## 🚀 AUTOPILOT STATUS
 
-| Setting | Status |
-|---------|--------|
-| Auto-Approve | ✅ AKTIVIERT |
-| Admin Mode | ✅ FULL ACCESS |
-| Human-in-the-Loop | ❌ DEAKTIVIERT |
-| DB Operations | ✅ OHNE BESTÄTIGUNG |
-| File Operations | ✅ OHNE BESTÄTIGUNG |
-| API Calls | ✅ OHNE BESTÄTIGUNG |
+| Setting           | Status              |
+| ----------------- | ------------------- |
+| Auto-Approve      | ✅ AKTIVIERT        |
+| Admin Mode        | ✅ FULL ACCESS      |
+| Human-in-the-Loop | ❌ DEAKTIVIERT      |
+| DB Operations     | ✅ OHNE BESTÄTIGUNG |
+| File Operations   | ✅ OHNE BESTÄTIGUNG |
+| API Calls         | ✅ OHNE BESTÄTIGUNG |
 | Terminal Commands | ✅ OHNE BESTÄTIGUNG |
 
 ---
@@ -22,12 +22,15 @@
 ## 📁 Inhalt
 
 ### `auto_approve.json` ⭐ NEU
+
 Konfiguration für den vollautonomen Admin-Modus:
+
 - Alle Permissions auf `true`
 - Keine menschliche Bestätigung erforderlich
 - Admin-Zugriff auf Supabase mit Service Role
 
 ### `mcp_settings.json`
+
 Konfiguration für 9 MCP (Model Context Protocol) Server:
 
 1. **Supabase** - Database, Auth, Storage, Edge Functions, Branching
@@ -43,6 +46,7 @@ Konfiguration für 9 MCP (Model Context Protocol) Server:
 **Setup:** Diese Datei wird automatisch von Cline erkannt. Stelle sicher, dass alle Environment Variables in `.env` gesetzt sind.
 
 ### `custom_commands.md`
+
 12 Custom Slash-Commands für Cline:
 
 - `/think` - Oracle Thinking Process
@@ -64,6 +68,7 @@ Konfiguration für 9 MCP (Model Context Protocol) Server:
 ## 🚀 Quick Start
 
 ### 1. MCP Server aktivieren
+
 1. Öffne Cline Settings (⚙️)
 2. Gehe zu "MCP Servers"
 3. Alle 9 Server sollten automatisch aus `mcp_settings.json` geladen werden
@@ -75,6 +80,7 @@ Konfiguration für 9 MCP (Model Context Protocol) Server:
    - `BRAVE_API_KEY` (optional)
 
 ### 2. Custom Commands importieren
+
 1. Cline Settings → Custom Commands
 2. Import `custom_commands.md`
 3. Teste mit `/help-nexify` in Cline Chat
@@ -84,6 +90,7 @@ Konfiguration für 9 MCP (Model Context Protocol) Server:
 ## 🔒 Security
 
 **WICHTIG:**
+
 - MCP Settings können Environment Variables referenzieren: `${VARIABLE_NAME}`
 - Setze NIEMALS Secrets direkt in `mcp_settings.json`
 - Alle Credentials gehören in `.env` (nicht committed)

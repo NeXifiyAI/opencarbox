@@ -1,16 +1,27 @@
 'use client'
 
 import { companyConfig } from '@/config/company'
-import { AlertTriangle, CreditCard, FileText, RefreshCw, Scale, Shield, ShoppingCart, Truck } from 'lucide-react'
+import {
+  AlertTriangle,
+  CreditCard,
+  FileText,
+  RefreshCw,
+  Scale,
+  Shield,
+  ShoppingCart,
+  Truck,
+} from 'lucide-react'
 import Link from 'next/link'
 
 export default function AGBPage() {
   return (
     <main className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="mx-auto max-w-4xl px-4">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-[#1e3a5f] mb-4">Allgemeine Geschäftsbedingungen</h1>
+        <div className="mb-12 text-center">
+          <h1 className="mb-4 text-4xl font-bold text-[#1e3a5f]">
+            Allgemeine Geschäftsbedingungen
+          </h1>
           <p className="text-gray-600">
             der {companyConfig.legalName} für den Online-Shop {companyConfig.name}
           </p>
@@ -18,23 +29,24 @@ export default function AGBPage() {
 
         <div className="space-y-8">
           {/* §1 Geltungsbereich */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <Scale className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <Scale className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 1 Geltungsbereich</h2>
             </div>
-            <div className="text-gray-600 space-y-4">
+            <div className="space-y-4 text-gray-600">
               <p>
-                (1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für alle Verträge,
-                die zwischen der {companyConfig.legalName}, {companyConfig.address.street}, {companyConfig.address.zip} {companyConfig.address.city}
+                (1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") gelten für alle
+                Verträge, die zwischen der {companyConfig.legalName}, {companyConfig.address.street}
+                , {companyConfig.address.zip} {companyConfig.address.city}
                 (nachfolgend „Verkäufer") und dem Kunden (nachfolgend „Käufer") über den Online-Shop
                 {companyConfig.name} geschlossen werden.
               </p>
               <p>
-                (2) Abweichende Bedingungen des Käufers werden nicht Vertragsbestandteil, es sei denn,
-                der Verkäufer stimmt ihrer Geltung ausdrücklich schriftlich zu.
+                (2) Abweichende Bedingungen des Käufers werden nicht Vertragsbestandteil, es sei
+                denn, der Verkäufer stimmt ihrer Geltung ausdrücklich schriftlich zu.
               </p>
               <p>
                 (3) Diese AGB gelten sowohl gegenüber Verbrauchern als auch gegenüber Unternehmern,
@@ -44,21 +56,21 @@ export default function AGBPage() {
           </section>
 
           {/* §2 Vertragsschluss */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <ShoppingCart className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <ShoppingCart className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 2 Vertragsschluss</h2>
             </div>
-            <div className="text-gray-600 space-y-4">
+            <div className="space-y-4 text-gray-600">
               <p>
                 (1) Die Darstellung der Produkte im Online-Shop stellt kein rechtlich bindendes
                 Angebot, sondern eine Aufforderung zur Bestellung dar.
               </p>
               <p>
-                (2) Durch Anklicken des Buttons „Zahlungspflichtig bestellen" gibt der Käufer
-                ein verbindliches Kaufangebot ab.
+                (2) Durch Anklicken des Buttons „Zahlungspflichtig bestellen" gibt der Käufer ein
+                verbindliches Kaufangebot ab.
               </p>
               <p>
                 (3) Der Verkäufer bestätigt den Eingang der Bestellung unverzüglich per E-Mail
@@ -72,14 +84,16 @@ export default function AGBPage() {
           </section>
 
           {/* §3 Preise & Zahlung */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <CreditCard className="h-6 w-6 text-[#4fd1c5]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 3 Preise und Zahlungsbedingungen</h2>
+              <h2 className="text-2xl font-bold text-[#1e3a5f]">
+                § 3 Preise und Zahlungsbedingungen
+              </h2>
             </div>
-            <div className="text-gray-600 space-y-4">
+            <div className="space-y-4 text-gray-600">
               <p>
                 (1) Alle angegebenen Preise sind Endpreise inklusive der gesetzlichen Umsatzsteuer
                 von derzeit 20%.
@@ -99,79 +113,77 @@ export default function AGBPage() {
           </section>
 
           {/* §4 Lieferung */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <Truck className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <Truck className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 4 Lieferung und Versand</h2>
             </div>
-            <div className="text-gray-600 space-y-4">
+            <div className="space-y-4 text-gray-600">
+              <p>(1) Die Lieferung erfolgt an die vom Käufer angegebene Lieferadresse.</p>
               <p>
-                (1) Die Lieferung erfolgt an die vom Käufer angegebene Lieferadresse.
+                (2) Die Lieferzeit beträgt, sofern nicht anders angegeben, 1-3 Werktage innerhalb
+                Österreichs.
               </p>
+              <p>(3) Lieferungen ins Ausland können längere Lieferzeiten erfordern.</p>
               <p>
-                (2) Die Lieferzeit beträgt, sofern nicht anders angegeben, 1-3 Werktage
-                innerhalb Österreichs.
-              </p>
-              <p>
-                (3) Lieferungen ins Ausland können längere Lieferzeiten erfordern.
-              </p>
-              <p>
-                (4) Sollte ein Produkt nicht lieferbar sein, wird der Käufer unverzüglich
-                informiert und bereits geleistete Zahlungen werden erstattet.
+                (4) Sollte ein Produkt nicht lieferbar sein, wird der Käufer unverzüglich informiert
+                und bereits geleistete Zahlungen werden erstattet.
               </p>
             </div>
           </section>
 
           {/* §5 Widerrufsrecht */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <RefreshCw className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <RefreshCw className="h-6 w-6 text-[#4fd1c5]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 5 Widerrufsrecht für Verbraucher</h2>
+              <h2 className="text-2xl font-bold text-[#1e3a5f]">
+                § 5 Widerrufsrecht für Verbraucher
+              </h2>
             </div>
-            <div className="text-gray-600 space-y-4">
-              <div className="bg-[#4fd1c5]/5 border border-[#4fd1c5]/20 rounded-lg p-4">
-                <p className="font-semibold text-[#1e3a5f] mb-2">Widerrufsbelehrung</p>
+            <div className="space-y-4 text-gray-600">
+              <div className="rounded-lg border border-[#4fd1c5]/20 bg-[#4fd1c5]/5 p-4">
+                <p className="mb-2 font-semibold text-[#1e3a5f]">Widerrufsbelehrung</p>
                 <p>
-                  Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen
-                  Vertrag zu widerrufen. Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag,
-                  an dem Sie oder ein von Ihnen benannter Dritter, der nicht der Beförderer ist,
-                  die Waren in Besitz genommen haben.
+                  Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag
+                  zu widerrufen. Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag, an dem Sie
+                  oder ein von Ihnen benannter Dritter, der nicht der Beförderer ist, die Waren in
+                  Besitz genommen haben.
                 </p>
               </div>
               <p>
                 Um Ihr Widerrufsrecht auszuüben, müssen Sie uns ({companyConfig.legalName},
-                {companyConfig.address.street}, {companyConfig.address.zip} {companyConfig.address.city},
-                E-Mail: {companyConfig.contact.email}) mittels einer eindeutigen Erklärung über
-                Ihren Entschluss, diesen Vertrag zu widerrufen, informieren.
+                {companyConfig.address.street}, {companyConfig.address.zip}{' '}
+                {companyConfig.address.city}, E-Mail: {companyConfig.contact.email}) mittels einer
+                eindeutigen Erklärung über Ihren Entschluss, diesen Vertrag zu widerrufen,
+                informieren.
               </p>
               <p>
                 Weitere Informationen zum Widerrufsrecht finden Sie auf unserer
-                <Link href="/rueckgabe" className="text-[#4fd1c5] hover:underline ml-1">
+                <Link href="/rueckgabe" className="ml-1 text-[#4fd1c5] hover:underline">
                   Rückgabe & Widerruf-Seite
-                </Link>.
+                </Link>
+                .
               </p>
             </div>
           </section>
 
           {/* §6 Gewährleistung */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <Shield className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <Shield className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 6 Gewährleistung und Garantie</h2>
             </div>
-            <div className="text-gray-600 space-y-4">
+            <div className="space-y-4 text-gray-600">
               <p>
                 (1) Es gelten die gesetzlichen Gewährleistungsrechte nach österreichischem Recht.
               </p>
-              <p>
-                (2) Für neue Waren beträgt die Gewährleistungsfrist 2 Jahre ab Übergabe.
-              </p>
+              <p>(2) Für neue Waren beträgt die Gewährleistungsfrist 2 Jahre ab Übergabe.</p>
               <p>
                 (3) Etwaige Herstellergarantien bleiben von den gesetzlichen Gewährleistungsrechten
                 unberührt.
@@ -184,20 +196,18 @@ export default function AGBPage() {
           </section>
 
           {/* §7 Haftung */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <AlertTriangle className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <AlertTriangle className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 7 Haftung</h2>
             </div>
-            <div className="text-gray-600 space-y-4">
+            <div className="space-y-4 text-gray-600">
+              <p>(1) Der Verkäufer haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit.</p>
               <p>
-                (1) Der Verkäufer haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit.
-              </p>
-              <p>
-                (2) Bei leichter Fahrlässigkeit haftet der Verkäufer nur bei Verletzung
-                wesentlicher Vertragspflichten und der Höhe nach begrenzt auf den vorhersehbaren,
+                (2) Bei leichter Fahrlässigkeit haftet der Verkäufer nur bei Verletzung wesentlicher
+                Vertragspflichten und der Höhe nach begrenzt auf den vorhersehbaren,
                 vertragstypischen Schaden.
               </p>
               <p>
@@ -208,31 +218,34 @@ export default function AGBPage() {
           </section>
 
           {/* §8 Schlussbestimmungen */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-[#4fd1c5]/10 flex items-center justify-center">
-                <FileText className="w-6 h-6 text-[#4fd1c5]" />
+          <section className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#4fd1c5]/10">
+                <FileText className="h-6 w-6 text-[#4fd1c5]" />
               </div>
               <h2 className="text-2xl font-bold text-[#1e3a5f]">§ 8 Schlussbestimmungen</h2>
             </div>
-            <div className="text-gray-600 space-y-4">
+            <div className="space-y-4 text-gray-600">
+              <p>(1) Es gilt österreichisches Recht unter Ausschluss des UN-Kaufrechts.</p>
               <p>
-                (1) Es gilt österreichisches Recht unter Ausschluss des UN-Kaufrechts.
-              </p>
-              <p>
-                (2) Gerichtsstand für alle Streitigkeiten ist, soweit gesetzlich zulässig,
-                Wien, Österreich.
+                (2) Gerichtsstand für alle Streitigkeiten ist, soweit gesetzlich zulässig, Wien,
+                Österreich.
               </p>
               <p>
                 (3) Die EU-Kommission stellt eine Plattform für die außergerichtliche
                 Online-Streitbeilegung bereit:
-                <a href={companyConfig.dispute.euUrl} target="_blank" rel="noopener noreferrer" className="text-[#4fd1c5] hover:underline ml-1">
+                <a
+                  href={companyConfig.dispute.euUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-1 text-[#4fd1c5] hover:underline"
+                >
                   {companyConfig.dispute.euUrl}
                 </a>
               </p>
               <p>
-                (4) Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die
-                Wirksamkeit der übrigen Bestimmungen unberührt.
+                (4) Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die Wirksamkeit
+                der übrigen Bestimmungen unberührt.
               </p>
             </div>
           </section>
@@ -242,9 +255,13 @@ export default function AGBPage() {
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>Stand: {new Date().toLocaleDateString('de-AT')}</p>
           <p className="mt-2">
-            <Link href="/impressum" className="text-[#4fd1c5] hover:underline">Impressum</Link>
+            <Link href="/impressum" className="text-[#4fd1c5] hover:underline">
+              Impressum
+            </Link>
             {' | '}
-            <Link href="/datenschutz" className="text-[#4fd1c5] hover:underline">Datenschutz</Link>
+            <Link href="/datenschutz" className="text-[#4fd1c5] hover:underline">
+              Datenschutz
+            </Link>
           </p>
         </div>
       </div>

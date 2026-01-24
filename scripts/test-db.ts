@@ -21,11 +21,10 @@ async function main() {
     console.log('✅ Test-Query erfolgreich:', result)
 
     // Count tables
-    const tables = await prisma.$queryRaw`
+    const tables = (await prisma.$queryRaw`
       SELECT tablename FROM pg_tables WHERE schemaname = 'public'
-    ` as { tablename: string }[]
-    console.log('📊 Verfügbare Tabellen:', tables.map(t => t.tablename).join(', '))
-
+    `) as { tablename: string }[]
+    console.log('📊 Verfügbare Tabellen:', tables.map((t) => t.tablename).join(', '))
   } catch (error) {
     console.error('❌ Fehler:', (error as Error).message)
   } finally {

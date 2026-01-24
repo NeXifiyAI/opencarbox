@@ -1,11 +1,11 @@
 'use client'
 
-import { Footer } from '@/components/layout/footer';
-import { Header } from '@/components/layout/header';
-import { type FC, type ReactNode } from 'react';
+import { Footer } from '@/components/layout/footer'
+import { Header } from '@/components/layout/header'
+import { type FC, type ReactNode } from 'react'
 
 interface ShopLayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 /**
@@ -14,14 +14,12 @@ interface ShopLayoutProps {
  */
 const ShopLayout: FC<ShopLayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-grow bg-slate-50 texture-noise">
-        {children}
-      </main>
+      <main className="texture-noise flex-grow bg-slate-50">{children}</main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default ShopLayout;
+export default ShopLayout

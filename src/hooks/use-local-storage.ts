@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react'
 
 /**
  * Speichert und synchronisiert einen Wert mit localStorage.
@@ -19,55 +19,54 @@ export function useLocalStorage<T>(
   // Initialer Wert aus localStorage oder initialValue
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === 'undefined') {
-      return initialValue;
+      return initialValue
     }
 
     try {
-      const item = window.localStorage.getItem(key);
-      return item ? (JSON.parse(item) as T) : initialValue;
+      const item = window.localStorage.getItem(key)
+      return item ? (JSON.parse(item) as T) : initialValue
     } catch (error) {
       // Bei Fehler (z.B. ungültiges JSON) Standardwert verwenden
-      return initialValue;
+      return initialValue
     }
-  });
+  })
 
   // Setter, der localStorage aktualisiert
   const setValue = useCallback(
     (value: T | ((val: T) => T)) => {
       try {
         // Erlaubt eine Funktion als Wert (wie useState)
-        const valueToStore =
-          value instanceof Function ? value(storedValue) : value;
+        const valueToStore = value instanceof Function ? value(storedValue) : value
 
-        setStoredValue(valueToStore);
+        setStoredValue(valueToStore)
 
         if (typeof window !== 'undefined') {
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          window.localStorage.setItem(key, JSON.stringify(valueToStore))
         }
       } catch (error) {
         // Fehler still ignorieren (localStorage könnte voll sein)
       }
     },
     [key, storedValue]
-  );
+  )
 
   // Entfernt den Wert aus localStorage
   const removeValue = useCallback(() => {
     try {
-      setStoredValue(initialValue);
+      setStoredValue(initialValue)
       if (typeof window !== 'undefined') {
-        window.localStorage.removeItem(key);
+        window.localStorage.removeItem(key)
       }
     } catch (error) {
       // Fehler still ignorieren
     }
-  }, [key, initialValue]);
+  }, [key, initialValue])
 
   // Synchronisiere mit anderen Tabs/Fenstern
   useEffect(() => {
     // SSR-Guard: Event Listener nur im Browser registrieren
     if (typeof window === 'undefined') {
-      return;
+      return
     }
 
     const handleStorageChange = (e: StorageEvent) => {
@@ -75,21 +74,20 @@ export function useLocalStorage<T>(
         // Bug 1 Fix: Auch Löschungen synchronisieren (e.newValue === null)
         if (e.newValue === null) {
           // Item wurde in anderem Tab gelöscht -> auf initialValue zurücksetzen
-          setStoredValue(initialValue);
+          setStoredValue(initialValue)
         } else {
           try {
-            setStoredValue(JSON.parse(e.newValue) as T);
+            setStoredValue(JSON.parse(e.newValue) as T)
           } catch {
             // Ungültiges JSON ignorieren
           }
         }
       }
-    };
+    }
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, [key, initialValue]);
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
+  }, [key, initialValue])
 
-  return [storedValue, setValue, removeValue];
+  return [storedValue, setValue, removeValue]
 }
-

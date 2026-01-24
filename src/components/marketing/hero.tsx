@@ -9,31 +9,31 @@
  * @module components/marketing/hero
  */
 
-import { Button } from '@/components/ui/button';
-import { Heading, Text } from '@/components/ui/typography';
-import { useBrand } from '@/components/providers/brand-provider';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import { Button } from '@/components/ui/button'
+import { Heading, Text } from '@/components/ui/typography'
+import { useBrand } from '@/components/providers/brand-provider'
+import { cn } from '@/lib/utils'
+import Link from 'next/link'
 
 export interface HeroProps {
   /** Haupt-Überschrift */
-  title: string;
+  title: string
   /** Beschreibungstext */
-  description: string;
+  description: string
   /** Primärer CTA-Text */
   primaryCta?: {
-    label: string;
-    href: string;
-  };
+    label: string
+    href: string
+  }
   /** Sekundärer CTA-Text */
   secondaryCta?: {
-    label: string;
-    href: string;
-  };
+    label: string
+    href: string
+  }
   /** Hintergrundbild URL */
-  backgroundImage?: string;
+  backgroundImage?: string
   /** Zusätzliche CSS-Klassen */
-  className?: string;
+  className?: string
 }
 
 /**
@@ -47,12 +47,12 @@ export function Hero({
   backgroundImage,
   className,
 }: HeroProps) {
-  const { brand } = useBrand();
+  const { brand } = useBrand()
 
   return (
     <section
       className={cn(
-        'relative min-h-[600px] md:min-h-[700px] flex items-center justify-center',
+        'relative flex min-h-[600px] items-center justify-center md:min-h-[700px]',
         'bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800',
         'overflow-hidden',
         className
@@ -77,8 +77,8 @@ export function Hero({
       />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
           {/* Title */}
           <Heading
             size="hero"
@@ -92,19 +92,19 @@ export function Hero({
           <Text
             size="xl"
             variant="muted"
-            className="mb-8 max-w-2xl mx-auto animate-fade-in animation-delay-100"
+            className="animation-delay-100 mx-auto mb-8 max-w-2xl animate-fade-in"
           >
             {description}
           </Text>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in animation-delay-200">
+          <div className="animation-delay-200 flex animate-fade-in flex-col items-center justify-center gap-4 sm:flex-row">
             {primaryCta && (
               <Button
                 asChild
                 size="xl"
                 variant={brand === 'carvantooo' ? 'carvantooo' : 'opencarbox'}
-                className="w-full sm:w-auto min-w-[200px]"
+                className="w-full min-w-[200px] sm:w-auto"
               >
                 <Link href={primaryCta.href}>{primaryCta.label}</Link>
               </Button>
@@ -115,7 +115,7 @@ export function Hero({
                 asChild
                 size="xl"
                 variant="outline"
-                className="w-full sm:w-auto min-w-[200px]"
+                className="w-full min-w-[200px] sm:w-auto"
               >
                 <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
               </Button>
@@ -127,7 +127,7 @@ export function Hero({
       {/* Decorative Elements */}
       <div className="absolute bottom-0 left-0 right-0">
         <svg
-          className="w-full h-24 text-white dark:text-slate-950"
+          className="h-24 w-full text-white dark:text-slate-950"
           preserveAspectRatio="none"
           viewBox="0 0 1200 120"
           xmlns="http://www.w3.org/2000/svg"
@@ -139,5 +139,5 @@ export function Hero({
         </svg>
       </div>
     </section>
-  );
+  )
 }

@@ -2,25 +2,19 @@
  * ============================================================
  * NeXifyAI Starter-Kit: Database Types
  * ============================================================
- * 
+ *
  * Auto-generierte Typen für Supabase
- * 
+ *
  * Generieren mit:
  *   supabase gen types typescript --local > src/types/database.ts
- * 
+ *
  * Oder für Remote-DB:
  *   supabase gen types typescript --project-id=YOUR_PROJECT_ID > src/types/database.ts
- * 
+ *
  * ============================================================
  */
 
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export interface Database {
   public: {
@@ -368,7 +362,14 @@ export interface Database {
           company_id: string | null
           user_id: string | null
           order_number: string
-          status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+          status:
+            | 'pending'
+            | 'confirmed'
+            | 'processing'
+            | 'shipped'
+            | 'delivered'
+            | 'cancelled'
+            | 'refunded'
           payment_status: 'pending' | 'paid' | 'failed' | 'refunded' | 'partially_refunded'
           subtotal: number
           tax_amount: number
@@ -397,7 +398,14 @@ export interface Database {
           company_id?: string | null
           user_id?: string | null
           order_number?: string
-          status?: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+          status?:
+            | 'pending'
+            | 'confirmed'
+            | 'processing'
+            | 'shipped'
+            | 'delivered'
+            | 'cancelled'
+            | 'refunded'
           payment_status?: 'pending' | 'paid' | 'failed' | 'refunded' | 'partially_refunded'
           subtotal?: number
           tax_amount?: number
@@ -426,7 +434,14 @@ export interface Database {
           company_id?: string | null
           user_id?: string | null
           order_number?: string
-          status?: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+          status?:
+            | 'pending'
+            | 'confirmed'
+            | 'processing'
+            | 'shipped'
+            | 'delivered'
+            | 'cancelled'
+            | 'refunded'
           payment_status?: 'pending' | 'paid' | 'failed' | 'refunded' | 'partially_refunded'
           subtotal?: number
           tax_amount?: number
@@ -581,13 +596,13 @@ export interface Database {
 // ============================================================
 
 // Tabellen-Typen extrahieren
-export type Tables<T extends keyof Database['public']['Tables']> = 
+export type Tables<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Row']
 
-export type InsertTables<T extends keyof Database['public']['Tables']> = 
+export type InsertTables<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Insert']
 
-export type UpdateTables<T extends keyof Database['public']['Tables']> = 
+export type UpdateTables<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T]['Update']
 
 // Konkrete Typen

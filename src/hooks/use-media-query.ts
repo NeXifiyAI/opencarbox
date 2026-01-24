@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
 /**
  * Prüft, ob eine CSS Media Query zutrifft.
@@ -13,33 +13,33 @@ import { useState, useEffect } from 'react';
  * const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
  */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(false);
+  const [matches, setMatches] = useState(false)
 
   useEffect(() => {
     // Auf dem Server false zurückgeben
     if (typeof window === 'undefined') {
-      return;
+      return
     }
 
-    const mediaQuery = window.matchMedia(query);
+    const mediaQuery = window.matchMedia(query)
 
     // Initial prüfen
-    setMatches(mediaQuery.matches);
+    setMatches(mediaQuery.matches)
 
     // Listener für Änderungen
     const handler = (event: MediaQueryListEvent) => {
-      setMatches(event.matches);
-    };
+      setMatches(event.matches)
+    }
 
     // Moderne Browser verwenden addEventListener
-    mediaQuery.addEventListener('change', handler);
+    mediaQuery.addEventListener('change', handler)
 
     return () => {
-      mediaQuery.removeEventListener('change', handler);
-    };
-  }, [query]);
+      mediaQuery.removeEventListener('change', handler)
+    }
+  }, [query])
 
-  return matches;
+  return matches
 }
 
 /**
@@ -51,7 +51,7 @@ export const breakpoints = {
   lg: '(min-width: 1024px)',
   xl: '(min-width: 1280px)',
   '2xl': '(min-width: 1536px)',
-} as const;
+} as const
 
 /**
  * Prüft, ob der Viewport mindestens die angegebene Breakpoint-Größe hat.
@@ -62,9 +62,6 @@ export const breakpoints = {
  * @example
  * const isLargeScreen = useBreakpoint('lg');
  */
-export function useBreakpoint(
-  breakpoint: keyof typeof breakpoints
-): boolean {
-  return useMediaQuery(breakpoints[breakpoint]);
+export function useBreakpoint(breakpoint: keyof typeof breakpoints): boolean {
+  return useMediaQuery(breakpoints[breakpoint])
 }
-

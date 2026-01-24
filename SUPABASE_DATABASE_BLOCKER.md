@@ -7,12 +7,14 @@ Die Supabase-Datenbankverbindung ist aktuell ein BLOCKER für die weitere Entwic
 ## Status der Implementierung
 
 ### ✅ Erfolgreich abgeschlossen:
+
 1. **Supabase-Projektverbindung**: Umgebungsvariablen sind korrekt gesetzt
 2. **Supabase Auth-Integration**: Funktioniert (Session-Test erfolgreich)
 3. **Oracle Memory-Implementierung**: Vollständig auf Supabase basierend implementiert
 4. **Prisma Schema**: Vollständig definiert und bereit für Synchronisation
 
 ### ❌ BLOCKER - Datenbankverbindung:
+
 - **Problem**: Hostname `db.acclrhzzwdutbigxsxyq.supabase.co` löst nur auf IPv6-Adresse auf (`2a05:d018:135e:164a:13a5:173:ae1f:6ddf`)
 - **Fehler**: `getaddrinfo ENOTFOUND db.acclrhzzwdutbigxsxyq.supabase.co`
 - **Ursache**: Möglicherweise:
@@ -31,27 +33,33 @@ Die Supabase-Datenbankverbindung ist aktuell ein BLOCKER für die weitere Entwic
 ## Nächste Schritte (Manuell erforderlich)
 
 ### 1. Supabase Dashboard öffnen
+
 - URL: https://supabase.com/dashboard/project/acclrhzzwdutbigxsxyq
 - Navigation: Project Settings → Database
 
 ### 2. Network Restrictions anpassen
+
 - Option A: IP des aktuellen Rechners whitelisten
 - Option B: "Allow all" für Development aktivieren (nicht für Production!)
 
 ### 3. Connection Pooling prüfen
+
 - Connection String für Prisma verwenden:
   ```
   postgresql://postgres:1def!xO2022!!@db.acclrhzzwdutbigxsxyq.supabase.co:5432/postgres
   ```
 
 ### 4. Prisma Schema synchronisieren
+
 ```bash
 npx prisma db push
 npx prisma studio
 ```
 
 ### 5. Oracle Memory initialisieren
+
 Bei erfolgreicher Verbindung:
+
 ```bash
 npx tsx scripts/core/oracle.ts learn success "Supabase DB Connection" "Datenbankverbindung erfolgreich hergestellt"
 ```
@@ -59,6 +67,7 @@ npx tsx scripts/core/oracle.ts learn success "Supabase DB Connection" "Datenbank
 ## Temporäre Workaround-Option
 
 Für lokale Entwicklung ohne Supabase-Datenbank:
+
 1. Docker Desktop starten
 2. Lokale PostgreSQL-Instanz starten:
    ```bash

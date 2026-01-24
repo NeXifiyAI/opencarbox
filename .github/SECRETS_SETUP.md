@@ -67,6 +67,7 @@ RESEND_API_KEY
 ## ✅ Setup-Schritte
 
 1. **GitHub öffnen:**
+
    ```
    https://github.com/NeXify-Chat-it-Automate-it/OpenCarBox/settings/secrets/actions
    ```
@@ -96,6 +97,7 @@ graph LR
 ```
 
 ### Quality Gate prüft:
+
 - ✅ TypeScript Type Check
 - ✅ ESLint
 - ✅ Prettier
@@ -103,13 +105,16 @@ graph LR
 - ✅ Build
 
 ### Security Scan:
+
 - 🔒 Snyk Vulnerability Check
 
 ### Oracle Sync (nur main):
+
 - 📚 Sync docs → Memory
 - 📝 Audit Log erstellen
 
 ### Deployment:
+
 - 🌐 Vercel Preview (PRs)
 - 🚀 Vercel Production (main)
 
@@ -118,6 +123,7 @@ graph LR
 ### Pipeline schlägt fehl?
 
 1. **Check Secrets:**
+
    ```bash
    # Lokal testen ob Secrets korrekt sind
    npm run type-check
@@ -146,6 +152,7 @@ Füge in README.md ein:
 ## 🔄 Auto-Deployment
 
 Nach Setup:
+
 - ✅ Push zu `main` → Automatisches Production Deployment
 - ✅ Pull Request → Preview Deployment
 - ✅ Tests bestanden → Automatisches Merge (optional)

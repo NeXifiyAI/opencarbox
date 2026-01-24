@@ -9,6 +9,15 @@ const nextConfig = {
   },
 
   // ============================================================
+  // Font Optimization
+  // ============================================================
+  // Skip font optimization in CI environments without external network access
+  // This prevents build failures when Google Fonts cannot be reached
+  ...(process.env.CI && {
+    optimizeFonts: false,
+  }),
+
+  // ============================================================
   // Image Optimization
   // ============================================================
   images: {

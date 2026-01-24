@@ -9,6 +9,7 @@
 ## ✅ KONFIGURATIONSSTATUS
 
 ### Core Systeme
+
 - ✅ **Oracle System** (`scripts/core/oracle.ts`)
   - Google Gemini Integration (`gemini-2.0-flash-thinking-exp-01-21`)
   - `think()` - Standard Thinking Process
@@ -30,6 +31,7 @@
   - `syncAll()` - Vollständige Synchronisation
 
 ### Workflows
+
 - ✅ **Recursive Intelligence** (`scripts/cline-workflows/recursive-intelligence.ts`)
   - 6-Schritte-Zyklus: Think → Recall → Execute → Verify → Learn → Update
   - CLI: `npm run workflow:verify` & `npm run workflow:complete`
@@ -44,6 +46,7 @@
   - CLI: `npm run error:search "error message"`
 
 ### MCP Server Integration
+
 - ✅ **9 MCP Server konfiguriert** (`.cline/mcp_settings.json`)
   1. **Supabase** - Database, Auth, Storage, Edge Functions, Branching
   2. **GitHub** - Repository, Issues, PRs, Workflows
@@ -56,6 +59,7 @@
   9. **Brave Search** - Web Research Capabilities
 
 ### CI/CD Integration
+
 - ✅ **GitHub Actions** (`.github/workflows/ci-cd.yml`)
   - Quality Gate (TypeCheck, Lint, Tests, Build)
   - Security Scan (Snyk)
@@ -63,6 +67,7 @@
   - Auto-Deploy (Vercel Preview + Production)
 
 ### Regeln & Dokumentation
+
 - ✅ **`.clinerules`** - NeXify Blueprint mit Recursive Intelligence Protocol
 - ✅ **`.github/copilot-instructions.md`** - Umfassende AI Agent Guidance
 - ✅ **`docs/ORACLE_MEMORY_SYSTEM.md`** - Vollständige System-Dokumentation
@@ -116,6 +121,7 @@ BRAVE_API_KEY=<api-key>
 Cline wird automatisch die MCP Server aus `.cline/mcp_settings.json` laden.
 
 **Erste Verwendung:**
+
 1. Öffne Cline in VS Code
 2. Gehe zu Settings → MCP Servers
 3. Alle 9 Server sollten automatisch erkannt werden
@@ -168,7 +174,7 @@ await Memory.remember({
   category: 'stripe',
   title: 'Stripe Webhook Signature Verification',
   content: 'Always verify webhook signatures using stripe.webhooks.constructEvent()...',
-  tags: ['stripe', 'security', 'webhooks']
+  tags: ['stripe', 'security', 'webhooks'],
 })
 ```
 
@@ -180,7 +186,7 @@ await Memory.remember({
   category: 'supabase',
   title: 'Never query Supabase without RLS',
   content: 'Attempting to bypass RLS by using service role key in client...',
-  tags: ['supabase', 'security', 'rls']
+  tags: ['supabase', 'security', 'rls'],
 })
 ```
 
@@ -198,7 +204,7 @@ await Memory.audit({
   action: 'create_component',
   resource: 'src/components/ui/button.tsx',
   status: 'SUCCESS',
-  details: { linesAdded: 42 }
+  details: { linesAdded: 42 },
 })
 ```
 
@@ -212,8 +218,8 @@ await Memory.audit({
 import { Oracle } from '@/scripts/core/oracle'
 
 const response = await Oracle.think(
-  "Wie implementiere ich Stripe Webhooks in Next.js?",
-  "Current setup: Next.js 14, App Router, TypeScript"
+  'Wie implementiere ich Stripe Webhooks in Next.js?',
+  'Current setup: Next.js 14, App Router, TypeScript'
 )
 
 console.log(response.recommendation)
@@ -224,8 +230,8 @@ console.log(`Confidence: ${response.confidence * 100}%`)
 
 ```typescript
 const response = await Oracle.thinkWithMemory(
-  "Wie implementiere ich Stripe Webhooks?",
-  "Next.js 14 App Router"
+  'Wie implementiere ich Stripe Webhooks?',
+  'Next.js 14 App Router'
 )
 // → Oracle holt automatisch relevante Memories und integriert sie
 ```
@@ -242,9 +248,9 @@ await Oracle.optimizeContext(`
 
 ```typescript
 await Oracle.ingestLearning({
-  pattern: "Stripe webhook",
-  implementation: "Use edge runtime for better performance",
-  outcome: "Success - reduced latency by 40%"
+  pattern: 'Stripe webhook',
+  implementation: 'Use edge runtime for better performance',
+  outcome: 'Success - reduced latency by 40%',
 })
 ```
 
@@ -253,6 +259,7 @@ await Oracle.ingestLearning({
 ## 🛠️ NPM SCRIPTS ÜBERSICHT
 
 ### Oracle & Memory
+
 ```bash
 npm run oracle:test           # Oracle-Integration testen
 npm run oracle:sync           # Vollständige Sync (Wiki + Docs → Memory/Oracle)
@@ -261,6 +268,7 @@ npm run oracle:sync-docs      # Nur Docs → Oracle
 ```
 
 ### Workflows
+
 ```bash
 npm run workflow:verify       # Verification (TypeCheck, Lint, Tests)
 npm run workflow:complete     # Complete Workflow (Learn + Update)
@@ -269,6 +277,7 @@ npm run error:search "msg"    # Suche ähnliche Fehler
 ```
 
 ### Datenbank
+
 ```bash
 npm run db:generate           # Prisma Client generieren
 npm run db:push               # Schema zu Supabase pushen
@@ -277,6 +286,7 @@ npm run db:studio             # Prisma Studio öffnen
 ```
 
 ### Quality & Tests
+
 ```bash
 npm run type-check            # TypeScript Fehler prüfen
 npm run lint:fix              # ESLint + Auto-Fix
@@ -290,12 +300,15 @@ npm run quality-gate          # Vollständiger Quality Check
 ## 🎯 CLINE-SPEZIFISCHE VERHALTEN
 
 ### No-Void Policy
+
 - **NIEMALS** Platzhalter oder TODO-Kommentare hinterlassen
 - Jede Funktion muss vollständig implementiert sein
 - Fehlende Abhängigkeiten werden sofort erstellt
 
 ### Recursive Intelligence Enforcement
+
 Vor jeder Code-Änderung **MUSS** Cline:
+
 1. **Think**: Oracle konsultieren (`Oracle.thinkWithMemory()`)
 2. **Recall**: Memory durchsuchen (`Memory.recall()`)
 3. **Execute**: Code implementieren
@@ -304,13 +317,16 @@ Vor jeder Code-Änderung **MUSS** Cline:
 6. **Update**: Oracle-Kontext aktualisieren (`Oracle.optimizeContext()`)
 
 ### Root Cause Elimination
+
 - Bei Fehlern nicht nur Symptom fixen
 - Root Cause analysieren mit Oracle
 - Lösung als ANTIPATTERN speichern
 - Prevention Strategy entwickeln
 
 ### Definition of Done
+
 Ein Feature gilt erst als fertig wenn:
+
 - ✅ Code implementiert
 - ✅ Tests erfolgreich
 - ✅ Eintrag im Memory (Best Practice oder Learning)
@@ -322,6 +338,7 @@ Ein Feature gilt erst als fertig wenn:
 ## 🔗 MCP SERVER CAPABILITIES
 
 ### Supabase MCP
+
 - Database Queries & Migrations
 - Edge Function Deployment
 - Branch Management
@@ -329,33 +346,39 @@ Ein Feature gilt erst als fertig wenn:
 - Auth Management
 
 ### GitHub MCP
+
 - Repository Operations
 - Issue & PR Management
 - Workflow Execution
 - Code Search
 
 ### Docker MCP
+
 - Container Lifecycle
 - Image Management
 - Volume Operations
 
 ### Git MCP
+
 - Branch Operations
 - Commit History
 - Merge & Rebase
 
 ### PostgreSQL MCP
+
 - Direct SQL Execution
 - Schema Introspection
 - Performance Analysis
 
 ### Playwright/Puppeteer MCP
+
 - Browser Automation
 - E2E Testing
 - Screenshot Capture
 - DOM Manipulation
 
 ### Brave Search MCP
+
 - Web Research
 - Documentation Lookup
 - Error Solution Finding
@@ -365,6 +388,7 @@ Ein Feature gilt erst als fertig wenn:
 ## 🚨 TROUBLESHOOTING
 
 ### Oracle antwortet nicht
+
 ```bash
 # Prüfe API Key
 echo $GOOGLE_GENERATIVE_AI_API_KEY
@@ -376,6 +400,7 @@ npm run oracle:test
 ```
 
 ### Memory Sync schlägt fehl
+
 ```bash
 # Prüfe Supabase Connection
 echo $DATABASE_URL
@@ -388,12 +413,14 @@ npm run db:push
 ```
 
 ### MCP Server nicht verfügbar
+
 1. Öffne Cline Settings → MCP Servers
 2. Prüfe ob alle Environment Variables gesetzt sind
 3. Restart Cline
 4. Bei Bedarf: `npm install -g @supabase/mcp-server` etc.
 
 ### Workflow Verify schlägt fehl
+
 ```bash
 # Einzelne Checks ausführen
 npm run type-check
@@ -419,16 +446,19 @@ npm run workflow:verify
 ## 🎉 NÄCHSTE SCHRITTE
 
 1. **Initiale Synchronisation ausführen:**
+
    ```bash
    npm run oracle:sync
    ```
 
 2. **Oracle testen:**
+
    ```bash
    npm run oracle:test
    ```
 
 3. **Ersten Workflow durchlaufen:**
+
    ```bash
    npm run pre-change "Test Feature" src/test.ts
    # → Implementierung

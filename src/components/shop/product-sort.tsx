@@ -1,23 +1,23 @@
-'use client';
+'use client'
 
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 interface ProductSortProps {
-  onSortChange?: (value: string) => void;
+  onSortChange?: (value: string) => void
 }
 
 export function ProductSort({ onSortChange }: ProductSortProps) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-slate-500 hidden sm:inline">Sortieren nach:</span>
+      <span className="hidden text-sm text-slate-500 sm:inline">Sortieren nach:</span>
       <Select onValueChange={onSortChange} defaultValue="relevance">
-        <SelectTrigger className="w-[180px] bg-white border-slate-200">
+        <SelectTrigger className="w-[180px] border-slate-200 bg-white">
           <SelectValue placeholder="Sortierung" />
         </SelectTrigger>
         <SelectContent>
@@ -29,5 +29,5 @@ export function ProductSort({ onSortChange }: ProductSortProps) {
         </SelectContent>
       </Select>
     </div>
-  );
+  )
 }

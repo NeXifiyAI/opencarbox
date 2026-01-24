@@ -3,11 +3,11 @@ import { twMerge } from 'tailwind-merge'
 
 /**
  * Utility-Funktion für Tailwind Class-Merging
- * 
+ *
  * Kombiniert clsx() und tailwind-merge() für:
  * - Conditional Classes
  * - Override von Tailwind Classes
- * 
+ *
  * Beispiel:
  * ```tsx
  * cn('px-4 py-2', isActive && 'bg-primary', className)
@@ -28,7 +28,7 @@ export function formatPrice(
   } = {}
 ) {
   const { currency = 'EUR', locale = 'de-DE' } = options
-  
+
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
@@ -47,7 +47,7 @@ export function formatDate(
 ) {
   const { locale = 'de-DE', includeTime = false } = options
   const dateObj = typeof date === 'string' ? new Date(date) : date
-  
+
   return new Intl.DateTimeFormat(locale, {
     dateStyle: 'medium',
     ...(includeTime && { timeStyle: 'short' }),
@@ -82,7 +82,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   delay: number
 ): (...args: Parameters<T>) => void {
   let timeoutId: NodeJS.Timeout
-  
+
   return (...args: Parameters<T>) => {
     clearTimeout(timeoutId)
     timeoutId = setTimeout(() => fn(...args), delay)
@@ -93,7 +93,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
  * Sleep/Wait Utility
  */
 export function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 /**

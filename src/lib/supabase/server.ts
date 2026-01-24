@@ -4,23 +4,23 @@ import type { Database } from '@/types/database'
 
 /**
  * Supabase Client für Server-Components & Server-Actions
- * 
+ *
  * Verwendung in Server Components:
  * ```tsx
  * import { createClient } from '@/lib/supabase/server'
- * 
+ *
  * export default async function Page() {
  *   const supabase = await createClient()
  *   const { data } = await supabase.from('products').select()
  *   return <div>{data?.length} Produkte</div>
  * }
  * ```
- * 
+ *
  * Verwendung in Server Actions:
  * ```tsx
  * 'use server'
  * import { createClient } from '@/lib/supabase/server'
- * 
+ *
  * export async function getProducts() {
  *   const supabase = await createClient()
  *   return supabase.from('products').select()
@@ -56,14 +56,14 @@ export async function createClient() {
 
 /**
  * Admin Client (bypassed RLS!)
- * 
+ *
  * ⚠️ ACHTUNG: Nur für interne Server-Tasks verwenden!
  * Dieser Client umgeht Row-Level-Security.
- * 
+ *
  * Verwendung:
  * ```tsx
  * import { createAdminClient } from '@/lib/supabase/server'
- * 
+ *
  * const admin = createAdminClient()
  * // Hat Zugriff auf ALLE Daten
  * ```

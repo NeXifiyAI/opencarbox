@@ -1,4 +1,4 @@
-import { companyConfig } from '../config/company';
+import { companyConfig } from '../config/company'
 
 // Carvantooo - Premium Mock-Daten
 // "Weil dein Auto zur Familie gehört."
@@ -11,9 +11,10 @@ const productImages = {
   batterie: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=400&h=400&fit=crop',
   werkzeug: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=400&fit=crop',
   reifen: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop',
-  stossdaempfer: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop',
+  stossdaempfer:
+    'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop',
   bremsen: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop',
-};
+}
 
 const categoryImages = {
   ersatzteile: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop',
@@ -27,13 +28,13 @@ const categoryImages = {
   dachboxen: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=400&h=400&fit=crop',
   tuning: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=400&fit=crop',
   werkzeug: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400&h=400&fit=crop',
-};
+}
 
 const heroImages = {
   slide1: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=600&fit=crop',
   slide2: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=1200&h=600&fit=crop',
   slide3: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=600&fit=crop',
-};
+}
 
 export const categories = [
   {
@@ -50,7 +51,7 @@ export const categories = [
       { id: 'zuendung', name: 'Zündung', count: 7890 },
       { id: 'lenkung', name: 'Lenkung', count: 5670 },
       { id: 'kupplung', name: 'Kupplung', count: 4320 },
-    ]
+    ],
   },
   {
     id: 'reifen',
@@ -63,7 +64,7 @@ export const categories = [
       { id: 'ganzjahresreifen', name: 'Ganzjahresreifen', count: 4320 },
       { id: 'felgen', name: 'Felgen', count: 12340 },
       { id: 'komplettraeder', name: 'Kompletträder', count: 3450 },
-    ]
+    ],
   },
   {
     id: 'batterien',
@@ -74,7 +75,7 @@ export const categories = [
       { id: 'autobatterien', name: 'Autobatterien', count: 2340 },
       { id: 'ladegeraete', name: 'Ladegeräte', count: 890 },
       { id: 'starthilfe', name: 'Starthilfe', count: 450 },
-    ]
+    ],
   },
   {
     id: 'oele',
@@ -86,7 +87,7 @@ export const categories = [
       { id: 'getriebeoel', name: 'Getriebeöl', count: 1230 },
       { id: 'bremsfl', name: 'Bremsflüssigkeit', count: 890 },
       { id: 'additive', name: 'Additive', count: 2340 },
-    ]
+    ],
   },
   {
     id: 'pflege',
@@ -98,7 +99,7 @@ export const categories = [
       { id: 'lackpflege', name: 'Lackpflege', count: 2340 },
       { id: 'innenraumpflege', name: 'Innenraumpflege', count: 1890 },
       { id: 'glasreiniger', name: 'Glasreiniger', count: 780 },
-    ]
+    ],
   },
   {
     id: 'zubehoer',
@@ -110,7 +111,7 @@ export const categories = [
       { id: 'verbandskasten', name: 'Verbandskasten', count: 120 },
       { id: 'abschleppseil', name: 'Abschleppseil', count: 89 },
       { id: 'pannenhilfe', name: 'Pannenhilfe-Sets', count: 230 },
-    ]
+    ],
   },
   {
     id: 'werkzeug',
@@ -121,7 +122,7 @@ export const categories = [
       { id: 'handwerkzeug', name: 'Handwerkzeug', count: 5670 },
       { id: 'wagenheber', name: 'Wagenheber', count: 340 },
       { id: 'diagnose', name: 'Diagnosegeräte', count: 890 },
-    ]
+    ],
   },
   {
     id: 'lampen',
@@ -132,14 +133,18 @@ export const categories = [
       { id: 'scheinwerfer', name: 'Scheinwerferlampen', count: 2340 },
       { id: 'rueckleuchten', name: 'Rückleuchten', count: 1890 },
       { id: 'led', name: 'LED-Beleuchtung', count: 3450 },
-    ]
+    ],
   },
-];
+]
 
 export const carBrands = [
   { id: 'audi', name: 'Audi', logo: 'https://www.carlogos.org/car-logos/audi-logo.png' },
   { id: 'bmw', name: 'BMW', logo: 'https://www.carlogos.org/car-logos/bmw-logo.png' },
-  { id: 'mercedes', name: 'Mercedes-Benz', logo: 'https://www.carlogos.org/car-logos/mercedes-benz-logo.png' },
+  {
+    id: 'mercedes',
+    name: 'Mercedes-Benz',
+    logo: 'https://www.carlogos.org/car-logos/mercedes-benz-logo.png',
+  },
   { id: 'vw', name: 'Volkswagen', logo: 'https://www.carlogos.org/car-logos/volkswagen-logo.png' },
   { id: 'opel', name: 'Opel', logo: 'https://www.carlogos.org/car-logos/opel-logo.png' },
   { id: 'ford', name: 'Ford', logo: 'https://www.carlogos.org/car-logos/ford-logo.png' },
@@ -149,7 +154,7 @@ export const carBrands = [
   { id: 'hyundai', name: 'Hyundai', logo: 'https://www.carlogos.org/car-logos/hyundai-logo.png' },
   { id: 'renault', name: 'Renault', logo: 'https://www.carlogos.org/car-logos/renault-logo.png' },
   { id: 'peugeot', name: 'Peugeot', logo: 'https://www.carlogos.org/car-logos/peugeot-logo.png' },
-];
+]
 
 export const topBrands = [
   { id: 'bosch', name: 'BOSCH' },
@@ -160,7 +165,7 @@ export const topBrands = [
   { id: 'skf', name: 'SKF' },
   { id: 'luk', name: 'LuK' },
   { id: 'valeo', name: 'Valeo' },
-];
+]
 
 export const featuredProducts = [
   {
@@ -174,7 +179,7 @@ export const featuredProducts = [
     rating: 4.8,
     reviews: 234,
     inStock: true,
-    category: 'Bremsanlage'
+    category: 'Bremsanlage',
   },
   {
     id: 2,
@@ -187,7 +192,7 @@ export const featuredProducts = [
     rating: 4.9,
     reviews: 567,
     inStock: true,
-    category: 'Filter'
+    category: 'Filter',
   },
   {
     id: 3,
@@ -200,7 +205,7 @@ export const featuredProducts = [
     rating: 4.7,
     reviews: 891,
     inStock: true,
-    category: 'Öle'
+    category: 'Öle',
   },
   {
     id: 4,
@@ -213,7 +218,7 @@ export const featuredProducts = [
     rating: 4.8,
     reviews: 345,
     inStock: true,
-    category: 'Bremsanlage'
+    category: 'Bremsanlage',
   },
   {
     id: 5,
@@ -226,7 +231,7 @@ export const featuredProducts = [
     rating: 4.6,
     reviews: 178,
     inStock: true,
-    category: 'Radlager'
+    category: 'Radlager',
   },
   {
     id: 6,
@@ -239,9 +244,9 @@ export const featuredProducts = [
     rating: 4.9,
     reviews: 432,
     inStock: true,
-    category: 'Batterien'
+    category: 'Batterien',
   },
-];
+]
 
 export const vehicleTypes = [
   { id: 'alle', name: 'Alle', icon: 'LayoutGrid' },
@@ -249,41 +254,58 @@ export const vehicleTypes = [
   { id: 'eauto', name: 'E-Auto', icon: 'Zap' },
   { id: 'motorrad', name: 'Motorrad', icon: 'Bike' },
   { id: 'transporter', name: 'Transporter', icon: 'Truck' },
-];
+]
 
 export const manufacturers = [
-  'Audi', 'BMW', 'Mercedes-Benz', 'Volkswagen', 'Opel', 'Ford', 
-  'Škoda', 'SEAT', 'Toyota', 'Hyundai', 'Renault', 'Peugeot',
-  'Fiat', 'Mazda', 'Honda', 'Nissan', 'Kia', 'Volvo', 'Porsche', 'Mini'
-];
+  'Audi',
+  'BMW',
+  'Mercedes-Benz',
+  'Volkswagen',
+  'Opel',
+  'Ford',
+  'Škoda',
+  'SEAT',
+  'Toyota',
+  'Hyundai',
+  'Renault',
+  'Peugeot',
+  'Fiat',
+  'Mazda',
+  'Honda',
+  'Nissan',
+  'Kia',
+  'Volvo',
+  'Porsche',
+  'Mini',
+]
 
 export const benefits = [
   {
     icon: 'Users',
     title: 'Über 3 Millionen',
-    subtitle: 'zufriedene Kunden'
+    subtitle: 'zufriedene Kunden',
   },
   {
     icon: 'Package',
     title: 'Riesenauswahl',
-    subtitle: '3 Millionen+ Teile'
+    subtitle: '3 Millionen+ Teile',
   },
   {
     icon: 'Truck',
     title: 'Blitzschnell',
-    subtitle: 'Bestellung bis 15 Uhr'
+    subtitle: 'Bestellung bis 15 Uhr',
   },
   {
     icon: 'RotateCcw',
     title: '30 Tage',
-    subtitle: 'Rückgaberecht'
+    subtitle: 'Rückgaberecht',
   },
   {
     icon: 'Shield',
     title: 'Garantie',
-    subtitle: 'auf alle Produkte'
+    subtitle: 'auf alle Produkte',
   },
-];
+]
 
 export const bannerSlides = [
   {
@@ -292,7 +314,7 @@ export const bannerSlides = [
     subtitle: 'auf Bremsanlagen',
     image: heroImages.slide1,
     buttonText: 'Jetzt entdecken',
-    link: '/kategorie/ersatzteile'
+    link: '/kategorie/ersatzteile',
   },
   {
     id: 2,
@@ -300,7 +322,7 @@ export const bannerSlides = [
     subtitle: 'für Ihre Werkstatt',
     image: heroImages.slide2,
     buttonText: 'Zum Sortiment',
-    link: '/kategorie/werkzeug'
+    link: '/kategorie/werkzeug',
   },
   {
     id: 3,
@@ -308,9 +330,9 @@ export const bannerSlides = [
     subtitle: 'Jetzt Reifen wechseln',
     image: heroImages.slide3,
     buttonText: 'Reifen finden',
-    link: '/kategorie/reifen'
+    link: '/kategorie/reifen',
   },
-];
+]
 
 export const sidebarCategories = [
   'Startseite',
@@ -333,7 +355,7 @@ export const sidebarCategories = [
   'Scheibenreinigung',
   'Stoßdämpfer',
   'Zündung / Glühanlage',
-];
+]
 
 export const serviceAreas = [
   {
@@ -343,7 +365,7 @@ export const serviceAreas = [
     icon: 'ShoppingCart',
     color: 'teal',
     features: ['Über 1 Mio. Teile', '24h Express', 'Bestpreis Garantie'],
-    href: '/'
+    href: '/',
   },
   {
     id: 'werkstatt',
@@ -352,7 +374,7 @@ export const serviceAreas = [
     icon: 'Wrench',
     color: 'navy',
     features: ['Online-Terminbuchung', 'Faire Preise', 'Herstellervorgaben'],
-    href: '/werkstatt'
+    href: '/werkstatt',
   },
   {
     id: 'autohandel',
@@ -361,9 +383,9 @@ export const serviceAreas = [
     icon: 'Car',
     color: 'navy',
     features: ['Geprüfte Qualität', 'Finanzierung möglich', 'Inzahlungnahme'],
-    href: '/fahrzeuge'
-  }
-];
+    href: '/fahrzeuge',
+  },
+]
 
 // Deprecated: Use companyConfig from ../config/company.js instead
 export const companyInfo = {
@@ -376,55 +398,61 @@ export const companyInfo = {
   legal: {
     firmenbuch: companyConfig.legal.registerNumber,
     uid: companyConfig.legal.uid,
-    gericht: companyConfig.legal.court
-  }
-};
+    gericht: companyConfig.legal.court,
+  },
+}
 
 // Werkstatt Services (OpenCarBox.center replica - NO PRICES)
 export const workshopServices = [
   {
     id: 'pickerl',
     name: '§57a Überprüfung (Pickerl)',
-    description: 'Offizielle KFZ-Überprüfung nach österreichischen Standards. Schnell, zuverlässig und professionell.',
+    description:
+      'Offizielle KFZ-Überprüfung nach österreichischen Standards. Schnell, zuverlässig und professionell.',
     duration: 'ca. 60 Min',
-    icon: 'ShieldCheck'
+    icon: 'ShieldCheck',
   },
   {
     id: 'inspektion',
     name: 'KFZ-Inspektion',
-    description: 'Professionelle Fahrzeuginspektion von erfahrenen KFZ-Technikern mit modernster Diagnosetechnik.',
+    description:
+      'Professionelle Fahrzeuginspektion von erfahrenen KFZ-Technikern mit modernster Diagnosetechnik.',
     duration: 'nach Aufwand',
-    icon: 'ClipboardList'
+    icon: 'ClipboardList',
   },
   {
     id: 'lack-karosserie',
     name: 'Lack & Karosserie',
-    description: 'Unfallschäden, Lackierungen, Delle-Reparatur und Karosserie-Arbeiten - alles aus einer Hand.',
+    description:
+      'Unfallschäden, Lackierungen, Delle-Reparatur und Karosserie-Arbeiten - alles aus einer Hand.',
     duration: 'nach Aufwand',
-    icon: 'Wrench'
+    icon: 'Wrench',
   },
   {
     id: 'reifenservice',
     name: 'Reifenservice & Achsvermessung',
-    description: 'Reifenmontage, Wuchten, Achsvermessung und Einlagerung für optimale Fahrsicherheit.',
+    description:
+      'Reifenmontage, Wuchten, Achsvermessung und Einlagerung für optimale Fahrsicherheit.',
     duration: 'ca. 45 Min',
-    icon: 'Circle'
+    icon: 'Circle',
   },
   {
     id: 'klimaservice',
     name: 'Klimaservice',
-    description: 'Klimaanlagen-Wartung, Desinfektion und Reparatur für angenehmes Fahren bei jedem Wetter.',
+    description:
+      'Klimaanlagen-Wartung, Desinfektion und Reparatur für angenehmes Fahren bei jedem Wetter.',
     duration: 'ca. 60 Min',
-    icon: 'Wind'
+    icon: 'Wind',
   },
   {
     id: 'oelwechsel',
     name: 'Ölwechsel & Wartung',
-    description: 'Regelmäßige Wartung für die Langlebigkeit Ihres Fahrzeugs mit hochwertigen Markenölen.',
+    description:
+      'Regelmäßige Wartung für die Langlebigkeit Ihres Fahrzeugs mit hochwertigen Markenölen.',
     duration: 'ca. 45 Min',
-    icon: 'Droplet'
-  }
-];
+    icon: 'Droplet',
+  },
+]
 
 // Autohandel (Cars for Sale)
 export const carsForSale = [
@@ -441,7 +469,7 @@ export const carsForSale = [
     color: 'Deep Black Perleffekt',
     image: 'https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=800&h=600&fit=crop',
     features: ['Navi', 'LED-Scheinwerfer', 'ACC', 'Sitzheizung'],
-    isNew: false
+    isNew: false,
   },
   {
     id: 'car-2',
@@ -456,7 +484,7 @@ export const carsForSale = [
     color: 'Gletscherweiß Metallic',
     image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800&h=600&fit=crop',
     features: ['Virtual Cockpit', 'Matrix-LED', 'Anhängerkupplung', 'Standheizung'],
-    isNew: false
+    isNew: false,
   },
   {
     id: 'car-3',
@@ -471,7 +499,7 @@ export const carsForSale = [
     color: 'Portimao Blau',
     image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&h=600&fit=crop',
     features: ['M Sportpaket', 'Head-Up Display', 'Laserlicht', 'Schiebedach'],
-    isNew: false
+    isNew: false,
   },
   {
     id: 'car-4',
@@ -486,7 +514,7 @@ export const carsForSale = [
     color: 'Obsidianschwarz',
     image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&h=600&fit=crop',
     features: ['Avantgarde', 'Widescreen', 'Park-Paket', 'Ambientebeleuchtung'],
-    isNew: false
+    isNew: false,
   },
   {
     id: 'car-5',
@@ -501,7 +529,7 @@ export const carsForSale = [
     color: 'Pearl White',
     image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=600&fit=crop',
     features: ['Autopilot', 'Premium Innenraum', '19 Zoll Felgen', 'Wärmepumpe'],
-    isNew: false
+    isNew: false,
   },
   {
     id: 'car-6',
@@ -516,6 +544,6 @@ export const carsForSale = [
     color: 'Indischrot',
     image: 'https://images.unsplash.com/photo-1503376763036-066120622c74?w=800&h=600&fit=crop',
     features: ['Sport Chrono', 'Sportabgasanlage', 'Bose', 'Lift-System'],
-    isNew: false
-  }
-];
+    isNew: false,
+  },
+]

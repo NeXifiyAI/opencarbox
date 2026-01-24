@@ -5,11 +5,13 @@
 Push zu beiden Remotes wird blockiert:
 
 ### Remote `origin` (u4231458123-droid/OpenCarBox_NEW)
+
 ```
 Permission to u4231458123-droid/OpenCarBox_NEW.git denied to NeXifiyAI (403)
 ```
 
 ### Remote `NeXify-Chat-it-Automate-it-opencarboxnew`
+
 ```
 Organization forbids PAT with lifetime > 366 days
 ```
@@ -72,10 +74,12 @@ git remote set-url origin git@github.com:u4231458123-droid/OpenCarBox_NEW.git
 ## Aktueller Status
 
 **Commits bereit zum Push:**
+
 - `e373202` - feat: Complete Oracle-First Protocol with mandatory enforcement
 - `0fef9da` - feat: Complete CLINE Oracle-First Architecture with DeepSeek
 
 **Betroffene Dateien:**
+
 - `.clinerules` - Oracle-First Enforcement
 - `scripts/core/oracle-first.ts` - Oracle-First Protocol
 - `package.json` - Oracle Scripts
@@ -92,6 +96,7 @@ git push origin main
 ```
 
 Falls Force-Push nötig:
+
 ```powershell
 git push origin main --force
 ```

@@ -1,0 +1,139 @@
+name: 🔄 Auto-Retry Failed Workflows
+
+on:
+  workflow_run:
+    workflows: ["🚀 CI/CD Pipeline"]
+    types:
+      - completed
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  retry-on-failure:
+    name: 🔁 Retry on Transient Failure
+    runs-on: ubuntu-latest
+    # Only retry if workflow failed and this isn't already a retry attempt
+    if: |
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.run_attempt < 3
+    timeout-minutes: 5
+    
+    steps:
+      - name: Check if retry is needed
+        id: check
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const runId = context.payload.workflow_run.id;
+            
+            // Get workflow run details
+            const { data: workflowRun } = await github.rest.actions.getWorkflowRun({
+              owner,
+              repo,
+              run_id: runId,
+            });
+            
+            // Get jobs for this run
+            const { data: jobs } = await github.rest.actions.listJobsForWorkflowRun({
+              owner,
+              repo,
+              run_id: runId,
+            });
+            
+            // Check for transient failures (network issues, timeouts, etc.)
+            const transientErrors = [
+              'timeout',
+              'network',
+              'connection reset',
+              'ECONNRESET',
+              'ETIMEDOUT',
+              'socket hang up',
+              'rate limit',
+              '503',
+              '502',
+              '504',
+            ];
+            
+            let hasTransientFailure = false;
+            for (const job of jobs.jobs) {
+              if (job.conclusion === 'failure') {
+                const steps = job.steps || [];
+                for (const step of steps) {
+                  const output = step.name?.toLowerCase() || '';
+                  if (transientErrors.some(err => output.includes(err))) {
+                    hasTransientFailure = true;
+                    break;
+                  }
+                }
+              }
+            }
+            
+            // Check retry count (max 2 retries)
+            const runAttempt = workflowRun.run_attempt || 1;
+            const shouldRetry = hasTransientFailure && runAttempt < 3;
+            
+            core.setOutput('should_retry', shouldRetry);
+            core.setOutput('run_attempt', runAttempt);
+            
+            if (shouldRetry) {
+              console.log(`✅ Will retry workflow (attempt ${runAttempt}/3)`);
+            } else if (runAttempt >= 3) {
+              console.log(`❌ Max retries reached (${runAttempt})`);
+            } else {
+              console.log('ℹ️ No transient failure detected');
+            }
+
+      - name: Retry workflow
+        if: steps.check.outputs.should_retry == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const runId = context.payload.workflow_run.id;
+            
+            try {
+              await github.rest.actions.reRunWorkflow({
+                owner,
+                repo,
+                run_id: runId,
+              });
+              console.log('✅ Workflow retry initiated');
+            } catch (error) {
+              console.log('❌ Failed to retry workflow:', error.message);
+            }
+
+      - name: Notify on max retries
+        if: steps.check.outputs.should_retry == 'false' && steps.check.outputs.run_attempt >= 3
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const workflowName = context.payload.workflow_run.name;
+            const runId = context.payload.workflow_run.id;
+            const runUrl = context.payload.workflow_run.html_url;
+            
+            // Create an issue for persistent failures
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title: `🚨 Workflow Failed After Retries: ${workflowName}`,
+              body: `## Persistent Workflow Failure
+              
+The workflow **${workflowName}** has failed after maximum retry attempts.
+
+**Workflow Run:** [#${runId}](${runUrl})
+**Attempts:** ${context.payload.workflow_run.run_attempt || 1}
+
+### Action Required
+Please investigate and fix the underlying issue.
+
+---
+*Automated notification from Auto-Retry system*`,
+              labels: ['workflow-failure', 'urgent', 'automated'],
+            });

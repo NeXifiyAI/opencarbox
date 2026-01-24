@@ -9,14 +9,14 @@ import { BrandProvider } from '@/components/providers/brand-provider'
  * ============================================================
  * Client-Side Providers
  * ============================================================
- * 
+ *
  * Zentrale Provider-Komponente für alle Client-Contexts:
  * - Brand (Multi-Site Theming)
  * - Theme (Dark/Light Mode)
  * - Toast Notifications
  * - Auth (optional via Supabase)
  * - State Management (optional)
- * 
+ *
  * ============================================================
  */
 
@@ -34,7 +34,7 @@ export function Providers({ children }: ProvidersProps) {
         disableTransitionOnChange
       >
         {children}
-        
+
         {/* Toast Notifications */}
         <Toaster
           position="bottom-right"

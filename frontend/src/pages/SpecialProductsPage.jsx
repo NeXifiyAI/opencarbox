@@ -1,40 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
-import { Link } from 'react-router-dom';
-import { ChevronRight, Filter, Grid, List, Heart, ShoppingCart, Star } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { featuredProducts } from '../data/mockData';
-import { Badge } from '../components/ui/badge';
+import React, { useState, useEffect } from 'react'
+import Header from '../components/layout/Header'
+import Footer from '../components/layout/Footer'
+import { Link } from 'react-router-dom'
+import { ChevronRight, Filter, Grid, List, Heart, ShoppingCart, Star } from 'lucide-react'
+import { Button } from '../components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select'
+import { featuredProducts } from '../data/mockData'
+import { Badge } from '../components/ui/badge'
 
 const SpecialProductsPage = ({ title, type }) => {
-  const [viewMode, setViewMode] = useState('grid');
+  const [viewMode, setViewMode] = useState('grid')
   // In a real app, fetch products based on 'type' (new, bestseller, offers)
   // For demo, we just shuffle or slice mock data
-  const products = featuredProducts; 
+  const products = featuredProducts
 
   const getBreadcrumb = () => {
-    switch(type) {
-      case 'new': return 'Neuheiten';
-      case 'bestseller': return 'Bestseller';
-      case 'offers': return 'Angebote';
-      default: return title;
+    switch (type) {
+      case 'new':
+        return 'Neuheiten'
+      case 'bestseller':
+        return 'Bestseller'
+      case 'offers':
+        return 'Angebote'
+      default:
+        return title
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <Link to="/" className="hover:text-[#4fd1c5]">Startseite</Link>
+      <main className="mx-auto max-w-7xl px-4 py-8">
+        <nav className="mb-8 flex items-center gap-2 text-sm text-gray-500">
+          <Link to="/" className="hover:text-[#4fd1c5]">
+            Startseite
+          </Link>
           <ChevronRight className="h-4 w-4" />
-          <span className="text-[#1e3a5f] font-medium">{getBreadcrumb()}</span>
+          <span className="font-medium text-[#1e3a5f]">{getBreadcrumb()}</span>
         </nav>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8 mb-8">
-          <h1 className="text-3xl font-bold text-[#1e3a5f] mb-2">{title}</h1>
+        <div className="mb-8 rounded-lg border border-gray-100 bg-white p-8 shadow-sm">
+          <h1 className="mb-2 text-3xl font-bold text-[#1e3a5f]">{title}</h1>
           <p className="text-gray-600">
             {type === 'new' && 'Entdecken Sie die neuesten Produkte in unserem Sortiment.'}
             {type === 'bestseller' && 'Unsere beliebtesten Produkte - von Kunden empfohlen.'}
@@ -43,7 +55,7 @@ const SpecialProductsPage = ({ title, type }) => {
         </div>
 
         {/* Toolbar */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-500">{products.length} Artikel</span>
           </div>
@@ -58,7 +70,7 @@ const SpecialProductsPage = ({ title, type }) => {
                 <SelectItem value="preis-desc">Preis absteigend</SelectItem>
               </SelectContent>
             </Select>
-            <div className="flex border rounded overflow-hidden">
+            <div className="flex overflow-hidden rounded border">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 ${viewMode === 'grid' ? 'bg-[#1e3a5f] text-white' : 'bg-white text-gray-500 hover:bg-gray-100'}`}
@@ -76,53 +88,64 @@ const SpecialProductsPage = ({ title, type }) => {
         </div>
 
         {/* Products */}
-        <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1'}`}>
+        <div
+          className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1'}`}
+        >
           {products.map((product) => (
             <div
               key={product.id}
-              className={`bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group hover:shadow-lg transition-all duration-300 ${viewMode === 'list' ? 'flex' : ''}`}
+              className={`group overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg ${viewMode === 'list' ? 'flex' : ''}`}
             >
               {/* Image */}
-              <div className={`relative overflow-hidden ${viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : 'h-48'}`}>
+              <div
+                className={`relative overflow-hidden ${viewMode === 'list' ? 'h-48 w-48 flex-shrink-0' : 'h-48'}`}
+              >
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {product.discount > 0 && (
-                  <Badge className="absolute top-3 left-3 bg-red-500 text-white font-bold">
+                  <Badge className="absolute left-3 top-3 bg-red-500 font-bold text-white">
                     -{product.discount}%
                   </Badge>
                 )}
                 {type === 'new' && (
-                  <Badge className="absolute top-3 left-3 bg-blue-500 text-white font-bold">
+                  <Badge className="absolute left-3 top-3 bg-blue-500 font-bold text-white">
                     NEU
                   </Badge>
                 )}
-                <button className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-[#4fd1c5] hover:text-white">
+                <button className="absolute right-3 top-3 rounded-full bg-white/90 p-2 opacity-0 backdrop-blur-sm transition-all hover:bg-[#4fd1c5] hover:text-white group-hover:opacity-100">
                   <Heart className="h-4 w-4" />
                 </button>
               </div>
 
               {/* Content */}
-              <div className={`p-4 ${viewMode === 'list' ? 'flex-1 flex flex-col' : ''}`}>
-                <span className="text-xs text-gray-500 uppercase tracking-wider">{product.brand}</span>
+              <div className={`p-4 ${viewMode === 'list' ? 'flex flex-1 flex-col' : ''}`}>
+                <span className="text-xs uppercase tracking-wider text-gray-500">
+                  {product.brand}
+                </span>
                 <Link to={`/produkt/${product.id}`}>
-                  <h3 className="font-semibold text-[#1e3a5f] mt-1 line-clamp-2 group-hover:text-[#4fd1c5] transition-colors">
+                  <h3 className="mt-1 line-clamp-2 font-semibold text-[#1e3a5f] transition-colors group-hover:text-[#4fd1c5]">
                     {product.name}
                   </h3>
                 </Link>
 
-                <div className="flex items-center gap-1 mt-2">
+                <div className="mt-2 flex items-center gap-1">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`h-3 w-3 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                      <Star
+                        key={i}
+                        className={`h-3 w-3 ${i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+                      />
                     ))}
                   </div>
                   <span className="text-xs text-gray-500">({product.reviews})</span>
                 </div>
 
-                <div className={`mt-3 flex items-center gap-2 ${viewMode === 'list' ? 'mt-auto' : ''}`}>
+                <div
+                  className={`mt-3 flex items-center gap-2 ${viewMode === 'list' ? 'mt-auto' : ''}`}
+                >
                   <span className="text-xl font-bold text-[#1e3a5f]">
                     {product.price.toFixed(2).replace('.', ',')} €
                   </span>
@@ -133,7 +156,7 @@ const SpecialProductsPage = ({ title, type }) => {
                   )}
                 </div>
 
-                <Button className="w-full mt-4 bg-[#1e3a5f] hover:bg-[#2d4a6f] text-white flex items-center justify-center gap-2">
+                <Button className="mt-4 flex w-full items-center justify-center gap-2 bg-[#1e3a5f] text-white hover:bg-[#2d4a6f]">
                   <ShoppingCart className="h-4 w-4" />
                   In den Warenkorb
                 </Button>
@@ -144,7 +167,7 @@ const SpecialProductsPage = ({ title, type }) => {
       </main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default SpecialProductsPage;
+export default SpecialProductsPage

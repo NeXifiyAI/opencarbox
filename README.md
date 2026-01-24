@@ -2,6 +2,10 @@
 
 > **Config-First Architecture** für professionelle Web-Projekte mit Next.js, Supabase & Vercel.
 
+[![CI/CD Pipeline](https://github.com/NeXifiyAI/opencarbox/actions/workflows/ci.yml/badge.svg)](https://github.com/NeXifiyAI/opencarbox/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/NeXifiyAI/opencarbox/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/NeXifiyAI/opencarbox/security/code-scanning)
+[![Workflow Health](https://github.com/NeXifiyAI/opencarbox/actions/workflows/health-check.yml/badge.svg)](https://github.com/NeXifiyAI/opencarbox/actions/workflows/health-check.yml)
+
 ## 🚀 Quick Start
 
 ```bash
@@ -77,10 +81,10 @@ export const projectConfig = {
     url: 'https://meinprojekt.de',
   },
   features: {
-    auth: true,           // Auth aktivieren
-    multiTenant: true,    // Mandantenfähigkeit
-    ecommerce: false,     // Shop-System
-    i18n: false,          // Mehrsprachigkeit
+    auth: true, // Auth aktivieren
+    multiTenant: true, // Mandantenfähigkeit
+    ecommerce: false, // Shop-System
+    i18n: false, // Mehrsprachigkeit
     // ...
   },
   theme: {
@@ -99,7 +103,9 @@ export const projectConfig = {
 import { isFeatureEnabled } from '@/config'
 
 // In Komponenten:
-{isFeatureEnabled('multiTenant') && <TenantSelector />}
+{
+  isFeatureEnabled('multiTenant') && <TenantSelector />
+}
 
 // In Server Actions:
 if (!isFeatureEnabled('ecommerce')) {
@@ -160,10 +166,7 @@ const { company_id } = request.body
 
 // ✅ RICHTIG - company_id aus Session
 const supabase = await createClient()
-const { data: profile } = await supabase
-  .from('profiles')
-  .select('current_company_id')
-  .single()
+const { data: profile } = await supabase.from('profiles').select('current_company_id').single()
 const company_id = profile?.current_company_id
 ```
 
@@ -218,15 +221,15 @@ Ausführliche Dokumentation in:
 
 ## 🛠️ Scripts
 
-| Script | Beschreibung |
-|--------|-------------|
-| `pnpm dev` | Development Server (Turbopack) |
-| `pnpm build` | Production Build |
-| `pnpm lint` | ESLint prüfen |
-| `pnpm type-check` | TypeScript prüfen |
-| `pnpm quality:check` | Lint + Type-Check + Build |
-| `pnpm db:generate` | Supabase Types generieren |
-| `pnpm db:studio` | Supabase Studio öffnen |
+| Script               | Beschreibung                   |
+| -------------------- | ------------------------------ |
+| `pnpm dev`           | Development Server (Turbopack) |
+| `pnpm build`         | Production Build               |
+| `pnpm lint`          | ESLint prüfen                  |
+| `pnpm type-check`    | TypeScript prüfen              |
+| `pnpm quality:check` | Lint + Type-Check + Build      |
+| `pnpm db:generate`   | Supabase Types generieren      |
+| `pnpm db:studio`     | Supabase Studio öffnen         |
 
 ---
 
