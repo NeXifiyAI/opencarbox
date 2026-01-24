@@ -2,6 +2,10 @@
 
 > **Config-First Architecture** für professionelle Web-Projekte mit Next.js, Supabase & Vercel.
 
+[![CI/CD Pipeline](https://github.com/NeXifiyAI/opencarbox/actions/workflows/ci.yml/badge.svg)](https://github.com/NeXifiyAI/opencarbox/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/NeXifiyAI/opencarbox/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/NeXifiyAI/opencarbox/security/code-scanning)
+[![Workflow Health](https://github.com/NeXifiyAI/opencarbox/actions/workflows/health-check.yml/badge.svg)](https://github.com/NeXifiyAI/opencarbox/actions/workflows/health-check.yml)
+
 ## 🚀 Quick Start
 
 ```bash

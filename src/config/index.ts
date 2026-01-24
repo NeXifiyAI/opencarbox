@@ -5,7 +5,7 @@
  * Lädt und validiert die project.config.ts
  */
 
-import config from '../../../project.config'
+import config from '../../project.config'
 import type { ProjectConfig } from './types'
 
 // Singleton für gecachte Config

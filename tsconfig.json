@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/project.config": ["./project.config.ts"]
     },
     "forceConsistentCasingInFileNames": true
   },

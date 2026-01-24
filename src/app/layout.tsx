@@ -16,11 +16,12 @@ import '@/styles/globals.css'
  * ============================================================
  */
 
-// Google Font laden
+// Google Font laden (with fallback for CI/build environments)
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans',
+  fallback: ['system-ui', 'arial'],
 })
 
 // Metadata aus Config
