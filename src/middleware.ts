@@ -40,7 +40,7 @@ function getBrandFromPath(pathname: string): 'carvantooo' | 'opencarbox' {
 
 export async function middleware(request: NextRequest) {
   // 1. Supabase Session refreshen
-  let response = await updateSession(request)
+  const response = await updateSession(request)
   
   // 2. Brand-Header für Client-Side Theme Switching hinzufügen
   const brand = getBrandFromPath(request.nextUrl.pathname)
