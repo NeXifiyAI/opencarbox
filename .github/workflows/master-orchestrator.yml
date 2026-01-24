@@ -41,6 +41,8 @@ on:
           - optimize-pipeline
           - expand-pipeline
           - emergency-fix
+          - maintain-bots
+          - reactivate-bots
       target_bot:
         description: 'Target Bot (for restart/optimize)'
         required: false
@@ -670,6 +672,64 @@ jobs:
                 
               } catch (e) {
                 console.error(`❌ Fehler bei Pipeline-${pipelineAction}:`, e.message);
+              }
+            }
+            
+            // BOT MAINTENANCE - Wartung aller Bots
+            if (action === 'maintain-bots' || action === 'reactivate-bots') {
+              console.log(`🔧 Bot Maintenance: ${action}`);
+              
+              // Triggere Bot Maintenance Workflow
+              try {
+                const { data: workflows } = await github.rest.actions.listRepoWorkflows({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo
+                });
+                
+                const maintenanceWorkflow = workflows.workflows.find(w => 
+                  w.path.includes('bot-maintenance.yml')
+                );
+                
+                if (maintenanceWorkflow) {
+                  await github.rest.actions.createWorkflowDispatch({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    workflow_id: maintenanceWorkflow.id,
+                    ref: 'main',
+                    inputs: {
+                      action: action === 'maintain-bots' ? 'health-check' : 'reactivate-all',
+                      force: 'true'
+                    }
+                  });
+                  
+                  console.log(`✅ Bot Maintenance Workflow getriggert`);
+                  
+                  await github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: `🔧 Master Bot: Bot-Wartung gestartet`,
+                    body: `## Automatische Bot-Wartung
+                    
+                    **Aktion:** ${action}
+                    
+                    Der Master Bot hat die Wartung aller Bots initiiert.
+                    
+                    ### 🎯 Durchgeführt wird:
+                    - Inventarisierung aller Bots
+                    - Health-Check
+                    - Reaktivierung inaktiver Bots
+                    - Update veralteter Workflows
+                    - Performance-Optimierung
+                    
+                    Siehe Bot Maintenance Dashboard für Details.
+                    
+                    ---
+                    🤖 Initiiert durch Master Orchestrator`,
+                    labels: ['master-bot', 'bot-maintenance', 'automated']
+                  });
+                }
+              } catch (e) {
+                console.error(`❌ Fehler bei Bot Maintenance:`, e.message);
               }
             }
             

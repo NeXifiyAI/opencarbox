@@ -38,6 +38,8 @@ gh workflow run master-orchestrator.yml \
 # - optimize-pipeline: Pipeline optimieren
 # - expand-pipeline: Pipeline erweitern
 # - emergency-fix: Notfall-Intervention
+# - maintain-bots: Bot-Wartung triggern
+# - reactivate-bots: Bots reaktivieren
 ```
 
 ### 2. 🚀 Auto-Pilot (`auto-pilot.yml`)
@@ -55,7 +57,7 @@ gh workflow run master-orchestrator.yml \
 - Parallele Workflow-Ausführung
 - Intelligente Priorisierung
 
-### 3. 🤖 Full Autonomy System (`full-autonomy.yml`)
+### 4. 🤖 Full Autonomy System (`full-autonomy.yml`)
 **Rolle:** Komplette Automatisierung ohne menschliche Intervention
 
 **Funktionen:**
@@ -89,7 +91,7 @@ gh workflow run master-orchestrator.yml \
 - Bei jedem PR
 - Bei jedem Push auf main
 
-### 4. 🎯 CI/CD Performance Pipeline (`ci-performance.yml`)
+### 5. 🎯 CI/CD Performance Pipeline (`ci-performance.yml`)
 **Rolle:** Maximale Performance durch Parallelisierung
 
 **Funktionen:**
@@ -106,6 +108,32 @@ gh workflow run master-orchestrator.yml \
 - Matrix-Strategie für Quality Checks
 
 ## 🤖 Spezialisierte Bots
+
+### Bot Maintenance System (`bot-maintenance.yml`)
+**Erhält alle Bots funktionsfähig:**
+- Health-Checks alle 6 Stunden
+- Automatische Reaktivierung
+- Veraltete Actions updaten
+- Performance-Optimierung
+- Dashboard mit allen Bot-Stati
+
+**Commands:**
+```bash
+# Health-Check aller Bots
+gh workflow run bot-maintenance.yml -f action=health-check
+
+# Alle Bots reaktivieren
+gh workflow run bot-maintenance.yml -f action=reactivate-all
+
+# Alle Bots updaten
+gh workflow run bot-maintenance.yml -f action=update-all
+
+# Performance optimieren
+gh workflow run bot-maintenance.yml -f action=optimize-all
+
+# Defekte Bots reparieren
+gh workflow run bot-maintenance.yml -f action=repair-broken
+```
 
 ### QA-Bot (`qa-bot.yml`)
 - Code-Quality-Checks
@@ -165,14 +193,20 @@ Ereignis (Issue/PR/Push)
     ↓
 🎯 Master Orchestrator (Entscheidung)
     ↓
-┌─────────┬──────────┬──────────────┐
-↓         ↓          ↓              ↓
-🚀 Auto-  🤖 Full    🎯 CI/CD    🤖 Spezial-
-   Pilot  Autonomy   Pipeline      Bots
-    ↓         ↓          ↓              ↓
-    └─────────┴──────────┴──────────────┘
+┌─────────┬──────────┬──────────────┬──────────────┐
+↓         ↓          ↓              ↓              ↓
+🚀 Auto-  🤖 Full    🎯 CI/CD    🔧 Bot        🤖 Spezial-
+   Pilot  Autonomy   Pipeline    Maintenance     Bots
+    ↓         ↓          ↓              ↓              ↓
+    └─────────┴──────────┴──────────────┴──────────────┘
                     ↓
             ✅ Fertig (merged & deployed)
+
+Bot Maintenance (alle 6h):
+    ↓
+Inventory → Health Check → Reactivate → Update → Optimize
+    ↓
+Dashboard Update → Report
 ```
 
 ## 📈 Performance-Metriken
@@ -283,15 +317,24 @@ Alle Bot-Aktivitäten werden in den Workflow-Runs geloggt:
 ## 🔄 Autonomie-Zyklus
 
 ```
+Alle 6 Stunden: Bot Maintenance (Health-Check & Reactivation)
 Alle 15 Min:  Full Autonomy Check
 Alle 30 Min:  Auto-Pilot Health Check
 Täglich 06:00: Master Bot Health Check
+
+Bot Lifecycle:
+- Inventory → Health Check → Issues erkannt
+    ↓
+- Auto-Update → Reactivate → Optimize
+    ↓
+- Dashboard Update → Next Check in 6h
 
 Kontinuierlich:
 - Issue-Erkennung → Analyse → Lösung → PR → Review → Merge → Deploy
 - Workflow-Failure → Diagnose → Fix → Re-Run
 - Stale PR → Review → Merge oder Close
 - Performance-Issue → Analyse → Optimierung → Deploy
+- Bot-Failure → Maintenance → Reactivate → Monitor
 ```
 
 ## 🚨 Notfall-Deaktivierung
