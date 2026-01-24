@@ -23,3 +23,27 @@ export {
   SkeletonTableRow,
 } from './skeleton';
 
+// Layout
+export {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardImage,
+  CardTitle,
+  cardVariants,
+} from './card';
+
+// Typography
+export {
+  Heading,
+  Text,
+  Lead,
+  Small,
+  Muted,
+  Code,
+  Blockquote,
+  List,
+  InlineCode,
+} from './typography';
